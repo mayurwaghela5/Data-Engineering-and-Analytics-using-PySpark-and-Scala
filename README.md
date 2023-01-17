@@ -9,7 +9,7 @@ I am from Mumbai which is the most busiest and crowded city in India. I live in 
 
 ## What was your first computing device?
 
-It was a Windows 2003 computer.
+It was a [Windows XP](https://en.wikipedia.org/wiki/Windows_XP "windows xp wikipedia") computer.
 
 ## IT Interests
 
