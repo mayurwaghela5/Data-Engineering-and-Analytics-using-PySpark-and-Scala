@@ -1,7 +1,7 @@
 # Mayur Waghela
 
-a picture of you
-a picture of something that describes you
+![*Myself](./images/myself.JPG "myself picture")
+![*Family](./images/family.png "family picture")
 
 ## Where are you from?
 
