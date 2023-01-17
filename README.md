@@ -1,7 +1,7 @@
 # Mayur Waghela
 
-![*Myself](./images/myself.JPG "myself picture")
-![*Family](./images/family.png "family picture")
+![*Myself](./images/mayur.png "myself picture")
+![*Family](./images/familyphoto.png "family picture")
 
 ## Where are you from?
 
