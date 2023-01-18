@@ -176,6 +176,16 @@ Download the proper [Oh My Git! tutorial](https://ohmygit.org/ "webpage for oh m
 
 Complete the tutorial and take screenshots of the completed sections (may need to take a few shots as the there are many sections).
 
+![*firstimage](./images/1.png "first Screenshot")
+
+![*secondimage](./images/2.png "Second Screenshot")
+
+![*thirdimage](./images/3.png "Third Screenshot")
+
+![*fourthimage](./images/4.png "Fourth Screenshot")
+
+![*fifthimage](./images/5.png "Fifth Screenshot")
+
 This Git tutorial is a good refresher for those who need it and a great introduction for those new to Version Control and need to learn it.
 
 ## Tooling Assignment Part II
