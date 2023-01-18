@@ -146,6 +146,8 @@ For those using an M1 Mac we will require a [Pro License from Parallels](https:/
 
 Take a screenshot of Parallels Desktop > About Parallels Desktop or from the terminal : `prlctl --version` (Works on any version of Parallels)
 
+![*parallels-version](./images/parallels-version.png "parallels version")
+
 **Note:** that you can use Parallels on an Intel MacOS as well -- you would need to make sure you have the Pro edition installed and the SDK installed as well.
 
 ### Install Vagrant
