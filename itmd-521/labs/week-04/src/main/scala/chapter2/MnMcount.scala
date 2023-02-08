@@ -6,7 +6,7 @@ object MnMcount {
     def main(args: Array[String]) {
         val spark = SparkSession
             .builder
-            .appName("MnMCount")
+            .appName("MnMCount") 
             .getOrCreate()
         if (args.length < 1) {
             print("Usage: MnMcount <mnm_file_dataset>")
