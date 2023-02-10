@@ -16,11 +16,11 @@ object week05 {
         }
 
         val data_source_file=args(0)
-        val infer_divvy_df = spark.read.format("csv") .option("header", "true") .option("inferSchema", "true") .load(data_source)
+        val infer_divvy_df = spark.read.format("csv") .option("header", "true") .option("inferSchema", "true") .load(data_source_file)
         infer_divvy_df.show(20)
         infer_divvy_df.printSchema()
 
-        val struct_schema = StringType(Array(StructField("trip_id",IntegerType),
+        val struct_schema = StructType(Array(StructField("trip_id",IntegerType),
         StructField("starttime",StringType),
         StructField("stoptime",StringType),
         StructField("bikeid",IntegerType)
