@@ -2,12 +2,12 @@ package main.scala.chapter3
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.types._
 
-object week-05 {
+object week05 {
     def main(args: Array[String]) {
 
         val spark = SparkSession
           .builder
-          .appName("Example3_7")
+          .appName("week05")
           .getOrCreate()
           
         if (args.length <= 0){
