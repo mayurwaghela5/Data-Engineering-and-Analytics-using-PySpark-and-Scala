@@ -21,3 +21,7 @@ id_rsa.pub
 .Vagrantfile*
 Vagrantfile~
 config.default.yml
+*.csv
+*.txt
+*.json
+target/
