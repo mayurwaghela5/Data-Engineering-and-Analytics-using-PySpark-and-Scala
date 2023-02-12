@@ -24,9 +24,9 @@ object Example3_7 {
             StructField("Campaigns", ArrayType(StringType), false)))
 
         val blogsDF = spark.read.schema(schema).json(jsonFile)
-        blogsDF.show(false)
+        blogsDF.show(true)
         println(blogsDF.printSchema)
-        println(blogsDF.schema)
+        //println(blogsDF.schema)
         
     } // end of def main
 } // end of object
