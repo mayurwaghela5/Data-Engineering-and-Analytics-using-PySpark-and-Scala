@@ -50,9 +50,6 @@ object week05 {
         val DDL_DF = (spark.read.schema(schema_DDL).format("csv")).option("header", "true").load(data_source_file)
         DDL_DF.show(false)
         print(DDL_DF.printSchema)
-        println("Attaching a schema via DLL and reading the csv. The number of records in this DataFrame is: "+ DDL_DF.count())
-        
-
         println("---------------------------------------------------------------------------------------------------------------")
 
     } 
