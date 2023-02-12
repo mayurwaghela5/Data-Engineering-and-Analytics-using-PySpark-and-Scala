@@ -14,20 +14,43 @@ object week05 {
             println("Usage: DivvySet <Divvy_file_dataset.csv>")
             System.exit(1)
         }
-
+        println("Infering the Schema In Scala")
+        // Infering the Schema
         val data_source_file=args(0)
-        val infer_divvy_df = spark.read.format("csv") .option("header", "true") .option("inferSchema", "true") .load(data_source_file)
-        infer_divvy_df.show(20)
-        infer_divvy_df.printSchema()
-
+        val infer_DF = spark.read.format("csv") .option("header", "true") .option("inferSchema", "true") .load(data_source_file)
+        infer_DF.show(20)
+        infer_DF.printSchema()
+        println("----------------------------------------------------------------")
+        
+        // Schema programmatically use StructFields
+        println("Schema programmatically use StructFields")
         val struct_schema = StructType(Array(StructField("trip_id",IntegerType),
         StructField("starttime",StringType),
         StructField("stoptime",StringType),
-        StructField("bikeid",IntegerType)
+        StructField("bikeid",IntegerType), 
+        StructField("tripduration",IntegerType),
+        StructField("from_station_id",StringType),
+        StructField("from_station_name",StringType),
+        StructField("to_station_id",StringType),
+        StructField("to_station_name",StringType),
+        StructField("usertype",StringType),
+        StructField("gender",StringType),
+        StructField("birthyear",IntegerType)
         ))
-
         val structure_divvy_DF=spark.read.schema(struct_schema).format("csv").option("header","true").option("structureSchema","true").load(data_source_file)
         structure_divvy_DF.show(10)
         structure_divvy_DF.printSchema()
+
+        println("----------------------------------------------------------------")
+
+        // Attaching a schema via DLL and reading the csv
+        println("Attaching a schema via DLL and reading the csv")
+        val schema_DDL= "trip_id INT, starttime STRING,stoptime STRING,bikeid INT,tripduration INT,from_station_id INT ,from_station_name STRING,to_station_id INT ,to_station_name STRING,usertype STRING,gender STRING,birthyear INT"
+        val DDL_DF = (spark.read.schema(schema_DDL).format("csv")).option("header", "true").load(data_source_file)
+        DDL_DF.show()
+        DDL_DF.printSchema()
+
+        println("----------------------------------------------------------------")
+
     } 
 }
