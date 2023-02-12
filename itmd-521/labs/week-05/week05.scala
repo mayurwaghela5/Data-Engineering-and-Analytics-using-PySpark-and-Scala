@@ -20,7 +20,7 @@ object week05 {
         val infer_DF = spark.read.format("csv") .option("header", "true") .option("inferSchema", "true") .load(data_source_file)
         println("Infering the Schema In Scala")
         println("The number of records in this DataFrame is: "+ infer_DF.count())
-        //println(infer_DF.show(15))
+        infer_DF.show(false)
         println(infer_DF.printSchema)
         println("---------------------------------------------------------------------------------------------------------------")
         
@@ -42,10 +42,8 @@ object week05 {
         val structure_divvy_DF=spark.read.schema(struct_schema).format("csv").option("header","true").option("structureSchema","true").load(data_source_file)
         println("Schema programmatically use StructFields")
         println("The number of records in this DataFrame is: "+ structure_divvy_DF.count())
-        //structure_divvy_DF.show(10)
+        structure_divvy_DF.show(false)
         println(structure_divvy_DF.printSchema)
-        
-
 
         println("---------------------------------------------------------------------------------------------------------------")
 
@@ -55,7 +53,7 @@ object week05 {
         val DDL_DF = (spark.read.schema(schema_DDL).format("csv")).option("header", "true").load(data_source_file)
         println("Attaching a schema via DLL and reading the csv")
         println("The number of records in this DataFrame is: "+ DDL_DF.count())
-        //DDL_DF.show()
+        DDL_DF.show(false)
         print(DDL_DF.printSchema)
         
 
