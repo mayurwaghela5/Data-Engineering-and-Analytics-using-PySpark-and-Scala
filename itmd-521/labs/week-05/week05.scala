@@ -19,9 +19,8 @@ object week05 {
         val data_source_file=args(0)
         val infer_DF = spark.read.format("csv") .option("header", "true") .option("inferSchema", "true") .load(data_source_file)
         infer_DF.show(false)
-        println("Infering the Schema In Scala")
-        println("The number of records in this DataFrame is: "+ infer_DF.count())
         println(infer_DF.printSchema)
+        println("Infering the Schema In Scala. The number of records in this DataFrame is: "+ infer_DF.count())
         println("---------------------------------------------------------------------------------------------------------------")
         
         // Schema programmatically use StructFields
@@ -41,10 +40,8 @@ object week05 {
         ))
         val structure_divvy_DF=spark.read.schema(struct_schema).format("csv").option("header","true").option("structureSchema","true").load(data_source_file)
         structure_divvy_DF.show(false)
-        println("Schema programmatically use StructFields")
-        println("The number of records in this DataFrame is: "+ structure_divvy_DF.count())
         println(structure_divvy_DF.printSchema)
-
+        println("Schema programmatically use StructFields. The number of records in this DataFrame is: "+ structure_divvy_DF.count())
         println("---------------------------------------------------------------------------------------------------------------")
 
         // Attaching a schema via DLL and reading the csv
@@ -52,9 +49,8 @@ object week05 {
         val schema_DDL= "trip_id INT, starttime STRING,stoptime STRING,bikeid INT,tripduration INT,from_station_id INT ,from_station_name STRING,to_station_id INT ,to_station_name STRING,usertype STRING,gender STRING,birthyear INT"
         val DDL_DF = (spark.read.schema(schema_DDL).format("csv")).option("header", "true").load(data_source_file)
         DDL_DF.show(false)
-        println("Attaching a schema via DLL and reading the csv")
-        println("The number of records in this DataFrame is: "+ DDL_DF.count())
         print(DDL_DF.printSchema)
+        println("Attaching a schema via DLL and reading the csv. The number of records in this DataFrame is: "+ DDL_DF.count())
         
 
         println("---------------------------------------------------------------------------------------------------------------")
