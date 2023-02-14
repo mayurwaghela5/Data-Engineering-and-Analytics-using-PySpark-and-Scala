@@ -29,7 +29,7 @@ if __name__ == "__main__":
         StructField("gender", StringType()),
         StructField("birthyear", IntegerType())])
     
-    struc_Divvy_DF=(spark.read.schema(struct_schema).format("csv")).option("header","true").option("structureSchema","true").load(data_source_file)
+    struc_Divvy_DF=(spark.read.schema(structure_schema).format("csv")).option("header","true").option("structureSchema","true").load(data_source_file)
     struc_Divvy_DF.show()
     structure_schema.printSchema()
     

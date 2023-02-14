@@ -45,11 +45,12 @@ object week05 {
         println("---------------------------------------------------------------------------------------------------------------")
 
         // Attaching a schema via DLL and reading the csv
-        
+
         val schema_DDL= "trip_id INT, starttime STRING,stoptime STRING,bikeid INT,tripduration INT,from_station_id INT ,from_station_name STRING,to_station_id INT ,to_station_name STRING,usertype STRING,gender STRING,birthyear INT"
         val DDL_DF = (spark.read.schema(schema_DDL).format("csv")).option("header", "true").load(data_source_file)
         DDL_DF.show(false)
         print(DDL_DF.printSchema)
+        println(DDL_DF.count())
         println("---------------------------------------------------------------------------------------------------------------")
 
     } 
