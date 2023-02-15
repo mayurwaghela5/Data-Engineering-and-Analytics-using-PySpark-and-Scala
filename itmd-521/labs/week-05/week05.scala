@@ -25,18 +25,18 @@ object week05 {
         
         // Schema programmatically use StructFields
         
-        val struct_schema = StructType(Array(StructField("trip_id",IntegerType),
-        StructField("starttime",StringType),
-        StructField("stoptime",StringType),
-        StructField("bikeid",IntegerType), 
-        StructField("tripduration",IntegerType),
-        StructField("from_station_id",StringType),
-        StructField("from_station_name",StringType),
-        StructField("to_station_id",StringType),
-        StructField("to_station_name",StringType),
-        StructField("usertype",StringType),
-        StructField("gender",StringType),
-        StructField("birthyear",IntegerType)
+        val struct_schema = StructType(Array(StructField("trip_id",IntegerType,false),
+        StructField("starttime",StringType,false),
+        StructField("stoptime",StringType,false),
+        StructField("bikeid",IntegerType,false), 
+        StructField("tripduration",IntegerType,false),
+        StructField("from_station_id",StringType,false),
+        StructField("from_station_name",StringType,false),
+        StructField("to_station_id",StringType,false),
+        StructField("to_station_name",StringType,false),
+        StructField("usertype",StringType,false),
+        StructField("gender",StringType,false),
+        StructField("birthyear",IntegerType,false)
         ))
         val structure_divvy_DF=spark.read.schema(struct_schema).format("csv").option("header","true").option("structureSchema","true").load(data_source_file)
         structure_divvy_DF.show(false)
