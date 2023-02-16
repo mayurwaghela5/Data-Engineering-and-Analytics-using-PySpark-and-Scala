@@ -45,27 +45,33 @@ Add the required screenshots here:
 
 ### Screenshot of the printSchema inferred in Python
 
-Screenshot goes here
+![*Inferred Python](./screenshots/inferPython1.png "Infer Python")
+![*Infer Count](./screenshots/inferPython2.png "Infer Count")
 
 ### Screenshot of the printSchema programmatically in Python
 
-Screenshot goes here
+![*programmaticallyPython](./screenshots/structPython1.png "programmaticallyPython")
+![*programmaticallyPython Count](./screenshots/structPython2.png "programmaticallyPython Count")
 
 ### Screenshot of the printSchema via DDL in Python
 
-Screenshot goes here
+![*DDL Schema Python](./screenshots/ddlPython1.png "DDLSchemaPython")
+![*DDLSchemaPython Count](./screenshots/ddlPython2.png "DDLSchemaPython Count")
 
 ### Screenshot of the printSchema inferred in Scala
 
-Screenshot goes here
+![*Infer Scala](./screenshots/inferScala1.png "InferScala")
+![*InferScala Count](./screenshots/inferScala2.png "InferScala Count")
 
 ### Screenshot of the printSchema programmatically in Scala
 
-Screenshot goes here
+![*programmatically Scala](./screenshots/StructScala1.png "programmaticallyScala")
+![*programmaticallyScala Count](./screenshots/StructScala2.png "programmaticallyScala Count")
 
 ### Screenshot of the printSchema via DDL in Scala
 
-Screenshot goes here
+![*DDL Scala](./screenshots/ddlScala1.png "DDLScala")
+![*DDLScala Count](./screenshots/ddlScala2.png "DDLScala Count")
 
 ### Deliverable
 
