@@ -19,7 +19,7 @@
 from select import select
 import sys
 from pyspark.sql import SparkSession
-from pyspark.sql import StringType, IntegerType, FloatType, BooleanType, StructField, StructType
+from pyspark.sql import *
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
