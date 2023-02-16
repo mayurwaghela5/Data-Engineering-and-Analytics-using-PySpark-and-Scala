@@ -59,6 +59,8 @@ if __name__ == "__main__":
         StructField('RowID', StringType(), True),
         StructField('Delay', FloatType(), True)])
     
-    struc_fire_DF=(spark.read.schema(fire_struct_schema).format("csv")).option("header","true").option("structureSchema","true").load(data_source_file)
+    struc_fire_DF=(spark.read.schema(fire_struct_schema).format("csv")).option("header","true").option("fire_struct_schema","true").load(data_source_file)
     struc_fire_DF.show()
+    
+    struc_fire_DF.select("CallType").where(col("CallType").isNotNull()).agg(countDistinct("CallType").alias("DistinctCallTypes")).show()
     
