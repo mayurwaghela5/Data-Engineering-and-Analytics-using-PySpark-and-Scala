@@ -19,9 +19,9 @@
 from select import select
 import sys
 from pyspark.sql import SparkSession
-#from pyspark.sql.types import *
+from pyspark.sql import *
 from pyspark.sql.types import StructType, StructField, IntegerType,StringType,BooleanType,FloatType
-from pyspark.sql import Functions as F
+from pyspark.sql.functions import col,countDistinct
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
@@ -63,5 +63,5 @@ if __name__ == "__main__":
     struc_fire_DF=(spark.read.schema(fire_struct_schema).format("csv")).option("header","true").option("fire_struct_schema","true").load(data_source_file)
     struc_fire_DF.show()
     
-    struc_fire_DF.select("CallType").where(F.col("CallType").isNotNull()).agg(F.countDistinct("CallType").alias("DifferentTypesOfFireCall")).show()
+    struc_fire_DF.select("CallType").where(col("CallType").isNotNull()).agg(countDistinct("CallType").alias("DifferentTypesOfFireCall")).show()
     
