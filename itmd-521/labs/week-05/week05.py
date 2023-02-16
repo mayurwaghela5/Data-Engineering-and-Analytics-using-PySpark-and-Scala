@@ -14,8 +14,8 @@ if __name__ == "__main__":
     infer_DF= (spark.read.format("csv").option("header","true").option("inferSchema","true").load(data_source_file))
     infer_DF.show(n=15)
     infer_DF.printSchema()
-    print("The count of the DF is : ")
-    print(infer_DF.count())
+    print("The count of the DF is : "+ str(infer_DF.count()))
+    #print(infer_DF.count())
     
     # Schema programmatically use StructFields
     structure_schema = StructType([StructField("trip_id", IntegerType()),
@@ -34,16 +34,15 @@ if __name__ == "__main__":
     struc_Divvy_DF=(spark.read.schema(structure_schema).format("csv")).option("header","true").option("structureSchema","true").load(data_source_file)
     struc_Divvy_DF.show()
     struc_Divvy_DF.printSchema()
-    print("The count of the DF is:")
-    print(struc_Divvy_DF.count())
+    print("The count of the DF is:"+str(struc_Divvy_DF.count()))
+    #print(struc_Divvy_DF.count())
     
     #attaching a schema via DDL
     schema_DDL= "trip_id INT,starttime STRING,stoptime STRING,bikeid INT,tripduration INT,from_station_id INT,from_station_name STRING,to_station_id INT,to_station_name STRING,usertype STRING,gender STRING,birthyear INT"
     DDL_Df= (spark.read.schema(schema_DDL).format("csv")).option("header", "true").load(data_source_file)
     DDL_Df.show()
     DDL_Df.printSchema()
-    print("The count of the DF is:")
-    print(DDL_Df.count())
+    print("The count of the DF is:"+ str(DDL_Df.count()))
 
     
     
