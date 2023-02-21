@@ -66,7 +66,7 @@ if __name__ == "__main__":
     transformed_struct_fire_DF=struc_fire_DF.withColumn("IncidentCallDate", to_timestamp(col("CallDate"), "MM/dd/yyyy")).drop("CallDate") 
     transformed_struct_fire_DF.cache()
     
-    transformed_struct_fire_DF.select("IncidentDate").show(5, False)
+    transformed_struct_fire_DF.select("IncidentCallDate").show(5, False)
     
     #What were all the different types of fire calls in 2018?
     #struc_fire_DF.select("CallType").distinct().show()
