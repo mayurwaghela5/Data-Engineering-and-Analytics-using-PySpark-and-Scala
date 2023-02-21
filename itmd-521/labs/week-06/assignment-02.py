@@ -71,7 +71,7 @@ if __name__ == "__main__":
     #What were all the different types of fire calls in 2018?
     #struc_fire_DF.select("CallType").distinct().show()
     
-    transformed_struct_fire_DF.filter(year("IncidentCallDate")=='2018').select("CallType").where(col("CallType").isNotNull()).groupBy("CallType").show()
+    transformed_struct_fire_DF.filter(year("IncidentCallDate")=='2018').select("CallType").distinct().show()
     
     
     
