@@ -63,7 +63,18 @@ if __name__ == "__main__":
     struc_fire_DF=(spark.read.schema(fire_struct_schema).format("csv")).option("header","true").option("fire_struct_schema","true").load(data_source_file)
     struc_fire_DF.show()
     
-    struc_fire_DF.select("CallType").distinct().show()
+    #What were all the different types of fire calls in 2018?
+    #struc_fire_DF.select("CallType").where("CallDate=='2018'").show()
     
     #struc_fire_DF.filter(year("CallDate")=='2018').select("CallType").where(col("CallType").isNotNull()).groupBy("CallType").show()
+    
+    
+    
+    
+    #Which neighborhood in San Francisco generated the most fire calls in 2018?
+    
+    #Which neighborhoods had the worst response times to fire calls in 2018?
+    
+    struc_fire_DF.select("Neighborhood","Delay").filter(year("CallDate")==2018).show(10,False)
+    
     
