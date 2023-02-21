@@ -21,7 +21,7 @@ import sys
 from pyspark.sql import SparkSession
 from pyspark.sql import *
 from pyspark.sql.types import StructType, StructField, IntegerType,StringType,BooleanType,FloatType
-from pyspark.sql.functions import col,countDistinct
+from pyspark.sql.functions import col,countDistinct,year
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
@@ -64,4 +64,6 @@ if __name__ == "__main__":
     struc_fire_DF.show()
     
     struc_fire_DF.select("CallType").where(col("CallType").isNotNull()).agg(countDistinct("CallType").alias("DifferentTypesOfFireCall")).show()
+    
+    struc_fire_DF.filter(year("CallDate")=='2018').select("CallType").where(col("CallType").isNotNull()).groupBy("CallType").alias("Different Types of Calls in 2018").show()
     
