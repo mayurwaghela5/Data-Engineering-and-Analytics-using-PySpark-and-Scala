@@ -21,7 +21,7 @@ import sys
 from pyspark.sql import SparkSession
 from pyspark.sql import *
 from pyspark.sql.types import StructType, StructField, IntegerType,StringType,BooleanType,FloatType
-from pyspark.sql.functions import col,countDistinct,year,weekofyear
+from pyspark.sql.functions import col,countDistinct,year,weekofyear,to_timestamp
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
@@ -63,10 +63,13 @@ if __name__ == "__main__":
     struc_fire_DF=(spark.read.schema(fire_struct_schema).format("csv")).option("header","true").option("fire_struct_schema","true").load(data_source_file)
     struc_fire_DF.show()
     
-    #What were all the different types of fire calls in 2018?
-    struc_fire_DF.select("CallType").distinct().show()
+    transformed_struct_fire_DF=struc_fire_DF.withColumn("IncidentCallDate", to_timestamp(col("CallDate"), "MM/dd/yyyy")).drop("CallDate") 
+    transformed_struct_fire_DF.cache()
     
-    #struc_fire_DF.filter(year("CallDate")=='2018').select("CallType").where(col("CallType").isNotNull()).groupBy("CallType").show()
+    #What were all the different types of fire calls in 2018?
+    #struc_fire_DF.select("CallType").distinct().show()
+    
+    struc_fire_DF.filter(year("IncidentCallDate")=='2018').select("CallType").where(col("CallType").isNotNull()).groupBy("CallType").show()
     
     
     
@@ -75,13 +78,13 @@ if __name__ == "__main__":
     
     #Which neighborhoods had the worst response times to fire calls in 2018?
     
-    struc_fire_DF.select("Neighborhood","Delay").show(10,False)
-    #.filter(year("CallDate") == 2018)
+    struc_fire_DF.select("Neighborhood","Delay").filter(year("IncidentCallDate") == 2018).show(10,False)
+   
     
     
     #Which week in the year in 2018 had the most fire calls?
-    struc_fire_DF.filter(year('CallDate') == 2018).groupBy(weekofyear('CallDate')).count().orderBy('count', ascending=False).show()
+    struc_fire_DF.filter(year('IncidentCallDate') == 2018).groupBy(weekofyear('IncidentCallDate')).count().orderBy('count', ascending=False).show()
     
-    struc_fire_DF.select(year('CallDate')).distinct().orderBy('year(CallDate)').show()
+    struc_fire_DF.select(year('IncidentCallDate')).distinct().orderBy('year(IncidentCallDate)').show()
     
     
