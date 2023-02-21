@@ -21,7 +21,7 @@ import sys
 from pyspark.sql import SparkSession
 from pyspark.sql import *
 from pyspark.sql.types import StructType, StructField, IntegerType,StringType,BooleanType,FloatType
-from pyspark.sql.functions import col,countDistinct,year
+from pyspark.sql.functions import col,countDistinct,year,weekofyear
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
@@ -76,5 +76,9 @@ if __name__ == "__main__":
     #Which neighborhoods had the worst response times to fire calls in 2018?
     
     struc_fire_DF.select("Neighborhood","Delay").filter(year("CallDate") == 2018).show(10,False)
+    
+    
+    #Which week in the year in 2018 had the most fire calls?
+    struc_fire_DF.filter(year('CallDate') == 2018).groupBy(weekofyear('CallDate')).count().orderBy('count', ascending=False).show()
     
     
