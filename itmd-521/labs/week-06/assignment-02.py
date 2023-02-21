@@ -75,7 +75,8 @@ if __name__ == "__main__":
     
     #Which neighborhoods had the worst response times to fire calls in 2018?
     
-    struc_fire_DF.select("Neighborhood","Delay").filter(year("CallDate") == 2018).show(10,False)
+    struc_fire_DF.select("Neighborhood","Delay").show(10,False)
+    #.filter(year("CallDate") == 2018)
     
     
     #Which week in the year in 2018 had the most fire calls?
