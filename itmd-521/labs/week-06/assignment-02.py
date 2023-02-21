@@ -73,10 +73,10 @@ if __name__ == "__main__":
     
     #What months within the year 2018 saw the highest number of fire calls?
     
-    transformed_struct_fire_DF.filter(year('IncidentCallDate') == 2018).groupBy(month('IncidentCallDate')).count().orderBy('count', descending=False).show()
+    transformed_struct_fire_DF.filter(year('IncidentCallDate') == 2018).groupBy(month('IncidentCallDate')).count().orderBy('count', ascending=False).show()
     
     #Which neighborhood in San Francisco generated the most fire calls in 2018?
-    transformed_struct_fire_DF.select("Neighborhood").filter(year("IncidentCallDate") == 2018).groupBy("Neighborhood").count().orderBy('count', descending=False).show()
+    transformed_struct_fire_DF.select("Neighborhood").filter(year("IncidentCallDate") == 2018).groupBy("Neighborhood").count().orderBy('count', ascending=False).show()
     
     #Which neighborhoods had the worst response times to fire calls in 2018?
     
