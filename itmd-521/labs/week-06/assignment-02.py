@@ -82,6 +82,6 @@ if __name__ == "__main__":
     #Which week in the year in 2018 had the most fire calls?
     struc_fire_DF.filter(year('CallDate') == 2018).groupBy(weekofyear('CallDate')).count().orderBy('count', ascending=False).show()
     
-    struc_fire_DF.select(year('CallDateTS')).distinct().orderBy('year(CallDateTS)').show()
+    struc_fire_DF.select(year('CallDate')).distinct().orderBy('year(CallDate)').show()
     
     
