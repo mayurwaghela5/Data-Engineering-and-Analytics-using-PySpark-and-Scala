@@ -63,7 +63,7 @@ if __name__ == "__main__":
     struc_fire_DF=(spark.read.schema(fire_struct_schema).format("csv")).option("header","true").option("fire_struct_schema","true").load(data_source_file)
     struc_fire_DF.show()
     
-    struc_fire_DF.select("CallType").distinct().where(year('CallDate')==2018).show()
+    struc_fire_DF.select("CallType").distinct().where("CallDate=='2018'").show()
     
     #struc_fire_DF.filter(year("CallDate")=='2018').select("CallType").where(col("CallType").isNotNull()).groupBy("CallType").show()
     
