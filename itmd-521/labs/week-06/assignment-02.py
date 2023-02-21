@@ -21,7 +21,7 @@ import sys
 from pyspark.sql import SparkSession
 from pyspark.sql import *
 from pyspark.sql.types import StructType, StructField, IntegerType,StringType,BooleanType,FloatType
-from pyspark.sql.functions import col,countDistinct,year,weekofyear,to_timestamp
+from pyspark.sql.functions import col,countDistinct,year,weekofyear,to_timestamp,month
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
@@ -69,11 +69,12 @@ if __name__ == "__main__":
     transformed_struct_fire_DF.select("IncidentCallDate").show(5, False)
     
     #What were all the different types of fire calls in 2018?
-    #struc_fire_DF.select("CallType").distinct().show()
     
     transformed_struct_fire_DF.filter(year("IncidentCallDate")=='2018').select("CallType").distinct().show()
     
+    #What months within the year 2018 saw the highest number of fire calls?
     
+    transformed_struct_fire_DF.filter(year('IncidentCallDate') == 2018).groupBy(month('IncidentCallDate')).count().orderBy('count', ascending=False).show()
     
     
     #Which neighborhood in San Francisco generated the most fire calls in 2018?
@@ -87,6 +88,11 @@ if __name__ == "__main__":
     #Which week in the year in 2018 had the most fire calls?
     transformed_struct_fire_DF.filter(year('IncidentCallDate') == 2018).groupBy(weekofyear('IncidentCallDate')).count().orderBy('count', ascending=False).show()
     
-    transformed_struct_fire_DF.select(year('IncidentCallDate')).distinct().orderBy('year(IncidentCallDate)').show()
+    #Is there a correlation between neighborhood, zip code, and number of fire calls?
+    
+    #How can we use Parquet files or SQL tables to store this data and read it back?
+    
+    
+    
     
     
