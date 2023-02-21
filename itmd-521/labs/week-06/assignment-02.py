@@ -66,7 +66,6 @@ if __name__ == "__main__":
     transformed_struct_fire_DF=struc_fire_DF.withColumn("IncidentCallDate", to_timestamp(col("CallDate"), "MM/dd/yyyy")).drop("CallDate") 
     transformed_struct_fire_DF.cache()
     
-    transformed_struct_fire_DF.select("IncidentCallDate").show(5, False)
     
     #What were all the different types of fire calls in 2018?
     
@@ -76,15 +75,12 @@ if __name__ == "__main__":
     
     transformed_struct_fire_DF.filter(year('IncidentCallDate') == 2018).groupBy(month('IncidentCallDate')).count().orderBy('count', ascending=False).show()
     
-    
     #Which neighborhood in San Francisco generated the most fire calls in 2018?
     
     #Which neighborhoods had the worst response times to fire calls in 2018?
     
     transformed_struct_fire_DF.select("Neighborhood","Delay").filter(year("IncidentCallDate") == 2018).show(10,False)
-   
-    
-    
+        
     #Which week in the year in 2018 had the most fire calls?
     transformed_struct_fire_DF.filter(year('IncidentCallDate') == 2018).groupBy(weekofyear('IncidentCallDate')).count().orderBy('count', ascending=False).show()
     
