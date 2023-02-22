@@ -24,7 +24,7 @@ object assignment02 {
         //creating df schema using DDL
         val fire_struct_schema="device_id Long, device_name String, ip String, cca2 String, cca3 String, cn String, latitude Double, longitude Double, scale String, temp Long, humidity Long, battery_level Long, c02_level Long, lcd String, timestamp Long"
 
-        val fire_struct_schema_DF=spark.read.schema.(fire_struct_schema).json(iot_device_json)
+        val fire_struct_schema_DF=spark.read.schema(fire_struct_schema).json(iot_device_json)
         fire_struct_schema_DF.show(true)
     }
 }
