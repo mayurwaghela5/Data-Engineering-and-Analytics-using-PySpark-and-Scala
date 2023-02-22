@@ -1,4 +1,4 @@
-name:="src/main/scala/chapter3"
+name:="main/scala/chapter3"
 version := "1.0"
 scalaVersion := "2.12.15"
 libraryDependencies ++= Seq(
