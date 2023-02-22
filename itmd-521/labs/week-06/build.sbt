@@ -1,4 +1,4 @@
-name:="src/main/scala/databricks-datasets"
+name:="src/main/scala/chapter3"
 version := "1.0"
 scalaVersion := "2.12.15"
 libraryDependencies ++= Seq(
