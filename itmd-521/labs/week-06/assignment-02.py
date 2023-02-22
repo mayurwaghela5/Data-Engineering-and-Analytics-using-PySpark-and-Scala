@@ -87,7 +87,10 @@ if __name__ == "__main__":
     
     #Is there a correlation between neighborhood, zip code, and number of fire calls?
     
+    
     #How can we use Parquet files or SQL tables to store this data and read it back?
+    
+    transformed_struct_fire_DF.write.format("parquet").mode("overwrite").save("/tmp/SFParquet1/")
     
     
     
