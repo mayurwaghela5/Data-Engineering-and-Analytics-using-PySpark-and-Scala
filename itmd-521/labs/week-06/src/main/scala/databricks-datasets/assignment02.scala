@@ -3,10 +3,9 @@
 //3. Compute the min and max values for temperature, battery level, CO2, and humidity.
 //4. Sort and group by average temperature, CO2, humidity, and country
 
-
+package src.main.scala.databricks-datasets
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.types._
-package main.scala.databricks-datasets
 
 object assignment02 {
     def main(args: Array[String]) {
