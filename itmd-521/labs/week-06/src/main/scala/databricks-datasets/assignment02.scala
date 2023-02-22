@@ -6,6 +6,7 @@
 
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.types._
+package main.scala.databricks-datasets
 
 object assignment02 {
     def main(args: Array[String]) {
