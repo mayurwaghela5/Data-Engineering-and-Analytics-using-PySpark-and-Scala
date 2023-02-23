@@ -147,7 +147,7 @@ if __name__ == "__main__":
     
     #4. Which neighborhoods had the worst response times to fire calls in 2018?
     
-    transformed_struct_fire_DF.select("Neighborhood","Delay").filter(year("IncidentCallDate") == 2018).orderBy("Delay").show(10,False)
+    transformed_struct_fire_DF.select("Neighborhood","Delay").filter(year("IncidentCallDate") == 2018).orderBy(col("Delay").desc()).show(10,False)
     
     #transformed_struct_fire_DF.filter(year("IncidentCallDate") == 2018).groupBy("Neighborhood").orderBy(col("Delay")).desc().show(10)
     
