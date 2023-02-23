@@ -6,7 +6,7 @@
 package main.scala.chapter4
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.types._
-import org.apache.spark.sql.DeviceIoTData
+
 //import spark.implicits._
 
 object assignment02 {
