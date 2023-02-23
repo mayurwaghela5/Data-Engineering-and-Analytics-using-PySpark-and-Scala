@@ -25,10 +25,10 @@ object assignment02 {
         ds.show(20, false)
 
         //1. Detect failing devices with battery levels below a threshold.
-        val dsFailDevice = ds.select("*").where("battery_level < 7").as[DeviceIoTData]
+        val dsFailDevice = ds.select("battery_level","device_id","device_name").where("battery_level < 7").as[DeviceIoTData]
         dsFailDevice.show(15, false)
-
-
+        //Answer: Below are the failing
+        
 
         //2. Identify offending countries with high levels of CO2 emissions.
         val coun_high_co2=ds.select("cn","c02_level").distinct().orderBy(desc("c02_level"))
