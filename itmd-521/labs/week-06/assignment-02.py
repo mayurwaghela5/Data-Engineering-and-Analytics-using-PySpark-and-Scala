@@ -12,6 +12,7 @@ if __name__ == "__main__":
     spark=(SparkSession.builder.appName("assignment-02").getOrCreate())
     data_source_file=sys.argv[1]
     
+    
     #create a scheme programmatically
     fire_struct_schema = StructType([StructField('CallNumber', IntegerType(), True),
         StructField('UnitID', StringType(), True),
