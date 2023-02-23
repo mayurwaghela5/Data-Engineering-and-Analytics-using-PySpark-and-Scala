@@ -22,9 +22,16 @@ object assignment02 {
         //{"device_id": 1, "device_name": "meter-gauge-1xbYRYcj", "ip": "68.161.225.1", "cca2": "US", "cca3": "USA", "cn": "United States", "latitude": 38.000000, "longitude": -97.000000, "scale": "Celsius", "temp": 34, "humidity": 51, "battery_level": 8, "c02_level": 868, "lcd": "green", "timestamp" :1458444054093 }
         
         //creating df schema using DDL
-        val fire_struct_schema="device_id Long, device_name String, ip String, cca2 String, cca3 String, cn String, latitude Double, longitude Double, scale String, temp Long, humidity Long, battery_level Long, c02_level Long, lcd String, timestamp Long"
+        //val fire_struct_schema="device_id Long, device_name String, ip String, cca2 String, cca3 String, cn String, latitude Double, longitude Double, scale String, temp Long, humidity Long, battery_level Long, c02_level Long, lcd String, timestamp Long"
 
-        val fire_struct_schema_DF=spark.read.schema(fire_struct_schema).json(iot_device_json)
-        fire_struct_schema_DF.show(true)
+        case class DeviceIoTData (battery_level: Long, c02_level: Long, cca2: String, cca3: String, cn: String, device_id: Long,
+        device_name: String, humidity: Long, ip: String, latitude: Double, lcd: String, longitude: Double, scale:String, temp: Long,
+        timestamp: Long)
+
+
+        val ds = spark.read.json(iot_device_json).as[DeviceIoTData]
+        ds.show(20, false)
+        //val fire_struct_schema_DF=spark.read.schema(fire_struct_schema).json(iot_device_json)
+        //fire_struct_schema_DF.show(true)
     }
 }
