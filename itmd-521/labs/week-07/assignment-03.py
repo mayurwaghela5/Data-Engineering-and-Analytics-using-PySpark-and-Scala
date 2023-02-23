@@ -9,4 +9,5 @@ if __name__ == "__main__":
         sys.exit(-1)
         
     spark=(SparkSession.builder.appName("assignment-03").getOrCreate())
+    data_source_file=sys.argv[1]
     
