@@ -47,7 +47,7 @@ object assignment02 {
 
         val dsAvg=ds.select("cca3","temp","c02_level","humidity").groupBy("cca3").avg()
                     .sort($"avg(temp)".desc,$"avg(c02_level)".desc ,$"avg(humidity)".desc).as("averages")
-        display(dsAvg)
+        dsAvg.show(50,false)
         
     }
 }
