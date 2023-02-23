@@ -31,6 +31,32 @@ object assignment02 {
         //2. Identify offending countries with high levels of CO2 emissions.
         val coun_high_co2=ds.select("cn","c02_level").distinct().orderBy(desc("c02_level"))
         coun_high_co2.show(false)
+        //Answer: Below are the offending countries with high level of CO2 emmission.
+        //+---------------------+---------+
+        //|cn                   |c02_level|
+        //+---------------------+---------+
+        //|Australia            |1599     |
+        //|Thailand             |1599     |
+        //|Bulgaria             |1599     |
+        //|                     |1599     |
+        //|Russia               |1599     |
+        //|Poland               |1599     |
+        //|Japan                |1599     |
+        //|Germany              |1599     |
+        //|Sweden               |1599     |
+        //|Malaysia             |1599     |
+        //|Turkey               |1599     |
+        //|United Arab Emirates |1599     |
+        //|Bermuda              |1599     |
+        //|Latvia               |1599     |
+        //|France               |1599     |
+        //|Mexico               |1599     |
+        //|Romania              |1599     |
+        //|Saint Kitts and Nevis|1599     |
+        //|Denmark              |1599     |
+        //|Finland              |1599     |
+        //+---------------------+---------+
+        //only showing top 20 rows
         
 
         //3. Compute the min and max values for temperature, battery level, CO2, and humidity.
