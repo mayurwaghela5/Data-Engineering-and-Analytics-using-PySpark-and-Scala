@@ -6,7 +6,8 @@
 package main.scala.chapter4
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.types._
-import spark.implicits._
+import org.apache.spark.sql.DeviceIoTData
+//import spark.implicits._
 
 object assignment02 {
     def main(args: Array[String]) {
