@@ -31,9 +31,7 @@ object assignment02 {
 
 
         //2. Identify offending countries with high levels of CO2 emissions.
-        val max_Co2=ds.agg(max("c02_level"))
-        val country_highCo2=ds.select($"cn", $"c02_level").where("c02_level==max_Co2")
-        country_highCo2.show(false)
+        ds.select("cn").distinct().where("c02_level==1599").show(false)
 
         //3. Compute the min and max values for temperature, battery level, CO2, and humidity.
         //ANSWER: Min Temperature: 10, Max Temperature: 34
