@@ -25,6 +25,8 @@ object assignment02 {
         ds.show(20, false)
 
         //1. Detect failing devices with battery levels below a threshold.
+        val dsFailDevice = ds.select("*").where("battery_level < 10").as[DeviceIoTData]
+        dsFailDevice.show(15, false)
 
 
 
