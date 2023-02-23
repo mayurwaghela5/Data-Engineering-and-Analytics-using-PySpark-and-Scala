@@ -1,6 +1,10 @@
 //1. Detect failing devices with battery levels below a threshold.
 //2. Identify offending countries with high levels of CO2 emissions.
 //3. Compute the min and max values for temperature, battery level, CO2, and humidity.
+//ANSWER: Min Temperature: 10, Max Temperature: 34
+//        Min battery level: 0, Max battery level: 9
+//        Min Co2: 800, Max co2: 1599
+//        Min humidity: 25, Max humidity: 99         
 //4. Sort and group by average temperature, CO2, humidity, and country
 
 package main.scala.chapter4
