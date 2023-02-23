@@ -7,7 +7,9 @@ package main.scala.chapter4
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.types._
 
-//import spark.implicits._
+case class DeviceIoTData (battery_level: Long, c02_level: Long, cca2: String, cca3: String, cn: String, device_id: Long,
+device_name: String, humidity: Long, ip: String, latitude: Double, lcd: String, longitude: Double, scale:String, temp: Long,
+timestamp: Long)
 
 object assignment02 {
     def main(args: Array[String]) {
@@ -25,11 +27,6 @@ object assignment02 {
         
         //creating df schema using DDL
         //val fire_struct_schema="device_id Long, device_name String, ip String, cca2 String, cca3 String, cn String, latitude Double, longitude Double, scale String, temp Long, humidity Long, battery_level Long, c02_level Long, lcd String, timestamp Long"
-
-        case class DeviceIoTData (battery_level: Long, c02_level: Long, cca2: String, cca3: String, cn: String, device_id: Long,
-        device_name: String, humidity: Long, ip: String, latitude: Double, lcd: String, longitude: Double, scale:String, temp: Long,
-        timestamp: Long)
-
         
         val ds = spark.read.json(iot_device_json).as[DeviceIoTData]
         ds.show(20, false)
