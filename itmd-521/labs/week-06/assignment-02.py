@@ -129,7 +129,7 @@ if __name__ == "__main__":
     
     #4. Which neighborhoods had the worst response times to fire calls in 2018?
     
-    transformed_struct_fire_DF.select("Neighborhood",avg("Delay")).filter(year("IncidentCallDate") == 2018).orderBy(col("Delay").desc()).show(10,False)
+    transformed_struct_fire_DF.select("Neighborhood","Delay").filter(year("IncidentCallDate") == 2018).orderBy(col(avg("Delay")).desc()).show(10,False)
     #Answer: The Neighborhood Chinatown has the worst response time to fire calls in 2018
     #+------------------------------+---------+
     #|Neighborhood                  |Delay    |
