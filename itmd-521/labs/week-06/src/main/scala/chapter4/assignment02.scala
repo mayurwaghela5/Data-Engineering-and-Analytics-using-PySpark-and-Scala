@@ -29,9 +29,9 @@ object assignment02 {
         val ds = spark.read.json(iot_device_json).as[DeviceIoTData]
         ds.show(20, false)
 
-
+        val max_co2=ds.agg(max("c02_level"))
         //2. Identify offending countries with high levels of CO2 emissions.
-        ds.select($"cn",$"c02_level").distinct().where(ds.agg(max("c02_level"))).show(70,false)
+        ds.select($"cn",$"c02_level").distinct().where("c02_level==max_co2").show(70,false)
 
         //3. Compute the min and max values for temperature, battery level, CO2, and humidity.
         //ANSWER: Min Temperature: 10, Max Temperature: 34
