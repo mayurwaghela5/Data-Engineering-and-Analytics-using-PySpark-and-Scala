@@ -122,7 +122,7 @@ if __name__ == "__main__":
     #+--------------------+-----+
     #|        Neighborhood|count|
     #+--------------------+-----+
-    #|          Tenderloin| 1393|
+    #|          Tenderloin| 1393|   
     #|     South of Market| 1053|
     #|             Mission|  913|
     #|Financial Distric...|  772|
@@ -147,7 +147,7 @@ if __name__ == "__main__":
     
     #4. Which neighborhoods had the worst response times to fire calls in 2018?
     
-    transformed_struct_fire_DF.select("Neighborhood","Delay").desc().filter(year("IncidentCallDate") == 2018).show(10,False)
+    transformed_struct_fire_DF.select("Neighborhood","Delay").filter(year("IncidentCallDate") == 2018).show(10,False)
     
     #transformed_struct_fire_DF.filter(year("IncidentCallDate") == 2018).groupBy("Neighborhood").orderBy(col("Delay")).desc().show(10)
     
