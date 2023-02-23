@@ -19,7 +19,7 @@ object assignment02 {
         if (args.length <= 0){
             System.exit(1)
         }
-        import sparkSession.implicits._
+        import SparkSession.implicits._
         val iot_device_json=args(0)
         //{"device_id": 1, "device_name": "meter-gauge-1xbYRYcj", "ip": "68.161.225.1", "cca2": "US", "cca3": "USA", "cn": "United States", "latitude": 38.000000, "longitude": -97.000000, "scale": "Celsius", "temp": 34, "humidity": 51, "battery_level": 8, "c02_level": 868, "lcd": "green", "timestamp" :1458444054093 }
         
