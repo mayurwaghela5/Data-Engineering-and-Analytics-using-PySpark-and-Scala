@@ -29,10 +29,10 @@ object assignment02 {
 
         //3. Compute the min and max values for temperature, battery level, CO2, and humidity.
 
-        ds.agg(min("temp"),max("temp")).show()
-        ds.agg(min("battery_level"),max("battery_level")).show()
-        ds.agg(min("c02_level"),max("c02_level")).show()
-        ds.agg(min("humidity"),max("humidity")).show()
+        ds.agg(min("temp"),max("temp")).show(false)
+        ds.agg(min("battery_level"),max("battery_level")).show(false)
+        ds.agg(min("c02_level"),max("c02_level")).show(false)
+        ds.agg(min("humidity"),max("humidity")).show(false)
 
         
     }
