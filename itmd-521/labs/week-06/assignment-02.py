@@ -3,7 +3,7 @@ import sys
 from pyspark.sql import SparkSession
 from pyspark.sql import *
 from pyspark.sql.types import StructType, StructField, IntegerType,StringType,BooleanType,FloatType
-from pyspark.sql.functions import col,countDistinct,year,weekofyear,to_timestamp,month,avg,CORR
+from pyspark.sql.functions import col,countDistinct,year,weekofyear,to_timestamp,month,avg,corr
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
@@ -178,7 +178,7 @@ if __name__ == "__main__":
     #only showing top 20 rows
     
     #6. Is there a correlation between neighborhood, zip code, and number of fire calls?
-    transformed_struct_fire_DF.select(CORR("IncidentCallDate","Zipcode"),CORR("Neighborhood","Zipcode")).where("CallType=='%Fire%'").show(False)
+    transformed_struct_fire_DF.select(corr("IncidentCallDate","Zipcode"),corr("Neighborhood","Zipcode")).where("CallType=='%Fire%'").show(False)
     
     #Answer: Yes there is correlation between neighborhood and zip code. But not between neighborhood and number of 
     # fire calls or zip code and number of fire calls.
