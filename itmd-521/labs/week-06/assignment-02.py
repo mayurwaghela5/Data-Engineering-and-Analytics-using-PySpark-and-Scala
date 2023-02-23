@@ -3,7 +3,7 @@ import sys
 from pyspark.sql import SparkSession
 from pyspark.sql import *
 from pyspark.sql.types import StructType, StructField, IntegerType,StringType,BooleanType,FloatType
-from pyspark.sql.functions import col,countDistinct,year,weekofyear,to_timestamp,month
+from pyspark.sql.functions import col,countDistinct,year,weekofyear,to_timestamp,month,avg,CORR
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
@@ -129,7 +129,7 @@ if __name__ == "__main__":
     
     #4. Which neighborhoods had the worst response times to fire calls in 2018?
     
-    transformed_struct_fire_DF.select("Neighborhood","Delay").filter(year("IncidentCallDate") == 2018).orderBy(col("Delay").desc()).show(10,False)
+    transformed_struct_fire_DF.select("Neighborhood",avg("Delay")).filter(year("IncidentCallDate") == 2018).orderBy(col("Delay").desc()).show(10,False)
     #Answer: The Neighborhood Chinatown has the worst response time to fire calls in 2018
     #+------------------------------+---------+
     #|Neighborhood                  |Delay    |
@@ -178,6 +178,8 @@ if __name__ == "__main__":
     #only showing top 20 rows
     
     #6. Is there a correlation between neighborhood, zip code, and number of fire calls?
+    transformed_struct_fire_DF.select(CORR("IncidentCallDate","Zipcode"),CORR("Neighborhood","Zipcode")).where("CallType=='%Fire%'").show(False)
+    
     #Answer: Yes there is correlation between neighborhood and zip code. But not between neighborhood and number of 
     # fire calls or zip code and number of fire calls.
     
