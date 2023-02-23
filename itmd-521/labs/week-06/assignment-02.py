@@ -148,8 +148,22 @@ if __name__ == "__main__":
     #4. Which neighborhoods had the worst response times to fire calls in 2018?
     
     transformed_struct_fire_DF.select("Neighborhood","Delay").filter(year("IncidentCallDate") == 2018).orderBy(col("Delay").desc()).show(10,False)
-    
-    #transformed_struct_fire_DF.filter(year("IncidentCallDate") == 2018).groupBy("Neighborhood").orderBy(col("Delay")).desc().show(10)
+    #Answer: The Neighborhood Chinatown has the worst response time to fire calls in 2018
+    #+------------------------------+---------+
+    #|Neighborhood                  |Delay    |
+    #+------------------------------+---------+
+    #|Chinatown                     |491.26666|
+    #|Financial District/South Beach|406.63333|
+    #|Tenderloin                    |340.48334|
+    #|Haight Ashbury                |175.86667|
+    #|Bayview Hunters Point         |155.8    |
+    #|Financial District/South Beach|135.51666|
+    #|Pacific Heights               |129.01666|
+    #|Potrero Hill                  |109.8    |
+    #|Inner Sunset                  |106.13333|
+    #|South of Market               |94.71667 |
+    #+------------------------------+---------+
+    #only showing top 10 rows
     
     
     #5. Which week in the year in 2018 had the most fire calls?
