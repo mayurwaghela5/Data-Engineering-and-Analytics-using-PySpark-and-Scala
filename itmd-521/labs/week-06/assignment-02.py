@@ -99,7 +99,7 @@ if __name__ == "__main__":
     #2. What months within the year 2018 saw the highest number of fire calls?
     
     transformed_struct_fire_DF.filter(year('IncidentCallDate') == 2018).groupBy(month('IncidentCallDate')).count().orderBy('count', ascending=False).show()
-    #The month of October saw the highest number of fire calls in 2018
+    #Answer: The month of October saw the highest number of fire calls in 2018
     #+-----------------------+-----+
     #|month(IncidentCallDate)|count|
     #+-----------------------+-----+
@@ -116,23 +116,79 @@ if __name__ == "__main__":
     #|                     11|  199|
     #+-----------------------+-----+
     
-    #Which neighborhood in San Francisco generated the most fire calls in 2018?
+    #3. Which neighborhood in San Francisco generated the most fire calls in 2018?
     transformed_struct_fire_DF.select("Neighborhood").filter(year("IncidentCallDate") == 2018).groupBy("Neighborhood").count().orderBy('count', ascending=False).show()
+    #Answer: The Neighborhood Tenderloin generated the most fire calls in 2018
+    #+--------------------+-----+
+    #|        Neighborhood|count|
+    #+--------------------+-----+
+    #|          Tenderloin| 1393|
+    #|     South of Market| 1053|
+    #|             Mission|  913|
+    #|Financial Distric...|  772|
+    #|Bayview Hunters P...|  522|
+    #|    Western Addition|  352|
+    #|     Sunset/Parkside|  346|
+    #|            Nob Hill|  295|
+    #|        Hayes Valley|  291|
+    #|      Outer Richmond|  262|
+    #| Castro/Upper Market|  251|
+    #|         North Beach|  231|
+    #|           Excelsior|  212|
+    #|        Potrero Hill|  210|
+    #|  West of Twin Peaks|  210|
+    #|     Pacific Heights|  191|
+    #|              Marina|  191|
+    #|           Chinatown|  191|
+    #|         Mission Bay|  178|
+    #|      Bernal Heights|  170|
+    #+--------------------+-----+
+    #only showing top 20 rows
     
-    #Which neighborhoods had the worst response times to fire calls in 2018?
+    #4. Which neighborhoods had the worst response times to fire calls in 2018?
     
-    transformed_struct_fire_DF.select("Neighborhood","Delay").filter(year("IncidentCallDate") == 2018).show(10,False)
+    transformed_struct_fire_DF.select("Neighborhood","Delay").filter(year("IncidentCallDate") == 2018).desc().show(10,False)
         
-    #Which week in the year in 2018 had the most fire calls?
+    #5. Which week in the year in 2018 had the most fire calls?
     transformed_struct_fire_DF.filter(year('IncidentCallDate') == 2018).groupBy(weekofyear('IncidentCallDate')).count().orderBy('count', ascending=False).show()
+    #Answer: The week 22 has the most fire calls in 2018
+    #+----------------------------+-----+
+    #|weekofyear(IncidentCallDate)|count|
+    #+----------------------------+-----+
+    #|                          22|  259|
+    #|                          40|  255|
+    #|                          43|  250|
+    #|                          25|  249|
+    #|                           1|  246|
+    #|                          44|  244|
+    #|                          13|  243|
+    #|                          32|  243|
+    #|                          11|  240|
+    #|                           5|  236|
+    #|                          18|  236|
+    #|                          23|  235|
+    #|                          42|  234|
+    #|                           2|  234|
+    #|                          31|  234|
+    #|                          19|  233|
+    #|                          34|  232|
+    #|                           8|  232|
+    #|                          10|  232|
+    #|                          28|  231|
+    #+----------------------------+-----+
+    #only showing top 20 rows
     
-    #Is there a correlation between neighborhood, zip code, and number of fire calls?
+    #6. Is there a correlation between neighborhood, zip code, and number of fire calls?
+    #Answer: Yes there is a correlation between Neighborhood and zip code but not between 
     
-    
-    #How can we use Parquet files or SQL tables to store this data and read it back?
-    
-    transformed_struct_fire_DF.write.format("parquet").mode("overwrite").save("/tmp/SFParquet1/")
-    
+    #7. How can we use Parquet files or SQL tables to store this data and read it back?
+    #Answer:
+    #transformed_struct_fire_DF.write.format("parquet").mode("overwrite").save("/tmp/SFParquet1/")   to save as file
+    #transformed_struct_fire_DF.write.format("parquet").mode("overwrite").saveAsTable("SFParquet1")    to save it as table
+    #to load it back and read it
+    #transformed_struct_fire_DF = spark.read.format("parquet").load("/tmp/SFParquet1/")  
+    #transformed_struct_fire_DF.show()
+      
     
     
     
