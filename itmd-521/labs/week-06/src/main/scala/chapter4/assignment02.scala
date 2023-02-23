@@ -1,10 +1,6 @@
 //1. Detect failing devices with battery levels below a threshold.
-//2. Identify offending countries with high levels of CO2 emissions.
-//3. Compute the min and max values for temperature, battery level, CO2, and humidity.
-//ANSWER: Min Temperature: 10, Max Temperature: 34
-//        Min battery level: 0, Max battery level: 9
-//        Min Co2: 800, Max co2: 1599
-//        Min humidity: 25, Max humidity: 99         
+
+      
 //4. Sort and group by average temperature, CO2, humidity, and country
 
 package main.scala.chapter4
@@ -33,7 +29,17 @@ object assignment02 {
         val ds = spark.read.json(iot_device_json).as[DeviceIoTData]
         ds.show(20, false)
 
+
+        //2. Identify offending countries with high levels of CO2 emissions.
+        val max_Co2=ds.agg(max("c02_level"))
+        val country_highCo2=ds.select($"cn", $"c02_level").where("c02_level==max_Co2")
+        country_highCo2.show(false)
+
         //3. Compute the min and max values for temperature, battery level, CO2, and humidity.
+        //ANSWER: Min Temperature: 10, Max Temperature: 34
+        //        Min battery level: 0, Max battery level: 9
+        //        Min Co2: 800, Max co2: 1599
+        //        Min humidity: 25, Max humidity: 99   
 
         ds.agg(min("temp"),max("temp")).show(false)
         ds.agg(min("battery_level"),max("battery_level")).show(false)
