@@ -67,13 +67,54 @@ if __name__ == "__main__":
     transformed_struct_fire_DF.cache()
     
     
-    #What were all the different types of fire calls in 2018?
+    #1. What were all the different types of fire calls in 2018?
     
     transformed_struct_fire_DF.filter(year("IncidentCallDate")=='2018').select("CallType").distinct().show()
     
-    #What months within the year 2018 saw the highest number of fire calls?
+    #+--------------------+
+    #|            CallType|
+    #+--------------------+
+    #|Elevator / Escala...|
+    #|              Alarms|
+    #|Odor (Strange / U...|
+    #|Citizen Assist / ...|
+    #|              HazMat|
+    #|        Vehicle Fire|
+    #|               Other|
+    #|        Outside Fire|
+    #|   Traffic Collision|
+    #|       Assist Police|
+    #|Gas Leak (Natural...|
+    #|        Water Rescue|
+    #|   Electrical Hazard|
+    #|      Structure Fire|
+    #|    Medical Incident|
+    #|          Fuel Spill|
+    #|Smoke Investigati...|
+    #|Train / Rail Inci...|
+    #|           Explosion|
+    #|  Suspicious Package|
+    #+--------------------+
+    
+    #2. What months within the year 2018 saw the highest number of fire calls?
     
     transformed_struct_fire_DF.filter(year('IncidentCallDate') == 2018).groupBy(month('IncidentCallDate')).count().orderBy('count', ascending=False).show()
+    #The month of October saw the highest number of fire calls in 2018
+    #+-----------------------+-----+
+    #|month(IncidentCallDate)|count|
+    #+-----------------------+-----+
+    #|                     10| 1068|
+    #|                      5| 1047|
+    #|                      3| 1029|
+    #|                      8| 1021|
+    #|                      1| 1007|
+    #|                      7|  974|
+    #|                      6|  974|
+    #|                      9|  951|
+    #|                      4|  947|
+    #|                      2|  919|
+    #|                     11|  199|
+    #+-----------------------+-----+
     
     #Which neighborhood in San Francisco generated the most fire calls in 2018?
     transformed_struct_fire_DF.select("Neighborhood").filter(year("IncidentCallDate") == 2018).groupBy("Neighborhood").count().orderBy('count', ascending=False).show()
