@@ -178,7 +178,8 @@ if __name__ == "__main__":
     #only showing top 20 rows
     
     #6. Is there a correlation between neighborhood, zip code, and number of fire calls?
-    #Answer: Yes there is correlation between neighborhood and zip code. But not between neighborhood and number of fire calls or zip code and number of fire calls.
+    #Answer: Yes there is correlation between neighborhood and zip code. But not between neighborhood and number of 
+    # fire calls or zip code and number of fire calls.
     
     #7. How can we use Parquet files or SQL tables to store this data and read it back?
     #Answer:
