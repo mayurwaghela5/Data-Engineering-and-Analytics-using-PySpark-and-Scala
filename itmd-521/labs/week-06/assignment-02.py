@@ -178,7 +178,7 @@ if __name__ == "__main__":
     #only showing top 20 rows
     
     #6. Is there a correlation between neighborhood, zip code, and number of fire calls?
-    transformed_struct_fire_DF.select(corr("IncidentCallDate","Zipcode"),corr("Neighborhood","Zipcode")).where("CallType=='%Fire%'").show(False)
+    transformed_struct_fire_DF.select(corr("IncidentNumber","Zipcode"),corr("Neighborhood","Zipcode")).where("CallType=='%Fire%'").show(False)
     
     #Answer: Yes there is correlation between neighborhood and zip code. But not between neighborhood and number of 
     # fire calls or zip code and number of fire calls.
