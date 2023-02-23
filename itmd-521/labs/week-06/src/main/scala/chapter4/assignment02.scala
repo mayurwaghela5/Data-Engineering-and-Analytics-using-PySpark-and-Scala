@@ -27,7 +27,32 @@ object assignment02 {
         //1. Detect failing devices with battery levels below a threshold.
         val dsFailDevice = ds.select("*").where("battery_level < 7").as[DeviceIoTData]
         dsFailDevice.show(20, false)
-        //Answer: Below are the failing
+        //Answer: Below are the failing devices with battery_level below 7 which is set as the threshold
+        //+-------------+---------+----+----+-----------------+---------+------------------------+--------+---------------+--------+------+---------+-------+----+-------------+
+        //|battery_level|c02_level|cca2|cca3|cn               |device_id|device_name             |humidity|ip             |latitude|lcd   |longitude|scale  |temp|timestamp    |
+        //+-------------+---------+----+----+-----------------+---------+------------------------+--------+---------------+--------+------+---------+-------+----+-------------+
+        //|2            |1556     |IT  |ITA |Italy            |3        |device-mac-36TWSKiT     |44      |88.36.5.1      |42.83   |red   |12.83    |Celsius|19  |1458444054120|
+        //|6            |1080     |US  |USA |United States    |4        |sensor-pad-4mzWkz       |32      |66.39.173.154  |44.06   |yellow|-121.32  |Celsius|28  |1458444054121|
+        //|4            |931      |PH  |PHL |Philippines      |5        |therm-stick-5gimpUrBB   |62      |203.82.41.9    |14.58   |green |120.97   |Celsius|25  |1458444054122|
+        //|3            |1210     |US  |USA |United States    |6        |sensor-pad-6al7RTAobR   |51      |204.116.105.67 |35.93   |yellow|-85.46   |Celsius|27  |1458444054122|
+        //|3            |1129     |CN  |CHN |China            |7        |meter-gauge-7GeDoanM    |26      |220.173.179.1  |22.82   |yellow|108.32   |Celsius|18  |1458444054123|
+        //|0            |1536     |JP  |JPN |Japan            |8        |sensor-pad-8xUD6pzsQI   |35      |210.173.177.1  |35.69   |red   |139.69   |Celsius|27  |1458444054123|
+        //|3            |807      |JP  |JPN |Japan            |9        |device-mac-9GcjZ2pw     |85      |118.23.68.227  |35.69   |green |139.69   |Celsius|13  |1458444054124|
+        //|3            |1544     |IT  |ITA |Italy            |11       |meter-gauge-11dlMTZty   |85      |88.213.191.34  |42.83   |red   |12.83    |Celsius|16  |1458444054125|
+        //|0            |1260     |US  |USA |United States    |12       |sensor-pad-12Y2kIm0o    |92      |68.28.91.22    |38.0    |yellow|-97.0    |Celsius|12  |1458444054126|
+        //|6            |1007     |IN  |IND |India            |13       |meter-gauge-13GrojanSGBz|92      |59.144.114.250 |28.6    |yellow|77.2     |Celsius|13  |1458444054127|
+        //|1            |1346     |NO  |NOR |Norway           |14       |sensor-pad-14QL93sBR0j  |90      |193.156.90.200 |59.95   |yellow|10.75    |Celsius|16  |1458444054127|
+        //|4            |1425     |US  |USA |United States    |16       |sensor-pad-16aXmIJZtdO  |53      |68.85.85.106   |38.0    |red   |-97.0    |Celsius|15  |1458444054128|
+        //|0            |1466     |US  |USA |United States    |17       |meter-gauge-17zb8Fghhl  |98      |161.188.212.254|39.95   |red   |-75.16   |Celsius|31  |1458444054129|
+        //|4            |1096     |CN  |CHN |China            |18       |sensor-pad-18XULN9Xv    |25      |221.3.128.242  |25.04   |yellow|102.72   |Celsius|31  |1458444054130|
+        //|5            |939      |AT  |AUT |Austria          |21       |device-mac-21sjz5h      |44      |193.200.142.254|48.2    |green |16.37    |Celsius|30  |1458444054131|
+        //|5            |1245     |IN  |IND |India            |23       |meter-gauge-230IupA     |47      |59.90.65.1     |12.98   |yellow|77.58    |Celsius|23  |1458444054133|
+        //|4            |880      |US  |USA |United States    |25       |therm-stick-25kK6VyzIFB |78      |24.154.45.90   |41.1    |green |-80.76   |Celsius|27  |1458444054134|
+        //|5            |1597     |KR  |KOR |Republic of Korea|27       |device-mac-27P5wf2      |73      |218.239.168.1  |37.57   |red   |126.98   |Celsius|10  |1458444054135|
+        //|3            |1502     |KR  |KOR |Republic of Korea|28       |sensor-pad-28Tsudcoikw  |64      |211.238.224.77 |37.29   |red   |127.01   |Celsius|25  |1458444054136|
+        //|6            |1095     |NL  |NLD |Netherlands      |29       |meter-gauge-29lyNVxIS   |69      |83.98.224.49   |52.37   |yellow|4.9      |Celsius|15  |1458444054137|
+        //+-------------+---------+----+----+-----------------+---------+------------------------+--------+---------------+--------+------+---------+-------+----+-------------+
+        //only showing top 20 rows
         
 
         //2. Identify offending countries with high levels of CO2 emissions.
