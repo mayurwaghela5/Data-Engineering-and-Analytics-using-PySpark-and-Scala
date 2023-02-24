@@ -14,7 +14,7 @@ if __name__ == "__main__":
     schema_ddl="date INT,delay INT,distance INT,origin STRING,destination STRING"
     
     
-    df = (spark.read.schema("schema_ddl").format("csv")).option("header", "true").option("schema_ddl", "true").load(data_source_file)
+    df = (spark.read.schema(schema_ddl).format("csv")).option("header", "true").load(data_source_file)
     df.printSchema()
     df.show()
     #df.createOrReplaceTempView("us_delay_flights_tbl")
