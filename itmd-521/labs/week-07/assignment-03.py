@@ -2,6 +2,7 @@ import sys
 from pyspark.sql import SparkSession
 from pyspark.sql import *
 from pyspark.sql.types import StructType, StructField, IntegerType,StringType,BooleanType,FloatType
+from pyspark.sql.function import expr
 
 
 if __name__ == "__main__":
@@ -53,6 +54,14 @@ if __name__ == "__main__":
     
     #2
     df.filter((df.delay>120)&(df.origin=='SFO')&(df.destination=='ORD')).select('date','delay','origin','destination').orderBy('delay',ascending=False).show(10)
+    
+    #3
+    df.withColumn("delay",expr("CASE WHEN delay > 360 THEN 'Long Delays'  \
+                                     WHEN delay > 120 AND delay < 360 THEN 'Long Delays' \
+                                     WHEN delay > 60 AND delay < 120 THEN 'Short Delays' \
+                                     WHEN delay > 0 and delay < 60 THEN 'Tolerable Delays' \
+                                     WHEN delay = 0 THEN 'No Delays' \
+                                     ELSE 'Early' END AS Flight_Delays")).show(10)
     
     
     
