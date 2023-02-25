@@ -19,6 +19,7 @@ if __name__ == "__main__":
     df.show()
     df.createOrReplaceTempView("us_delay_flights_tbl")
     
+    #Part 1
     #Spark Sql examples on Page 87 
     
     #1
@@ -45,6 +46,13 @@ if __name__ == "__main__":
     END AS Flight_Delays
     FROM us_delay_flights_tbl
     ORDER BY origin, delay DESC""").show(10)
+    
+    #PySpark DataFrame API
+    #1
+    df.where(df.distance > 1000).select('distance', 'origin', 'destination').orderBy('distance', descending=True).show(10)
+    
+    #2
+    df.filter((df.delay>120)&(df.origin=='SFO')&(df.destination=='ORD')).select('date','delay','origin','destination').orderBy('delay',descending=True).show(10)
     
     
     
