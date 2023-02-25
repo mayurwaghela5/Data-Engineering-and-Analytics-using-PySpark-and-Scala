@@ -67,7 +67,7 @@ if __name__ == "__main__":
                                      WHEN delay > 60 AND delay < 120 THEN 'Short Delays' \
                                      WHEN delay > 0 and delay < 60 THEN 'Tolerable Delays' \
                                      WHEN delay = 0 THEN 'No Delays' \
-                                     ELSE 'Early' END AS Flight_Delays")).sort('delay').show(10)
+                                     ELSE 'Early' END AS Flight_Delays")).sort('delay',ascending=False).show(10)
     
     
     
