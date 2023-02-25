@@ -62,7 +62,7 @@ if __name__ == "__main__":
     #                                 WHEN delay > 0 and delay < 60 THEN 'Tolerable Delays' \
     #                                 WHEN delay = 0 THEN 'No Delays' \
     #                                 ELSE 'Early' END AS Flight_Delays"))
-    df.select('delay,origin,destination',expr("CASE WHEN delay > 360 THEN 'Long Delays'  \
+    df.select('delay','origin','destination',expr("CASE WHEN delay > 360 THEN 'Long Delays'  \
                                      WHEN delay > 120 AND delay < 360 THEN 'Long Delays' \
                                      WHEN delay > 60 AND delay < 120 THEN 'Short Delays' \
                                      WHEN delay > 0 and delay < 60 THEN 'Tolerable Delays' \
