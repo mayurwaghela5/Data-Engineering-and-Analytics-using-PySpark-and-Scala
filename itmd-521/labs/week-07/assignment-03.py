@@ -49,10 +49,10 @@ if __name__ == "__main__":
     
     #PySpark DataFrame API
     #1
-    df.where(df.distance > 1000).select('distance', 'origin', 'destination').orderBy('distance', descending=False).show(10)
+    df.where(df.distance > 1000).select('distance', 'origin', 'destination').orderBy('distance', ascending=False).show(10)
     
     #2
-    df.filter((df.delay>120)&(df.origin=='SFO')&(df.destination=='ORD')).select('date','delay','origin','destination').orderBy('delay',descending=False).show(10)
+    df.filter((df.delay>120)&(df.origin=='SFO')&(df.destination=='ORD')).select('date','delay','origin','destination').orderBy('delay',ascending=False).show(10)
     
     
     
