@@ -66,4 +66,14 @@ if __name__ == "__main__":
     df0.sort(col('origin'),col('delay').desc()).show(10)
     
     
+    #Part2
+    
+    #create a Table named us_delay_flights_tbl from the departuredelay.csv
+    
+    schema_ddl="date INT,delay INT,distance INT,origin STRING,destination STRING"
+    flight_df = spark.read.csv(data_source_file, schema=schema_ddl)
+    flight_df.write.saveAsTable("us_delay_flights_tbl", mode="overwrite")
+    
+    
+    
     
