@@ -39,7 +39,22 @@ Using the departuredelays.csv file, in a single file called assignment-03.py con
 
 ### Part I - Screenshot
 
-Place required screenshot
+-Spark SQL Queries Output
+
+![*sparkSQL1.1](./screenshots/1.1.png "Query1 output")
+
+![*sparkSQL1.2](./screenshots/1.2.png "Query2 output")
+
+![*sparkSQL1.3](./screenshots/1.3.png "Query3 Output")
+
+-Spark Dataframe APIs Outputs
+
+![*sparkDF1.1](./screenshots/2.1.png "Query1 Output")
+
+![*sparkDF1.2](./screenshots/2.2.png "Query2 Output")
+
+![*sparkDF1.3](./screenshots/2.3.png "Query3 Output")
+
 
 ## Assignment Details - Part II
 
