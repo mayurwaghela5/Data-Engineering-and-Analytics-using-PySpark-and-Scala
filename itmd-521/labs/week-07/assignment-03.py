@@ -69,11 +69,19 @@ if __name__ == "__main__":
     #Part2
     
     #create a Table named us_delay_flights_tbl from the departuredelay.csv
-    
     schema_ddl="date INT,delay INT,distance INT,origin STRING,destination STRING"
     flight_df = spark.read.csv(data_source_file, schema=schema_ddl)
     flight_df.write.saveAsTable("us_delay_flights_tbl", mode="overwrite")
     
+    #Create a tempView of all flights with an origin of Chicago (ORD) and a month/day combo of between 03/01 and 03/15
+    df_tempView = spark.sql("SELECT date, delay, origin, destination FROM us_delay_flights_tbl \
+                        where origin = 'ORD' AND date > 03010000 and date < 03150000")
+    df_tempView.show(5)   
+    df_tempView.createOrReplaceGlobalTempView("us_delay_flights_tbl_tempview")
     
-    
+    tempviewquery = spark.sql("SELECT date, delay, origin, destination  \
+                          from global_temp.us_delay_flights_tbl_tempview")
+    tempviewquery.show(5)
+
+
     
