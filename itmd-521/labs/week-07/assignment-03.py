@@ -97,7 +97,7 @@ if __name__ == "__main__":
     df3 = (spark.read.schema(schema_ddl).format("csv")).option("header", "true").load(data_source_file)
     
     #Using a DataFrameWriter, write the content out as JSON
-    (df3.write.format("json").mode("overwrite").option("compression", "none").save("./spark-warehouse/df_json_withoutsnappy"))
+    df3.write.format("json").mode("overwrite").option("compression", "none").save("./spark-warehouse/df_json_withoutsnappy")
     
     #(df3.write.format("json").mode("overwrite").option("compression", "snappy").save("/home/vagrant/mwaghela/itmd-521/labs/week-07/spark-warehouse/df_json_withsnappy"))
     
