@@ -90,6 +90,16 @@ if __name__ == "__main__":
     
     #Using the Spark Catalog to list the columns of the tempView
     print(spark.catalog.listColumns(dbName='default', tableName='us_delay_flights_tbl'))
+    
+    #Part 3
+    #read the file into a dataframe
+    df3 = (spark.read.schema(schema_ddl).format("csv")).option("header", "true").load(data_source_file)
+    
+    #Using a DataFrameWriter, write the content out as JSON
+    (df3.write.format("json").mode("overwrite").option("compression", "none").save("/home/vagrant/mwaghela/itmd-521/labs/week-07/spark-warehouse"))
+    
+    
+    
 
 
     
