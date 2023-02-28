@@ -104,7 +104,7 @@ if __name__ == "__main__":
     
     
     #Using a DataFrameWriter, write the content out as PARQUET
-    (df.write.format("parquet").mode("overwrite").option("compression", "snappy").save("./spark-warehouse/df_json_withParquet"))
+    (df3.write.format("parquet").mode("overwrite").option("compression", "snappy").save("./spark-warehouse/df_json_withParquet"))
     
     
     
