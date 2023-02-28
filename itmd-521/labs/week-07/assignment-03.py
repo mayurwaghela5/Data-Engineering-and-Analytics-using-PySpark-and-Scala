@@ -72,7 +72,7 @@ if __name__ == "__main__":
     schema_ddl="date INT,delay INT,distance INT,origin STRING,destination STRING"
     flight_df = spark.read.csv(data_source_file, schema=schema_ddl)
     #spark.conf.set("spark.sql.legacy.allowCreatingManagedTableUsingNonemptyLocation","true")
-    flight_df.write.mode("overwrite").formatTable("x").saveAsTable("us_delay_flights_tbl")
+    flight_df.write.mode("overwrite").saveAsTable("us_delay_flights_tbl")
     
     #Create a tempView of all flights with an origin of Chicago (ORD) and a month/day combo of between 03/01 and 03/15
     df_tempView = spark.sql("SELECT date, delay, origin, destination FROM us_delay_flights_tbl \
