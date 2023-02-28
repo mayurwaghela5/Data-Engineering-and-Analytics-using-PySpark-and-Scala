@@ -107,6 +107,17 @@ if __name__ == "__main__":
     (df3.write.format("parquet").mode("overwrite").option("compression", "snappy").save("./spark-warehouse/df_json_withParquet"))
     
     
+    #Part 4
+    parquet_data_file="./spark-warehouse/df_json_withParquet"
+    
+    df4 = spark.read.format("json").load(parquet_data_file)
+    
+    orddeparturedelays=df4.select('date','delay','distance','origin','destination').where(df.origin == 'ORD')
+    
+    orddeparturedelays.show(10)
+    
+    
+    
     
     
     
