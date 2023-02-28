@@ -99,11 +99,12 @@ if __name__ == "__main__":
     #Using a DataFrameWriter, write the content out as JSON
     df3.write.format("json").mode("overwrite").option("compression", "none").save("./spark-warehouse/df_json_withoutsnappy")
     
+    #Using a DataFrameWriter, write the content out as JSON with snappy
     #(df3.write.format("json").mode("overwrite").option("compression", "snappy").save("/home/vagrant/mwaghela/itmd-521/labs/week-07/spark-warehouse/df_json_withsnappy"))
     
     
     #Using a DataFrameWriter, write the content out as PARQUET
-    #(df.write.format("parquet").mode("overwrite").option("compression", "snappy").save("/home/vagrant/mwaghela/itmd-521/labs/week-07/spark-warehouse/df_json_withParquet"))
+    (df.write.format("parquet").mode("overwrite").option("compression", "snappy").save("./spark-warehouse/df_json_withParquet"))
     
     
     
