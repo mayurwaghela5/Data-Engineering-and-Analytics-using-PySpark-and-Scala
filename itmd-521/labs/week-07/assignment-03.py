@@ -98,7 +98,7 @@ if __name__ == "__main__":
     #Using a DataFrameWriter, write the content out as JSON
     (df3.write.format("json").mode("overwrite").option("compression", "none").save("/home/vagrant/mwaghela/itmd-521/labs/week-07/spark-warehouse/df_json_withoutsnappy"))
     
-    (df3.write.format("json").mode("overwrite").option("compression", "snappy").save("/home/vagrant/mwaghela/itmd-521/labs/week-07/spark-warehouse/df_json_withsnappy"))
+    #(df3.write.format("json").mode("overwrite").option("compression", "snappy").save("/home/vagrant/mwaghela/itmd-521/labs/week-07/spark-warehouse/df_json_withsnappy"))
     
     
     
