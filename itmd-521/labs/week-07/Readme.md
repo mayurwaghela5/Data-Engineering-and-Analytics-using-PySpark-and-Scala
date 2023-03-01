@@ -68,7 +68,7 @@ Using the departuredelays.csv file, in a single file called assignment-03.py con
 Place screenshot here
 
 -Show the first 5 records of the tempView
-![*Recordsfromtemp_view](./screenshots/tempView_query.png "Records from temp_view")
+![*Recordsfromtemp_view](./screenshots/part2query.png "Records from temp_view")
 
 -Use the Spark Catalog to list the columns of table us_delay_flights_tbl
 ![*Spark_Catalog](./screenshots/spark-catalog.png "Spark Catalog")
