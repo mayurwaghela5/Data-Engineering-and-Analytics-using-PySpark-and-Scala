@@ -83,7 +83,7 @@ if __name__ == "__main__":
     #df_tempView = spark.sql("SELECT date, delay, origin, destination FROM us_delay_flights_tbl \
     #                    where origin = 'ORD' AND date > 03010000 and date < 03150000")
     
-    df_tempView=spark.sql("SELECT date, delay, origin, destination FROM us_delay_flights_tbl where ORIGIN  like 'ORD' AND dateMonth = 03 AND dateDay >=1 AND dateDay <=15")
+    df_tempView=spark.sql("SELECT date,dateMonth,dateDay, delay, origin, destination FROM us_delay_flights_tbl where ORIGIN  like 'ORD' AND dateMonth = 03 AND dateDay >=1 AND dateDay <=15")
     #df_tempView.show(5)   
     
     #tempview created or replaced
