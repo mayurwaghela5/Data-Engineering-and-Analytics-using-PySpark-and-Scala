@@ -103,7 +103,7 @@ if __name__ == "__main__":
     df3.write.format("json").mode("overwrite").option("compression", "none").json("./spark-warehouse/df_json_withoutsnappy")
     
     #Using a DataFrameWriter, write the content out as JSON with snappy
-    (df3.write.format("json").mode("overwrite").option("compression", "snappy").save("./spark-warehouse/df_json_withsnappy"))
+    (df3.write.format("json").mode("overwrite").option("compression", "lz4").save("./spark-warehouse/df_json_withsnappy"))
     
     
     #Using a DataFrameWriter, write the content out as PARQUET
