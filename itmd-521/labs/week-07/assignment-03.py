@@ -2,7 +2,7 @@ import sys
 from pyspark.sql import SparkSession
 from pyspark.sql import *
 from pyspark.sql.types import StructType, StructField, IntegerType,StringType,BooleanType,FloatType
-from pyspark.sql.functions import expr,col
+from pyspark.sql.functions import expr,col,from_unixtime,unix_timestamp
 
 
 if __name__ == "__main__":
@@ -15,9 +15,12 @@ if __name__ == "__main__":
     schema_ddl="date INT,delay INT,distance INT,origin STRING,destination STRING"
     
     
+    
+    
     df = (spark.read.schema(schema_ddl).format("csv")).option("header", "true").load(data_source_file)
     df.printSchema()
-    df.show()
+    #df.show()
+    df = df.withColumn("dateMonth", from_unixtime(unix_timestamp(df.date, "MMddHHmm"), "MM")).withColumn("dateDay", from_unixtime(unix_timestamp(df.date, "MMddHHmm"), "dd"))
     df.createOrReplaceTempView("us_delay_flights_tbl")
     
     #Part 1
@@ -77,8 +80,10 @@ if __name__ == "__main__":
     #flight_df.write.mode("ignore").saveAsTable("us_delay_flights_tbl")
     
     #Create a tempView of all flights with an origin of Chicago (ORD) and a month/day combo of between 03/01 and 03/15
-    df_tempView = spark.sql("SELECT date, delay, origin, destination FROM us_delay_flights_tbl \
-                        where origin = 'ORD' AND date > 03010000 and date < 03150000")
+    #df_tempView = spark.sql("SELECT date, delay, origin, destination FROM us_delay_flights_tbl \
+    #                    where origin = 'ORD' AND date > 03010000 and date < 03150000")
+    
+    df_tempView=spark.sql("SELECT date, delay, origin, destination FROM us_delay_flights_tb1 where ORIGIN  like 'ORD' AND dateMonth = 03 AND dateDay >=1 AND dateDay <=15")
     #df_tempView.show(5)   
     
     #tempview created or replaced
