@@ -65,6 +65,7 @@ if __name__ == "__main__":
     
     df0.sort(col('origin'),col('delay').desc()).show(10)
     
+    #----------------------------------------------------------------------------------------------
     
     #Part2
     
@@ -92,6 +93,8 @@ if __name__ == "__main__":
     #Using the Spark Catalog to list the columns of the tempView
     print(spark.catalog.listColumns(dbName='default', tableName='us_delay_flights_tbl'))
     
+    #----------------------------------------------------------------------------------------------
+    
     #Part 3
     #read the file into a dataframe
     df3 = (spark.read.schema(schema_ddl).format("csv")).option("header", "true").load(data_source_file)
@@ -100,30 +103,24 @@ if __name__ == "__main__":
     df3.write.format("json").mode("overwrite").option("compression", "none").save("./spark-warehouse/df_json_withoutsnappy")
     
     #Using a DataFrameWriter, write the content out as JSON with snappy
-    #(df3.write.format("json").mode("overwrite").option("compression", "snappy").save("/home/vagrant/mwaghela/itmd-521/labs/week-07/spark-warehouse/df_json_withsnappy"))
+    (df3.write.format("json").mode("overwrite").option("compression", "snappy").save("./spark-warehouse/df_json_withsnappy"))
     
     
     #Using a DataFrameWriter, write the content out as PARQUET
     (df3.write.format("parquet").mode("overwrite").option("compression", "snappy").save("./spark-warehouse/df_json_withParquet"))
     
+    #----------------------------------------------------------------------------------------------
     
     #Part 4
     #departuredelays parquet file created in part 3 source file location
     parquet_data_file="./spark-warehouse/df_json_withParquet"
     #reading the parquet file
     df4 = spark.read.parquet(parquet_data_file)
+    #query of dataframe
     orddeparturedelays=df4.select('date','delay','distance','origin','destination').filter(df4.origin=='ORD')
+    #write the results to a DataFrameWriter named orddeparturedelays
     orddeparturedelays.write.format("parquet").mode("overwrite").option("compression", "snappy").save("./spark-warehouse/part4_ORDdeparturedelays")
     orddeparturedelays.show(10)
-    
-    
-    #df4.createOrReplaceTempView("parquetTableView")
-    
-    
-    #orddeparturedelays=spark.sql("select * from parquetTableView where ORIGIN = 'ORD'")
-    
-    #orddeparturedelays.show(10)
-    
     
     
     
