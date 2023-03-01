@@ -98,6 +98,8 @@ Using the `departuredelays` parquet file you created part III, read the content 
 
 Place screenshot here
 
+![*part4output](./screenshots/part4.png "Part 4 Output")
+
 ### Deliverable
 
 Create a sub-folder named: `week-07` under the `itmd-521` folder. Place all deliverables there.
