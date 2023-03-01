@@ -112,10 +112,13 @@ if __name__ == "__main__":
     parquet_data_file="./spark-warehouse/df_json_withParquet"
     #reading the parquet file
     df4 = spark.read.parquet(parquet_data_file)
+    query_res=df4.select('date','delay','distance','origin','destination').filter(df4.origin=='ORD')
     
-    df4.createOrReplaceTempView("parquetTableView")
+    orddeparturedelays=df4.write.parquet(parquet_data_file,query_res)
     
-    orddeparturedelays=df4.select('date','delay','distance','origin','destination').filter(df4.origin=='ORD')
+    #df4.createOrReplaceTempView("parquetTableView")
+    
+    
     #orddeparturedelays=spark.sql("select * from parquetTableView where ORIGIN = 'ORD'")
     
     orddeparturedelays.show(10)
