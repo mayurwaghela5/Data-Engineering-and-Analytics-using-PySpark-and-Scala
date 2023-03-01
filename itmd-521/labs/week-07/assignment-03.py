@@ -97,22 +97,24 @@ if __name__ == "__main__":
     df3 = (spark.read.schema(schema_ddl).format("csv")).option("header", "true").load(data_source_file)
     
     #Using a DataFrameWriter, write the content out as JSON
-    df3.write.format("json").mode("overwrite").option("compression", "none").save("./spark-warehouse/df_json_withoutsnappy/departuredelays.parquet")
+    df3.write.format("json").mode("overwrite").option("compression", "none").save("./spark-warehouse/df_json_withoutsnappy")
     
     #Using a DataFrameWriter, write the content out as JSON with snappy
     #(df3.write.format("json").mode("overwrite").option("compression", "snappy").save("/home/vagrant/mwaghela/itmd-521/labs/week-07/spark-warehouse/df_json_withsnappy"))
     
     
     #Using a DataFrameWriter, write the content out as PARQUET
-    (df3.write.format("parquet").mode("overwrite").option("compression", "snappy").save("./spark-warehouse/df_json_withParquet/departuredelays.parquet"))
+    (df3.write.format("parquet").mode("overwrite").option("compression", "snappy").save("./spark-warehouse/df_json_withParquet"))
     
     
     #Part 4
-    #parquet file created in part 3 source file location
-    #parquet_data_file="./spark-warehouse/df_json_withParquet"
+    #departuredelays parquet file created in part 3 source file location
+    parquet_data_file="./spark-warehouse/df_json_withParquet"
     #reading the parquet file
-    #df4 = spark.read.parquet(parquet_data_file)
-    #query_res=df4.select('date','delay','distance','origin','destination').filter(df4.origin=='ORD')
+    df4 = spark.read.parquet(parquet_data_file)
+    orddeparturedelays=df4.select('date','delay','distance','origin','destination').filter(df4.origin=='ORD')
+    orddeparturedelays.write.format("parquet").mode("overwrite").option("compression", "snappy").save("./spark-warehouse/part4_ORDdeparturedelays")
+    orddeparturedelays.show(10)
     
     
     #df4.createOrReplaceTempView("parquetTableView")
