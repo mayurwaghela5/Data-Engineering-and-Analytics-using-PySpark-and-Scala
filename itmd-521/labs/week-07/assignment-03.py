@@ -108,7 +108,7 @@ if __name__ == "__main__":
     
     
     #Part 4
-    parquet_data_file="/home/vagrant/mwaghela/itmd-521/labs/week-07/spark-warehouse/df_json_withParquet/_temporary/0/task_202303010438343545702832944413393_0015_m_000001"
+    parquet_data_file="./spark-warehouse/df_json_withParquet"
     
     df4 = spark.read.parquet(parquet_data_file)
     
