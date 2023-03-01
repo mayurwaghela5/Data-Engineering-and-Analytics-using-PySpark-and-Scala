@@ -100,14 +100,14 @@ if __name__ == "__main__":
     df3 = (spark.read.schema(schema_ddl).format("csv")).option("header", "true").load(data_source_file)
     
     #Using a DataFrameWriter, write the content out as JSON
-    df3.write.format("json").mode("overwrite").option("compression", "none").save("./spark-warehouse/df_json_withoutsnappy")
+    df3.write.format("json").mode("overwrite").option("compression", "none").json("./spark-warehouse/df_json_withoutsnappy")
     
     #Using a DataFrameWriter, write the content out as JSON with snappy
-    (df3.write.format("json").mode("overwrite").option("compression", "snappy").save("./spark-warehouse/df_json_withsnappy"))
+    #(df3.write.format("json").mode("overwrite").option("compression", "lz4").save("./spark-warehouse/df_json_withsnappy"))
     
     
     #Using a DataFrameWriter, write the content out as PARQUET
-    (df3.write.format("parquet").mode("overwrite").option("compression", "snappy").save("./spark-warehouse/df_json_withParquet"))
+    (df3.write.format("parquet").mode("overwrite").option("compression", "snappy").parquet("./spark-warehouse/df_json_withParquet"))
     
     #----------------------------------------------------------------------------------------------
     
