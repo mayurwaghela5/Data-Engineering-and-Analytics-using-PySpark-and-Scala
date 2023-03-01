@@ -73,7 +73,7 @@ if __name__ == "__main__":
     #Part2
     
     #create a Table named us_delay_flights_tbl from the departuredelay.csv
-    schema_ddl="date INT,delay INT,distance INT,origin STRING,destination STRING"
+    schema_ddl="date STRING,delay INT,distance INT,origin STRING,destination STRING"
     flight_df = spark.read.csv(data_source_file, schema=schema_ddl)
     #spark.conf.set("spark.sql.legacy.allowCreatingManagedTableUsingNonemptyLocation","true")
     flight_df.write.option("path","./spark-warehouse").mode("overwrite").saveAsTable("us_delay_flights_tbl")
