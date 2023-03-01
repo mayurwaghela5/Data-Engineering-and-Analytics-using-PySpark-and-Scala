@@ -12,7 +12,7 @@ if __name__ == "__main__":
     spark=(SparkSession.builder.appName("assignment-03").getOrCreate())
     data_source_file=sys.argv[1]
     #date,delay,distance,origin,destination
-    schema_ddl="date INT,delay INT,distance INT,origin STRING,destination STRING"
+    schema_ddl="date STRING,delay INT,distance INT,origin STRING,destination STRING"
     
     
     
