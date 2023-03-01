@@ -79,7 +79,7 @@ if __name__ == "__main__":
     #Create a tempView of all flights with an origin of Chicago (ORD) and a month/day combo of between 03/01 and 03/15
     df_tempView = spark.sql("SELECT date, delay, origin, destination FROM us_delay_flights_tbl \
                         where origin = 'ORD' AND date > 03010000 and date < 03150000")
-    df_tempView.show(5)   
+    #df_tempView.show(5)   
     
     #tempview created or replaced
     df_tempView.createOrReplaceGlobalTempView("us_delay_flights_tbl_tempview")
@@ -102,7 +102,7 @@ if __name__ == "__main__":
     #Using a DataFrameWriter, write the content out as JSON
     df3.write.format("json").mode("overwrite").option("compression", "none").json("./spark-warehouse/df_json_withoutsnappy")
     
-    #Using a DataFrameWriter, write the content out as JSON with snappy
+    #Using a DataFrameWriter, write the content out as JSON with snappy/lz4
     (df3.write.format("json").mode("overwrite").option("compression", "lz4").save("./spark-warehouse/df_json_withsnappy"))
     
     
