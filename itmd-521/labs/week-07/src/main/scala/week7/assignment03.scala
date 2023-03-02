@@ -79,7 +79,7 @@ object assignment03 {
 
         //print spart catalog
         //print(spark.catalog.listDatabases())
-        val catalogcolumns= spark.catalog.listColumns("us_delay_flights_tbl")
+        val catalogcolumns= spark.catalog.listColumns("us_delay_flights_tbl1")
         print(catalogcolumns)
 
         //----------------------------------------------------------------------------
