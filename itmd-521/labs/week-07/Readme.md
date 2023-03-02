@@ -87,6 +87,9 @@ Place screenshot here
 -Show the first 5 records of the tempView 
 ![*recordstempview](./screenshots/part2scala.png "recordstempview")
 
+-Use the Spark Catalog to list the columns of table us_delay_flights_tbl1 in Scala
+![*Spark_CatalogScala](./screenshots/spartcatalogscala.png "Spark Catalog Scala")
+
 
 ## Assignment Details - Part III
 
