@@ -2,6 +2,7 @@ package main.scala.week7
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.types._
 import org.apache.spark.sql.functions._
+import org.apache.spark.sql.SaveMode
 
 
 object assignment03 {
@@ -58,8 +59,10 @@ object assignment03 {
         .option("header", "true")
         .schema(schema)
         .load(departuredelay_file)
+        val format_flightDF1 = df2.withColumn("dateMonth", from_unixtime(unix_timestamp(col("date"), "MMddHHmm"), "MM")).withColumn("dateDay", from_unixtime(unix_timestamp(col("date"), "MMddHHmm"), "dd"))
+        spark.conf.set("spark.sql.legacy.allowCreatingManagedTableUsingNonemptyLocation","true")
 
-        df2.write.option("path","./spark-warehouse").mode("error").saveAsTable("us_delay_flights_tbl1")
+        format_flightDF1.write.option("path","./spark-warehouse").mode(SaveMode.ErrorIfExists).saveAsTable("us_delay_flights_tbl1")
 
         val temp_view_query=spark.sql("SELECT date,dateMonth,dateDay, delay, origin, destination FROM us_delay_flights_tbl1 where ORIGIN  like 'ORD' AND dateMonth = 03 AND dateDay >=1 AND dateDay <=15")
         temp_view_query.show(false)
