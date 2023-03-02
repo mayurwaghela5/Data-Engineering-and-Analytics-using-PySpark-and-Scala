@@ -64,7 +64,7 @@ object assignment03 {
 
         format_flightDF1.show(false)
 
-        format_flightDF1.write.option("path","./spark-warehouse").mode(SaveMode.Overwrite).saveAsTable("us_delay_flights_tbl1")
+        format_flightDF1.write.option("path","../spark-warehouse").mode(SaveMode.Overwrite).saveAsTable("us_delay_flights_tbl1")
         //option("path","./spark-warehouse")
 
         val temp_view_query=spark.sql("SELECT date,dateMonth,dateDay, delay, origin, destination FROM us_delay_flights_tbl1 where ORIGIN  like 'ORD' AND dateMonth = 03 AND dateDay >=1 AND dateDay <=15")
