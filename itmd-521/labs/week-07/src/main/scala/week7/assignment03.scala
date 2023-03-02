@@ -21,7 +21,7 @@ object assignment03 {
         val df = (spark.read.schema(schema).format("csv")).option("header", "true").load(departuredelay_file)
         //df.show(false)
         //converting date into day and month
-        val format_flightDF = df.withColumn("dateMonth", from_unixtime(unix_timestamp(df.date, "MMddHHmm"), "MM")).withColumn("dateDay", from_unixtime(unix_timestamp(df.date, "MMddHHmm"), "dd"))
+        val format_flightDF = df.withColumn("dateMonth", from_unixtime(unix_timestamp(col("date"), "MMddHHmm"), "MM")).withColumn("dateDay", from_unixtime(unix_timestamp(col("date"), "MMddHHmm"), "dd"))
 
 
         //Part 1
