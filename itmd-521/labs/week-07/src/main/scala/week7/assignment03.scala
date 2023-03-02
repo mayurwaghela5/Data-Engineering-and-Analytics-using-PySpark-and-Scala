@@ -10,6 +10,7 @@ object assignment03 {
         val spark = SparkSession
           .builder
           .appName("assignment03")
+          ..config("spark.sql.catalogImplementation","hive")
           .getOrCreate()
           
         if (args.length <= 0){
@@ -64,7 +65,8 @@ object assignment03 {
 
         //format_flightDF1.show(false)
 
-        format_flightDF1.write.option("path","../spark-warehouse").mode(SaveMode.Overwrite).saveAsTable("us_delay_flights_tbl1")
+        format_flightDF1.write.mode(SaveMode.Overwrite).saveAsTable("us_delay_flights_tbl1")
+        //.option("path","../spark-warehouse")
         
 
         val temp_view_query=spark.sql("SELECT date,dateMonth,dateDay, delay, origin, destination FROM us_delay_flights_tbl1 where ORIGIN  like 'ORD' AND dateMonth = 03 AND dateDay >=1 AND dateDay <=15")
@@ -92,13 +94,13 @@ object assignment03 {
         .load(departuredelay_file)
 
         //Using a DataFrameWriter, write the content out as JSON
-        DF3.write.format("json").mode("overwrite").option("compression", "none").json("../spark-warehouse/df_json_withoutsnappyScala")
+        DF3.write.format("json").mode("overwrite").option("compression", "none").json("./df_json_withoutsnappyScala")
 
         //Using a DataFrameWriter, write the content out as JSON with snappy/lz4
-        DF3.write.format("json").mode("overwrite").option("compression", "lz4").save("../spark-warehouse/df_json_withsnappyScala")
+        DF3.write.format("json").mode("overwrite").option("compression", "lz4").save("./df_json_withsnappyScala")
 
         //Using a DataFrameWriter, write the content out as PARQUET
-        DF3.write.format("parquet").mode("overwrite").option("compression", "snappy").parquet("../spark-warehouse/df_json_withParquetScala")
+        DF3.write.format("parquet").mode("overwrite").option("compression", "snappy").parquet("./df_json_withParquetScala")
 
         //----------------------------------------------------------------------------
 
@@ -114,7 +116,7 @@ object assignment03 {
         val orddeparturedelays= df4.select(col("date"),col("delay"),col("origin"),col("destination")).filter(col("origin")==="ORD")
 
         //write the results to a DataFrameWriter named orddeparturedelays
-        orddeparturedelays.write.format("parquet").mode("overwrite").option("compression", "snappy").save("../spark-warehouse/part4_ORDdeparturedelaysScala")
+        orddeparturedelays.write.format("parquet").mode("overwrite").option("compression", "snappy").save("./part4_ORDdeparturedelaysScala")
         orddeparturedelays.show(10)
 
     }

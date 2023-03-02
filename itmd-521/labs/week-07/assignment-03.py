@@ -105,14 +105,14 @@ if __name__ == "__main__":
     df3 = (spark.read.schema(schema_ddl).format("csv")).option("header", "true").load(data_source_file)
     
     #Using a DataFrameWriter, write the content out as JSON
-    (df3.write.format("json").mode("overwrite").option("compression", "none").json("./spark-warehouse/df_json_withoutsnappy"))
+    (df3.write.format("json").mode("overwrite").option("compression", "none").json("./df_json_withoutsnappyPython"))
     
     #Using a DataFrameWriter, write the content out as JSON with snappy/lz4
-    (df3.write.format("json").mode("overwrite").option("compression", "lz4").save("./spark-warehouse/df_json_withsnappy"))
+    (df3.write.format("json").mode("overwrite").option("compression", "lz4").save("./df_json_withsnappyPython"))
     
     
     #Using a DataFrameWriter, write the content out as PARQUET
-    (df3.write.format("parquet").mode("overwrite").option("compression", "snappy").parquet("./spark-warehouse/df_json_withParquet"))
+    (df3.write.format("parquet").mode("overwrite").option("compression", "snappy").parquet("./df_json_withParquetPython"))
     
     #----------------------------------------------------------------------------------------------
     
@@ -124,7 +124,7 @@ if __name__ == "__main__":
     #query of dataframe
     orddeparturedelays=df4.select('date','delay','distance','origin','destination').filter(df4.origin=='ORD')
     #write the results to a DataFrameWriter named orddeparturedelays
-    orddeparturedelays.write.format("parquet").mode("overwrite").option("compression", "snappy").save("./spark-warehouse/part4_ORDdeparturedelays")
+    orddeparturedelays.write.format("parquet").mode("overwrite").option("compression", "snappy").save("./part4_ORDdeparturedelaysPython")
     orddeparturedelays.show(10)
     
     
