@@ -9,7 +9,7 @@ if __name__ == "__main__":
     if len(sys.argv) != 2:
         sys.exit(-1)
         
-    spark=(SparkSession.builder.appName("assignment-03").getOrCreate())
+    spark=(SparkSession.builder.appName("assignment-03").config("spark.sql.catalogImplementation","hive").getOrCreate())
     data_source_file=sys.argv[1]
     #date,delay,distance,origin,destination
     schema_ddl="date STRING,delay INT,distance INT,origin STRING,destination STRING"
@@ -76,7 +76,7 @@ if __name__ == "__main__":
     schema_ddl="date STRING,delay INT,distance INT,origin STRING,destination STRING"
     flight_df = spark.read.csv(data_source_file, schema=schema_ddl)
     
-    spark.conf.set("spark.sql.catalogImplementation","hive")
+    #spark.conf.set("spark.sql.catalogImplementation","hive")
     
     flight_df.write.mode("overwrite").saveAsTable("us_delay_flights_tbl")
     #option("path","./spark-warehouse")
