@@ -111,8 +111,13 @@ Using the `departuredelays` parquet file you created part III, read the content 
 
 Place screenshot here
 
+-In PYTHON
+
 ![*part4output](./screenshots/part4.png "Part 4 Output")
 
+-In Scala
+
+![*part4outputscala](./screenshots/part4scala.png "Part 4 OutputScala")
 ### Deliverable
 
 Create a sub-folder named: `week-07` under the `itmd-521` folder. Place all deliverables there.
