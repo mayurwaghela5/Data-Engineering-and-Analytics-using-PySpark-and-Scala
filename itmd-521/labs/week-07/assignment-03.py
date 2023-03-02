@@ -103,7 +103,7 @@ if __name__ == "__main__":
     df3 = (spark.read.schema(schema_ddl).format("csv")).option("header", "true").load(data_source_file)
     
     #Using a DataFrameWriter, write the content out as JSON
-    df3.write.format("json").mode("overwrite").option("compression", "none").json("./spark-warehouse/df_json_withoutsnappy")
+    (df3.write.format("json").mode("overwrite").option("compression", "none").json("./spark-warehouse/df_json_withoutsnappy"))
     
     #Using a DataFrameWriter, write the content out as JSON with snappy/lz4
     (df3.write.format("json").mode("overwrite").option("compression", "lz4").save("./spark-warehouse/df_json_withsnappy"))
