@@ -76,8 +76,10 @@ if __name__ == "__main__":
     schema_ddl="date STRING,delay INT,distance INT,origin STRING,destination STRING"
     flight_df = spark.read.csv(data_source_file, schema=schema_ddl)
     
-    flight_df.write.option("path","./spark-warehouse").mode("overwrite").saveAsTable("us_delay_flights_tbl")
+    spark.conf.set("spark.sql.catalogImplementation","hive")
     
+    flight_df.write.mode("overwrite").saveAsTable("us_delay_flights_tbl")
+    #option("path","./spark-warehouse")
     
     #Create a tempView of all flights with an origin of Chicago (ORD) and a month/day combo of between 03/01 and 03/15
     
