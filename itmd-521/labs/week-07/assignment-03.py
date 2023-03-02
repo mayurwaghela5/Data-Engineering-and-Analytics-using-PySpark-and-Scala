@@ -118,7 +118,7 @@ if __name__ == "__main__":
     
     #Part 4
     #departuredelays parquet file created in part 3 source file location
-    parquet_data_file="./spark-warehouse/df_json_withParquet"
+    parquet_data_file="./df_json_withParquet"
     #reading the parquet file
     df4 = spark.read.parquet(parquet_data_file)
     #query of dataframe
