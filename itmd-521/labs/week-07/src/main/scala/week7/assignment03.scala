@@ -95,7 +95,7 @@ object assignment03 {
         DF3.write.format("json").mode("overwrite").option("compression", "none").json("../spark-warehouse/df_json_withoutsnappyScala")
 
         //Using a DataFrameWriter, write the content out as JSON with snappy/lz4
-        DF3.write.format("json").mode("overwrite").option("compression", "lz4").save("../spark-warehouse/df_json_withsnappyScala")
+        DF3.write.format("json").mode("overwrite").option("compression", "snappy").save("../spark-warehouse/df_json_withsnappyScala")
 
         //Using a DataFrameWriter, write the content out as PARQUET
         DF3.write.format("parquet").mode("overwrite").option("compression", "snappy").parquet("../spark-warehouse/df_json_withParquetScala")
