@@ -29,6 +29,29 @@ object assignment03 {
 
         //Part 1
         //Spark Sql examples on Page 87, converting into dataframe API
+        //query1
+        format_flightDF.select(col("date"),col("delay"),col("origin"),col("destination"))
+        .filter(col("delay")>120)
+        .filter(col("origin")==="SFO")
+        .filter(col("destination")==="ORD")
+        .orderBy(col("delay").desc)
+        .limit(10)
+        .show(10)
+
+        //query2
+        df.select(
+        col("delay"),
+        col("origin")
+        col("destination"),
+        when(col("delay")>360,"Very Long Delays")
+            .when(col("delay").between(120,360),"Long Delays")
+            .when(col("delay").between(60,120),"Short Delays")
+            .when(col("delay").between(1,60),"Tolerable Delays")
+            .when(col("delay")===0,"No Delays")
+            .otherwise("Early")
+            .alias("Flight Delays")
+        ).orderBy(col("origin"),col("delay").desc)
+        .show(10)
 
 
     }
