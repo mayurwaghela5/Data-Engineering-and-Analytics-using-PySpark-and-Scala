@@ -60,7 +60,7 @@ object assignment03 {
         .schema(schema)
         .load(departuredelay_file)
         val format_flightDF1 = df2.withColumn("dateMonth", from_unixtime(unix_timestamp(col("date"), "MMddHHmm"), "MM")).withColumn("dateDay", from_unixtime(unix_timestamp(col("date"), "MMddHHmm"), "dd"))
-        spark.conf.set("spark.sql.legacy.allowCreatingManagedTableUsingNonemptyLocation","true")
+        spark.conf.set("spark.sql.legacy.allowNonEmptyLocationInCTAS","true")
 
         format_flightDF1.write.option("path","./spark-warehouse").mode(SaveMode.ErrorIfExists).saveAsTable("us_delay_flights_tbl1")
 
