@@ -72,8 +72,7 @@ object assignment03 {
 
         temp_view_query.createOrReplaceGlobalTempView("us_delay_flights_tbl_tempview")
 
-        val tempviewquery = spark.sql("SELECT date, dateMonth,dateDay,delay, origin, destination  \
-                          from global_temp.us_delay_flights_tbl_tempview")
+        val tempviewquery = spark.sql("SELECT date, dateMonth,dateDay,delay, origin, destination from global_temp.us_delay_flights_tbl_tempview")
 
         tempviewquery.show(5)
 
