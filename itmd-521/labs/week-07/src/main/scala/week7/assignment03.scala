@@ -38,7 +38,7 @@ object assignment03 {
         //query2
         df.select(
         col("delay"),
-        col("origin")
+        col("origin"),
         col("destination"),
         when(col("delay")>360,"Very Long Delays")
             .when(col("delay").between(120,360),"Long Delays")
