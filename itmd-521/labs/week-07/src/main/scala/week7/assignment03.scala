@@ -91,13 +91,13 @@ object assignment03 {
         .load(departuredelay_file)
 
         //Using a DataFrameWriter, write the content out as JSON
-        df3.write.format("json").mode("overwrite").option("compression", "none").json("../spark-warehouse/df_json_withoutsnappyScala")
+        DF3.write.format("json").mode("overwrite").option("compression", "none").json("../spark-warehouse/df_json_withoutsnappyScala")
 
         //Using a DataFrameWriter, write the content out as JSON with snappy/lz4
-        df3.write.format("json").mode("overwrite").option("compression", "lz4").save("../spark-warehouse/df_json_withsnappyScala")
+        DF3.write.format("json").mode("overwrite").option("compression", "lz4").save("../spark-warehouse/df_json_withsnappyScala")
 
         //Using a DataFrameWriter, write the content out as PARQUET
-        df3.write.format("parquet").mode("overwrite").option("compression", "snappy").parquet("../spark-warehouse/df_json_withParquetScala")
+        DF3.write.format("parquet").mode("overwrite").option("compression", "snappy").parquet("../spark-warehouse/df_json_withParquetScala")
 
         //----------------------------------------------------------------------------
 
