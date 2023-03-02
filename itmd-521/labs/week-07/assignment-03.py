@@ -94,7 +94,7 @@ if __name__ == "__main__":
     tempviewquery.show(5)
     
     #Using the Spark Catalog to list the columns of the tempView
-    print(spark.catalog.listColumns(dbName='default', tableName='us_delay_flights_tbl'))
+    print(spark.catalog.listColumns(dbName='default', tableName='us_delay_flights_tbl_tempview'))
     
     #----------------------------------------------------------------------------------------------
     

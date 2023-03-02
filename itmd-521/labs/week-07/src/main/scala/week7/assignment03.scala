@@ -70,11 +70,15 @@ object assignment03 {
         val temp_view_query=spark.sql("SELECT date,dateMonth,dateDay, delay, origin, destination FROM us_delay_flights_tbl1 where ORIGIN  like 'ORD' AND dateMonth = 03 AND dateDay >=1 AND dateDay <=15")
         //temp_view_query.show(false)
 
+        //creating view for the table with query results
         temp_view_query.createOrReplaceGlobalTempView("us_delay_flights_tbl_tempview")
 
         val tempviewquery = spark.sql("SELECT date, dateMonth,dateDay,delay, origin, destination from global_temp.us_delay_flights_tbl_tempview")
 
         tempviewquery.show(5)
+
+        //print spart catalog
+        print(spark.catalog.listColumns(dbName="default", tableName="us_delay_flights_tbl_tempview"))
 
         //----------------------------------------------------------------------------
 
