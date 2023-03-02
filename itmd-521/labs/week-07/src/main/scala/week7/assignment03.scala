@@ -2,10 +2,7 @@ package main.scala.week7
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.types._
 import org.apache.spark.sql.functions._
-from pyspark.sql.functions import count
-from pyspark.sql.functions import col
-from pyspark.sql.functions import when, col
-from pyspark.sql.sql.functions import from_unixtime, unix_timestamp
+
 
 object assignment03 {
     def main(args: Array[String]) {
