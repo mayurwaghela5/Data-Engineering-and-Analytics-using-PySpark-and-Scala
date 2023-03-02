@@ -62,6 +62,8 @@ object assignment03 {
         val format_flightDF1 = df2.withColumn("dateMonth", from_unixtime(unix_timestamp(col("date"), "MMddHHmm"), "MM")).withColumn("dateDay", from_unixtime(unix_timestamp(col("date"), "MMddHHmm"), "dd"))
         spark.conf.set("spark.sql.legacy.allowNonEmptyLocationInCTAS","true")
 
+        format_flightDF1.show(false)
+
         format_flightDF1.write.option("path","./spark-warehouse").mode(SaveMode.ErrorIfExists).saveAsTable("us_delay_flights_tbl1")
 
         val temp_view_query=spark.sql("SELECT date,dateMonth,dateDay, delay, origin, destination FROM us_delay_flights_tbl1 where ORIGIN  like 'ORD' AND dateMonth = 03 AND dateDay >=1 AND dateDay <=15")
