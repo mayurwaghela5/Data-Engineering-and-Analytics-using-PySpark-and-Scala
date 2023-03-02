@@ -102,7 +102,19 @@ object assignment03 {
         //----------------------------------------------------------------------------
 
         //part 4
+        
+        //departuredelays parquet file created in part 3 source file location
+        parquet_data_file="../spark-warehouse/df_json_withParquetScala"
 
+        #reading the parquet file
+        val df4 = spark.read.parquet(parquet_data_file)
+
+        //query of dataframe
+        val orddeparturedelays= df4.select(col("date"),col("delay"),col("origin"),col("destination")).filter(col("origin")==="ORD")
+
+        //write the results to a DataFrameWriter named orddeparturedelays
+        orddeparturedelays.write.format("parquet").mode("overwrite").option("compression", "snappy").save("../spark-warehouse/part4_ORDdeparturedelaysScala")
+        orddeparturedelays.show(10)
 
     }
 }
