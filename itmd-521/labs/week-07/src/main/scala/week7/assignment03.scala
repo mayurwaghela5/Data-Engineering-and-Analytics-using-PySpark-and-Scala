@@ -78,7 +78,7 @@ object assignment03 {
         tempviewquery.show(5)
 
         //print spart catalog
-        print(spark.catalog.listColumns(dbName="default", tableName="us_delay_flights_tbl"))
+        print(spark.catalog.listColumns(tableName="us_delay_flights_tbl"))
 
         //----------------------------------------------------------------------------
 
