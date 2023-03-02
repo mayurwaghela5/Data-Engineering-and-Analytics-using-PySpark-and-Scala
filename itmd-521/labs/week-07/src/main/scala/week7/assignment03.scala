@@ -59,7 +59,7 @@ object assignment03 {
         .schema(schema)
         .load(departuredelay_file)
 
-        df2.write.option("path","./spark-warehouse").mode(SaveMode.Overwrite).saveAsTable("us_delay_flights_tbl1")
+        df2.write.option("path","./spark-warehouse").mode("error").saveAsTable("us_delay_flights_tbl1")
 
         val temp_view_query=spark.sql("SELECT date,dateMonth,dateDay, delay, origin, destination FROM us_delay_flights_tbl where ORIGIN  like 'ORD' AND dateMonth = 03 AND dateDay >=1 AND dateDay <=15")
         temp_view_query.show(false)
