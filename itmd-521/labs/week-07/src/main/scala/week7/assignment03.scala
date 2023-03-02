@@ -78,13 +78,13 @@ object assignment03 {
         tempviewquery.show(5)
 
         //print spart catalog
-        print(spark.catalog.listDatabases())
-        print(spark.catalog.listColumns(tableName="us_delay_flights_tbl"))
+        //print(spark.catalog.listDatabases())
+        //print(spark.catalog.listColumns(tableName="us_delay_flights_tbl"))
 
         //----------------------------------------------------------------------------
 
         //part3
-
+        
 
     }
 }

@@ -41,19 +41,26 @@ Using the departuredelays.csv file, in a single file called assignment-03.py con
 
 -Spark SQL Queries Output
 
-![*sparkSQL1.1](./screenshots/1.1.png "Query1 output")
+-In PYTHON
+
 
 ![*sparkSQL1.2](./screenshots/1.2.png "Query2 output")
 
 ![*sparkSQL1.3](./screenshots/1.3.png "Query3 Output")
 
--Spark Dataframe APIs Outputs
+- Spark Dataframe APIs Outputs
 
-![*sparkDF1.1](./screenshots/2.1.png "Query1 Output")
 
 ![*sparkDF1.2](./screenshots/2.2.png "Query2 Output")
 
 ![*sparkDF1.3](./screenshots/2.3.png "Query3 Output")
+
+
+-In Scala
+![*query1](./screenshots/part1scala.png "query1 output")
+
+![*query2](./screenshots/part1.1scala.png "Query2 Output")
+
 
 
 ## Assignment Details - Part II
@@ -67,12 +74,18 @@ Using the departuredelays.csv file, in a single file called assignment-03.py con
 
 Place screenshot here
 
+-In PYTHON
+
 -Show the first 5 records of the tempView
 ![*Recordsfromtemp_view](./screenshots/part2query.png "Records from temp_view")
 
 -Use the Spark Catalog to list the columns of table us_delay_flights_tbl
 ![*Spark_Catalog](./screenshots/spark-catalog.png "Spark Catalog")
 
+-In SCALA
+
+-Show the first 5 records of the tempView 
+![*recordstempview](./screenshots/part2scala.png "recordstempview")
 
 
 ## Assignment Details - Part III
