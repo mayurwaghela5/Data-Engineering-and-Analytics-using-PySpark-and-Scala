@@ -3,11 +3,11 @@ import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.types._
 import org.apache.spark.sql.functions._
 
-object assignment02 {
+object assignment03 {
     def main(args: Array[String]) {
         val spark = SparkSession
           .builder
-          .appName("assignment02")
+          .appName("assignment03")
           .getOrCreate()
           
         if (args.length <= 0){
