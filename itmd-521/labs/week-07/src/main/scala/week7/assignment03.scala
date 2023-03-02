@@ -10,7 +10,7 @@ object assignment03 {
         val spark = SparkSession
           .builder
           .appName("assignment03")
-          ..config("spark.sql.catalogImplementation","hive")
+          .config("spark.sql.catalogImplementation","hive")
           .getOrCreate()
           
         if (args.length <= 0){
@@ -107,7 +107,7 @@ object assignment03 {
         //part 4
         
         //departuredelays parquet file created in part 3 source file location
-        val parquet_data_file="../spark-warehouse/df_json_withParquetScala"
+        val parquet_data_file="./df_json_withParquetScala"
 
         //reading the parquet file
         val df4 = spark.read.parquet(parquet_data_file)
