@@ -9,7 +9,7 @@ import sys
 
 # Required configuration to load S3/Minio access credentials securely - no hardcoding keys into code
 conf = SparkConf()
-conf.set('spark.jars.packages', 'org.apache.hadoop:hadoop-aws:3.2.0')
+conf.set('spark.jars.packages', 'org.apache.hadoop:hadoop-aws:3.2.3')
 conf.set('spark.hadoop.fs.s3a.aws.credentials.provider', 'org.apache.hadoop.fs.s3a.AnonymousAWSCredentialsProvider')
 
 conf.set('spark.hadoop.fs.s3a.access.key', os.getenv('SECRETKEY'))
@@ -20,10 +20,10 @@ conf.set("fs.s3a.impl", "org.apache.hadoop.fs.s3a.S3AFileSystem")
 conf.set("fs.s3a.connection.ssl.enabled", "false")
 
 # Create SparkSession Object - tell the cluster the FQDN of the host system)
-spark = SparkSession.builder.appName("Mayur read minio test").config('spark.driver.host','spark-edge-vm0.service.consul').config(conf=conf).getOrCreate()
+spark = SparkSession.builder.appName("Mayur read minio 10").config('spark.driver.host','spark-edge-vm0.service.consul').config(conf=conf).getOrCreate()
 
 # Read the datatype into a DataFrame
-df = spark.read.csv('s3a://itmd521/20.txt')
+df = spark.read.csv('s3a://itmd521/10.txt')
 
 # Custom code needed to split the original source -- it has a column based delimeter
 # Each record is a giant string - with predefined widths being the columns
@@ -58,9 +58,9 @@ splitDF.show(5)
 # This is the documentation for all DataFrameWriter types
 # https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.DataFrameWriter.html
 #https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.DataFrameWriter.parquet.html#pyspark.sql.DataFrameWriter.parquet
-splitDF.write.parquet("s3a://mwaghela/20-parquet")
-splitDF.write.csv("s3a://mwaghela/20-csv")
+splitDF.write.mode("overwrite").parquet("s3a://mwaghela/10-parquet")
+splitDF.write.mode("overwrite").csv("s3a://mwaghela/10-csv")
 
 # Writing out to MySQL your DataFrame results
 # https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.sql.DataFrameWriter.save.html
-#(splitDF.write.format("jdbc").option("url","jdbc:mysql://system31.service.consul:3306/ncdc").option("driver","com.mysql.cj.jdbc.Driver").option("dbtable","thirty").option("user",os.getenv('MYSQLUSER')).option("truncate",True).mode("overwrite").option("password", os.getenv('MYSQLPASS')).save())
+#(splitDF.write.format("jdbc").option("url","jdbc:mysql://system31.service.consul:3306/ncdc").option("driver","com.mysql.cj.jdbc.Driver").option("dbtable","thirty").option("user",os.getenv('MYSQLUSER')).option("truncate",True).mode("overwrite").option("password", os.getenv('MYSQLPASS')).save()) 
