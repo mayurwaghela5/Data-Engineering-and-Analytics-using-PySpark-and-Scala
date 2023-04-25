@@ -20,10 +20,10 @@ conf.set("fs.s3a.impl", "org.apache.hadoop.fs.s3a.S3AFileSystem")
 conf.set("fs.s3a.connection.ssl.enabled", "false")
 
 # Create SparkSession Object - tell the cluster the FQDN of the host system)
-spark = SparkSession.builder.appName("MW part-one/SectionSection minio-read-80.txt").config('spark.driver.host','spark-edge-vm0.service.consul').config(conf=conf).getOrCreate()
+spark = SparkSession.builder.appName("MW part-two/minio-read-20-csv").config('spark.driver.host','spark-edge-vm0.service.consul').config(conf=conf).getOrCreate()
 
 # Read the datatype into a DataFrame
-df = spark.read.csv('s3a://itmd521/80.txt')
+df = spark.read.csv('s3a://itmd521/20-csv')
 
 splitDF = df.withColumn('WeatherStation', df['_c0'].substr(5, 6)) \
 .withColumn('WBAN', df['_c0'].substr(11, 5)) \
