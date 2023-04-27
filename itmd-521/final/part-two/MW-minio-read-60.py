@@ -23,7 +23,7 @@ conf.set("fs.s3a.connection.ssl.enabled", "false")
 spark = SparkSession.builder.appName("MW part-two/minio-read-60").config('spark.driver.host','spark-edge-vm0.service.consul').config(conf=conf).getOrCreate()
 
 # Read the csv datatype into a DataFrame
-csvdf = spark.read.csv('s3a://mwaghela/60-csv').cache()
+csvdf = spark.read.csv('s3a://mwaghela/60-csv')
 
 splitDF = csvdf.withColumn('WeatherStation', csvdf['_c0'].substr(5, 6)) \
 .withColumn('WBAN', csvdf['_c0'].substr(11, 5)) \
