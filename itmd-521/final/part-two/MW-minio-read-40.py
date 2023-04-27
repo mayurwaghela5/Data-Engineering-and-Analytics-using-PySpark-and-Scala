@@ -23,7 +23,7 @@ conf.set("fs.s3a.connection.ssl.enabled", "false")
 spark = SparkSession.builder.appName("MW part-two/minio-read-40").config('spark.driver.host','spark-edge-vm0.service.consul').config(conf=conf).getOrCreate()
 
 # Read the csv datatype into a DataFrame
-csvdf = spark.read.csv('s3a://mwaghela/40-csv').cache()
+csvdf = spark.read.csv('s3a://mwaghela/40-csv')
 
 splitDF = csvdf.withColumn('WeatherStation', csvdf['_c0'].substr(5, 6)) \
 .withColumn('WBAN', csvdf['_c0'].substr(11, 5)) \
@@ -47,33 +47,3 @@ splitDF = csvdf.withColumn('WeatherStation', csvdf['_c0'].substr(5, 6)) \
 
 splitDF.printSchema()
 splitDF.show(10)
-
-parquetdf= spark.read.parquet('s3a://mwaghela/40-parquet')
-
-splitDF2 = parquetdf.withColumn('WeatherStation', parquetdf['_c0'].substr(5, 6)) \
-.withColumn('WBAN', parquetdf['_c0'].substr(11, 5)) \
-.withColumn('ObservationDate',to_date(parquetdf['_c0'].substr(16,8), 'yyyyMMdd')) \
-.withColumn('ObservationHour', parquetdf['_c0'].substr(24, 4).cast(IntegerType())) \
-.withColumn('Latitude', parquetdf['_c0'].substr(29, 6).cast('float') / 1000) \
-.withColumn('Longitude', parquetdf['_c0'].substr(35, 7).cast('float') / 1000) \
-.withColumn('Elevation', parquetdf['_c0'].substr(47, 5).cast(IntegerType())) \
-.withColumn('WindDirection', parquetdf['_c0'].substr(61, 3).cast(IntegerType())) \
-.withColumn('WDQualityCode', parquetdf['_c0'].substr(64, 1).cast(IntegerType())) \
-.withColumn('SkyCeilingHeight', parquetdf['_c0'].substr(71, 5).cast(IntegerType())) \
-.withColumn('SCQualityCode', parquetdf['_c0'].substr(76, 1).cast(IntegerType())) \
-.withColumn('VisibilityDistance', parquetdf['_c0'].substr(79, 6).cast(IntegerType())) \
-.withColumn('VDQualityCode', parquetdf['_c0'].substr(86, 1).cast(IntegerType())) \
-.withColumn('AirTemperature', parquetdf['_c0'].substr(88, 5).cast('float') /10) \
-.withColumn('ATQualityCode', parquetdf['_c0'].substr(93, 1).cast(IntegerType())) \
-.withColumn('DewPoint', parquetdf['_c0'].substr(94, 5).cast('float')) \
-.withColumn('DPQualityCode', parquetdf['_c0'].substr(99, 1).cast(IntegerType())) \
-.withColumn('AtmosphericPressure', parquetdf['_c0'].substr(100, 5).cast('float')/ 10) \
-.withColumn('APQualityCode', parquetdf['_c0'].substr(105, 1).cast(IntegerType())).drop('_c0')
-
-
-# The coalese() function
-# https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.DataFrame.coalesce.html
-# This will collapse your DataFrame into a single partition
-#writeDF = splitDF.coalesce(1)
-splitDF2.printSchema()
-splitDF2.show(10)
