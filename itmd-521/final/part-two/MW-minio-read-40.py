@@ -23,7 +23,7 @@ conf.set("fs.s3a.connection.ssl.enabled", "false")
 spark = SparkSession.builder.appName("MW part-two/minio-read-40").config('spark.driver.host','spark-edge-vm0.service.consul').config(conf=conf).getOrCreate()
 
 # Read the csv datatype into a DataFrame
-csvdf = spark.read.csv('s3a://mwaghela/10-csv')
+csvdf = spark.read.csv('s3a://mwaghela/40-csv').cache()
 
 splitDF = csvdf.withColumn('WeatherStation', csvdf['_c0'].substr(5, 6)) \
 .withColumn('WBAN', csvdf['_c0'].substr(11, 5)) \
@@ -45,5 +45,21 @@ splitDF = csvdf.withColumn('WeatherStation', csvdf['_c0'].substr(5, 6)) \
 .withColumn('AtmosphericPressure', csvdf['_c0'].substr(100, 5).cast('float')/ 10) \
 .withColumn('APQualityCode', csvdf['_c0'].substr(105, 1).cast(IntegerType())).drop('_c0')
 
+
+#csv printschema
 splitDF.printSchema()
 splitDF.show(10)
+
+
+JsonSchema = splitDF.coalesce(1).write.format("json").mode("overwrite").save("s3a://mwaghela/40-csvTOjson")
+jsondf = spark.read.json("s3a://mwaghela/40-csvTOjson")
+#json printschema
+jsondf.printSchema()
+jsondf.show(10)
+
+ParquetSchema = splitDF.coalesce(1).write.format("parquet").mode("overwrite").save("s3a://mwaghela/40-csvTOparquet")
+parquetdf = spark.read.parquet("s3a://mwaghela/40-csvTOparquet")
+#parquet printschema
+parquetdf.printSchema()
+parquetdf.show(10)
+
