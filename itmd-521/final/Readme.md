@@ -65,7 +65,7 @@ This part you will read the datasets you created back into your PySpark applicat
 * Read your partitioned csv into a DataFrame named: `csvdf`
   * Create a schema based on the sample given in blackboard
 * Show the first 10 records and print the schema
-* Read your partitioned csv into a DataFrame named: `jsondf`
+* Read your partitioned csv into a DataFrame named: `jsondf`  
   * Create a schema based on the sample given in Blackboard
 * Show the first 10 records and print the schema
 * Read your partitioned csv into a DataFrame named: `parquetdf`
