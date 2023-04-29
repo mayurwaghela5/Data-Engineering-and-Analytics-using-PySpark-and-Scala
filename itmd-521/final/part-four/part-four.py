@@ -60,7 +60,7 @@ Number_of_records = spark.sql(""" SELECT year(ObservationDate) As Year, count(*)
                                  """
                                 )
 Number_of_records.show(20)
-        
+     
 # Average air temperature
 average_air_temp = spark.sql("""  SELECT year(ObservationDate) As Year, AVG(AirTemperature) AS AvgAirTemp
                                 FROM parquetdf_view
@@ -71,21 +71,13 @@ average_air_temp = spark.sql("""  SELECT year(ObservationDate) As Year, AVG(AirT
                                 """
                                 )
 average_air_temp.show(20)
-
-#schema2 = StructType([
-#StructField('Year', IntegerType(), True),
-#StructField('AvgAirTemp', FloatType(), True),])
-
-#average_air_temp.write.format('parquet').mode('overwrite').schema(schema2).save('s3a://mwaghela/MW-part-four-answers-parquet')
-#average_air_temp.show(20)
-
                                    
 # Median air temperature
 median_air_temp = parquetdf.approxQuantile('AirTemperature', [0.5], 0.25)
 print(f"Median Air_Temperature:{median_air_temp}")
 
 #Standard_Deviation of Air temperature
-STD_DEV_AIR_TEMP = spark.sql(""" SELECT year(ObservationDate) As Year, std(AirTemperature) as Standard_deviation
+Std_Dev_Air_Temp = spark.sql(""" SELECT year(ObservationDate) As Year, std(AirTemperature) as Standard_deviation
                                     FROM parquetdf_view
                                     WHERE Month(ObservationDate) = '2'
                                     AND AirTemperature < 999 AND AirTemperature > -999
@@ -93,7 +85,7 @@ STD_DEV_AIR_TEMP = spark.sql(""" SELECT year(ObservationDate) As Year, std(AirTe
                                     order by Year desc;
                                  """
                                 )
-STD_DEV_AIR_TEMP.show(20)
+Std_Dev_Air_Temp.show(20)
 
 #Find AVG air temperature per StationID in the month of February
 
@@ -101,3 +93,6 @@ february_data = parquetdf.filter(month("ObservationDate") == 2)
 avg_temps = february_data.groupBy("StationID").agg(avg("AirTemperature"))
 
 avg_temps.show(20)
+
+#adding all results in a dataframe and writing it to parquet
+df_union = Number_of_records.unionByName(average_air_temp).unionByName(median_air_temp).unionByName(Std_Dev_Air_Temp).unionByName(avg_temps)
