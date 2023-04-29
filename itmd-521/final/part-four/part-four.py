@@ -5,6 +5,8 @@ from pyspark.sql.functions import to_date
 from pyspark.sql.functions import col
 from pyspark.sql.functions import desc
 from pyspark.sql.functions import year
+from pyspark.sql.types import *
+from pyspark.sql.functions import *
 
 # Removing hard coded password - using os module to import them
 import os
