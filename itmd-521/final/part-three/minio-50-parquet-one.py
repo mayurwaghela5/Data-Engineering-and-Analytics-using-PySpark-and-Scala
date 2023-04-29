@@ -22,10 +22,10 @@ conf.set("fs.s3a.path.style.access", "true")
 conf.set("fs.s3a.impl", "org.apache.hadoop.fs.s3a.S3AFileSystem")
 conf.set("fs.s3a.connection.ssl.enabled", "false")
 
-# Create SparkSession Object - tell the cluster the FQDN of the host system)
+
 spark = SparkSession.builder.appName("MW part three-one").config('spark.driver.host','spark-edge-vm0.service.consul').config(conf=conf).getOrCreate()
 
-# Read the csv datatype into a DataFrame
+# Read the parquet datatype into a DataFrame
 parquet_df = spark.read.parquet('s3a://mwaghela/50-parquet')
 
 splitDF = parquet_df.withColumn('WeatherStation', parquet_df['_c0'].substr(5, 6)) \
