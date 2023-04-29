@@ -96,3 +96,4 @@ avg_temps.show(20)
 
 #adding all results in a dataframe and writing it to parquet
 df_union = Number_of_records.unionByName(average_air_temp).unionByName(median_air_temp).unionByName(Std_Dev_Air_Temp).unionByName(avg_temps)
+df_union.write.mode("append").parquet("s3a://mwaghela/30-part-two-parquet")
