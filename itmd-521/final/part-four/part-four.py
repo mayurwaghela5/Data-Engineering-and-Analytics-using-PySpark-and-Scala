@@ -1,10 +1,10 @@
 from pyspark import SparkConf
 from pyspark.sql import SparkSession
-from pyspark.sql.types import IntegerType
+from pyspark.sql.types import IntegerType,StringType,DateType, FloatType, StructType, StructField
 from pyspark.sql.functions import to_date
 from pyspark.sql.functions import col
 from pyspark.sql.functions import desc
-from pyspark.sql.functions import year
+from pyspark.sql.functions import year,month,avg
 from pyspark.sql.types import *
 from pyspark.sql.functions import *
 
@@ -58,10 +58,8 @@ Number_of_records = spark.sql(""" SELECT year(ObservationDate) As Year, count(*)
                                     group by Year
                                     order by Year desc;
                                  """
-                                ).show(100)
-
-
-
+                                )
+Number_of_records.show(20)
         
 # Average air temperature
 average_air_temp = spark.sql("""  SELECT year(ObservationDate) As Year, AVG(AirTemperature) AS AvgAirTemp
@@ -71,65 +69,35 @@ average_air_temp = spark.sql("""  SELECT year(ObservationDate) As Year, AVG(AirT
                                 group by Year
                                 order by Year desc;
                                 """
-                                ).show(100)
+                                )
+average_air_temp.show(20)
 
-schema2 = StructType([
-    StructField('WeatherStation', StringType(), True),
-    StructField('AvgAirTemperature', FloatType(), True),
-])
-average_air_temp.write.format('parquet').mode('overwrite').schema(schema2).save('s3a://mwaghela/MW-part-four-answers-parquet')
+#schema2 = StructType([
+#StructField('Year', IntegerType(), True),
+#StructField('AvgAirTemp', FloatType(), True),])
 
-
+#average_air_temp.write.format('parquet').mode('overwrite').schema(schema2).save('s3a://mwaghela/MW-part-four-answers-parquet')
+#average_air_temp.show(20)
 
                                    
 # Median air temperature
 median_air_temp = parquetdf.approxQuantile('AirTemperature', [0.5], 0.25)
-print(f"Median air temmp:{median_air_temp}")
+print(f"Median Air_Temperature:{median_air_temp}")
 
-#Standard Deviation of air temperature
-std_air_temp = spark.sql(""" SELECT year(ObservationDate) As Year, std(AirTemperature) as Standard_deviation
+#Standard_Deviation of Air temperature
+STD_DEV_AIR_TEMP = spark.sql(""" SELECT year(ObservationDate) As Year, std(AirTemperature) as Standard_deviation
                                     FROM parquetdf_view
                                     WHERE Month(ObservationDate) = '2'
                                     AND AirTemperature < 999 AND AirTemperature > -999
                                     group by Year
                                     order by Year desc;
                                  """
-                                ).show(100)
+                                )
+STD_DEV_AIR_TEMP.show(20)
 
-# The weather station ID that has the lowest recorded temperature per year
-lowest_temp = spark.sql(""" 
-                            SELECT WeatherStation, Year, min_temp
-                            FROM(
-                            SELECT
-                            DISTINCT (WeatherStation),
-                            YEAR(ObservationDate) AS Year, 
-                            MIN(AirTemperature) OVER (partition by YEAR(ObservationDate)) AS min_temp,
-                            ROW_NUMBER() OVER (partition by YEAR(ObservationDate) ORDER BY AirTemperature DESC) AS row_number
-                            FROM parquetdf_view
-                            WHERE AirTemperature < 999 AND AirTemperature > -999
-                            group by AirTemperature, WeatherStation, Year
-                            order by min_temp, row_number asc)
-                            WHERE row_number = 1
-                            ORDER BY Year
-                            ;
-                            """
-                            ).show(20)
+#Find AVG air temperature per StationID in the month of February
 
-# The weather station ID that has the highest recorded temperature per year
+february_data = parquetdf.filter(month("ObservationDate") == 2)
+avg_temps = february_data.groupBy("StationID").agg(avg("AirTemperature"))
 
-highest_temp = spark.sql("""
-                            SELECT WeatherStation, Year, max_temp
-                            FROM(
-                            SELECT
-                            DISTINCT (WeatherStation),
-                            YEAR(ObservationDate) AS Year, 
-                            MAX(AirTemperature) OVER (partition by YEAR(ObservationDate)) AS max_temp,
-                            ROW_NUMBER() OVER (partition by YEAR(ObservationDate) ORDER BY AirTemperature ASC) AS row_number
-                            FROM parquetdf_view
-                            WHERE AirTemperature < 999 AND AirTemperature > -999
-                            group by AirTemperature, WeatherStation, Year
-                            order by max_temp, row_number asc)
-                            WHERE row_number = 1
-                            ORDER BY Year
-                            """
-                            ).show(20)
+avg_temps.show(20)
