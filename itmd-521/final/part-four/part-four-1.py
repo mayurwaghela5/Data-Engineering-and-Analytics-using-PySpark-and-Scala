@@ -94,7 +94,7 @@ standardAirTemp.show(20)
 #Find AVG air temperature per StationID in the month of February
 
 february_data = parquetdf.filter(month("ObservationDate") == 2)
-avg_temps = february_data.groupBy("StationID").agg(avg("AirTemperature"))
+avg_temps = february_data.groupBy("WeatherStation").agg(avg("AirTemperature"))
 
 avg_temps.show(20)
 
@@ -123,7 +123,7 @@ StructField('Standard_deviation', DoubleType(), True),
 standardAirTemp.write.format('parquet').mode('append').schema(schema3).save("s3a://mwaghela/MW-part-four-answers-parquet")
 
 schema4=StructType([
-StructField('StationID', StringType(), True),
+StructField('WeatherStation', StringType(), True),
 StructField('AirTemperature', DoubleType(), True),
 ])
 

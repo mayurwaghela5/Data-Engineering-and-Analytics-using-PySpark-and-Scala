@@ -90,7 +90,7 @@ Std_Dev_Air_Temp.show(20)
 #Find AVG air temperature per StationID in the month of February
 
 february_data = parquetdf.filter(month("ObservationDate") == 2)
-avg_temps = february_data.groupBy("StationID").agg(avg("AirTemperature"))
+avg_temps = february_data.groupBy("WeatherStation").agg(avg("AirTemperature"))
 
 avg_temps.show(20)
 
