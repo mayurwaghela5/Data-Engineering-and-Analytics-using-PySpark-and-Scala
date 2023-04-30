@@ -108,7 +108,7 @@ StructField('Count(1)', IntegerType(), True),
 ])
 
 
-countOfRecords.write.format('parquet').mode('overwrite').save("s3a://mwaghela/MW-part-four-answers-parquet",schema=schema1)
+countOfRecords.write.format('parquet').mode('append').save("s3a://mwaghela/MW-part-four-answers-parquet",schema=schema1)
 
 
 schema2=StructType([
