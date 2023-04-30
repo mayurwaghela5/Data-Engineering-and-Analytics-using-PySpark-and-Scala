@@ -5,7 +5,7 @@ from pyspark.sql.functions import to_date
 from pyspark.sql.types import *
 from pyspark.sql.functions import *
  
-# Removing hard coded password - using os module to import them
+
 import os
 import sys
  
@@ -24,8 +24,8 @@ conf.set("fs.s3a.connection.ssl.enabled", "false")
 spark_session = SparkSession.builder.appName("MW-mariadb").config('spark.driver.host','spark-edge-vm0.service.consul').config(conf=conf).getOrCreate()
 
 connection_properties = {
-    "user": os.getenv('MYSQLUSER'),
-    "password": os.getenv('MYSQLPASS'),
+    "user": os.getenv('MYSQL_USER'),
+    "password": os.getenv('MYSQL_PASS'),
     "driver": "com.mysql.cj.jdbc.Driver",
     "batchsize":5000
 }
