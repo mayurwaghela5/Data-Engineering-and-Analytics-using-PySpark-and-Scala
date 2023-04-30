@@ -28,7 +28,7 @@ connection_properties = {
     "driver": "com.mysql.cj.jdbc.Driver"
 }
 
-df = spark_session.read.jdbc(url="jdbc:mysql://database-240-vm0.service.consul:3306/ncdc",table="thirties",properties=connection_properties) 
+df = spark_session.read.jdbc(url="jdbc:mysql://192.168.172.31:3306/ncdc",table="thirties",properties=connection_properties) 
       
 df.show(10)
 df.printSchema()
