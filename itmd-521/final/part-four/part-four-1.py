@@ -95,7 +95,7 @@ standardAirTemp.show(20)
 #removing legal but not real values from Air temperature
 
 february_data = parquetdf.filter(month("ObservationDate") == 2)
-filtered_df = february_data.filter(february_data.AirTemperature < 150)
+filtered_df = february_data.filter(february_data.AirTemperature < 150.0)
 avg_temps = filtered_df.groupBy("WeatherStation").agg(avg("AirTemperature"))
 
 avg_temps.show(20)
