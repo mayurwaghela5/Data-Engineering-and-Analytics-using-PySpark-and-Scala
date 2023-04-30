@@ -12,6 +12,7 @@ import sys
 # Required configuration to load S3/Minio access credentials securely - no hardcoding keys into code
 conf = SparkConf()
 conf.set('spark.jars.packages', 'org.apache.hadoop:hadoop-aws:3.2.0')
+conf.set('spark.jars.packages','com.mysql:mysql-connector-j:8.0.32')
 conf.set('spark.hadoop.fs.s3a.aws.credentials.provider', 'org.apache.hadoop.fs.s3a.AnonymousAWSCredentialsProvider')
 conf.set('spark.hadoop.fs.s3a.access.key', os.getenv('SECRETKEY'))
 conf.set('spark.hadoop.fs.s3a.secret.key', os.getenv('ACCESSKEY'))
@@ -25,10 +26,10 @@ spark_session = SparkSession.builder.appName("MW-mariadb").config('spark.driver.
 connection_properties = {
     "user": os.getenv('MYSQLUSER'),
     "password": os.getenv('MYSQLPASS'),
-    "driver": "com.mysql:mysql-connector-j:8.0.3"
+    "driver": "com.mysql.cj.jdbc.Driver"
 }
 
-df = spark_session.read.jdbc(url="jdbc:mysql://database-240-vm0.service.consul:3306/ncdc",table="thirties",properties=connection_properties) 
+df = spark_session.read.jdbc(url="jdbc:mysql://database-240-vm0.service.consul:3306/ncdc",table="thirties",properties=connection_properties).load()
       
 df.show(10)
 df.printSchema()
