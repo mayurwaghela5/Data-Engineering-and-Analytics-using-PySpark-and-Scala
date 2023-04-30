@@ -27,7 +27,7 @@ df = spark_session.read.format("jdbc") \
     .option("driver","com.mysql.cj.jdbc.Driver")\
     .option("dbtable","thirties")\
     .option("user",os.getenv('MYSQLUSER'))\
-    .option("password", os.getenv('MYSQLPASS')).load()
+    .option("password", os.getenv('MYSQLPASS'))
 
    
 df.show(10)
