@@ -25,10 +25,10 @@ spark_session = SparkSession.builder.appName("MW-mariadb").config('spark.driver.
 connection_properties = {
     "user": os.getenv('MYSQLUSER'),
     "password": os.getenv('MYSQLPASS'),
-    "driver": "com.mysql.cj.jdbc.Driver"
+    "driver": "com.mysql:mysql-connector-j:8.0.3"
 }
 
-df = spark_session.read.jdbc(url="jdbc:mysql://192.168.172.31:3306/ncdc",table="thirties",properties=connection_properties) 
+df = spark_session.read.jdbc(url="jdbc:mysql://database-240-vm0.service.consul:3306/ncdc",table="thirties",properties=connection_properties) 
       
 df.show(10)
 df.printSchema()
