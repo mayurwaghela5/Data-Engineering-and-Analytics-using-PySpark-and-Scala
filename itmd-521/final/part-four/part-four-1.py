@@ -92,9 +92,11 @@ standardAirTemp = spark.sql(""" SELECT year(ObservationDate) As Year, std(AirTem
 standardAirTemp.show(20)
 
 #Find AVG air temperature per StationID in the month of February
+#removing legal but not real values from Air temperature
 
 february_data = parquetdf.filter(month("ObservationDate") == 2)
-avg_temps = february_data.groupBy("WeatherStation").agg(avg("AirTemperature"))
+filtered_df = february_data.filter(february_data.AirTemperature < 150)
+avg_temps = filtered_df.groupBy("WeatherStation").agg(avg("AirTemperature"))
 
 avg_temps.show(20)
 
@@ -105,7 +107,8 @@ StructField('Year', DateType(), True),
 StructField('Count(1)', IntegerType(), True),
 ])
 
-countOfRecords.write.format('parquet').mode('overwrite').schema(schema1).save("s3a://mwaghela/MW-part-four-answers-parquet")
+
+countOfRecords.write.format('parquet').mode('overwrite').save("s3a://mwaghela/MW-part-four-answers-parquet",schema=schema1)
 
 
 schema2=StructType([
@@ -113,18 +116,18 @@ StructField('Year', DateType(), True),
 StructField('AvgAirTemperature', DoubleType(), True),
 ])
 
-averageAirTemp.write.format('parquet').mode('append').schema(schema2).save("s3a://mwaghela/MW-part-four-answers-parquet")
+averageAirTemp.write.format('parquet').mode('append').save("s3a://mwaghela/MW-part-four-answers-parquet",schema=schema2)
 
 schema3=StructType([
 StructField('Year', DateType(), True),
 StructField('Standard_deviation', DoubleType(), True),
 ])
 
-standardAirTemp.write.format('parquet').mode('append').schema(schema3).save("s3a://mwaghela/MW-part-four-answers-parquet")
+standardAirTemp.write.format('parquet').mode('append').save("s3a://mwaghela/MW-part-four-answers-parquet",schema=schema3)
 
 schema4=StructType([
 StructField('WeatherStation', StringType(), True),
 StructField('AirTemperature', DoubleType(), True),
 ])
 
-avg_temps.write.format('parquet').mode('append').schema(schema4).save("s3a://mwaghela/MW-part-four-answers-parquet")
+avg_temps.write.format('parquet').mode('append').save("s3a://mwaghela/MW-part-four-answers-parquet",schema=schema4)
