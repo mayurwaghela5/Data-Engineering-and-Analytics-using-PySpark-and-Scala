@@ -26,7 +26,8 @@ spark_session = SparkSession.builder.appName("MW-mariadb").config('spark.driver.
 connection_properties = {
     "user": os.getenv('MYSQLUSER'),
     "password": os.getenv('MYSQLPASS'),
-    "driver": "com.mysql.cj.jdbc.Driver"
+    "driver": "com.mysql.cj.jdbc.Driver",
+    "batchsize":5000
 }
 
 df = spark_session.read.jdbc(url="jdbc:mysql://database-240-vm0.service.consul:3306/ncdc",table="thirties",properties=connection_properties).load()
