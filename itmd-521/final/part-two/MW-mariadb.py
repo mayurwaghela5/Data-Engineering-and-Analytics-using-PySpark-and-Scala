@@ -23,14 +23,8 @@ conf.set("fs.s3a.connection.ssl.enabled", "false")
 
 spark_session = SparkSession.builder.appName("MW-mariadb").config('spark.driver.host','spark-edge-vm0.service.consul').config(conf=conf).getOrCreate()
 
-connection_properties = {
-    "user": os.getenv('MYSQL_USER'),
-    "password": os.getenv('MYSQL_PASS'),
-    "driver": "com.mysql.cj.jdbc.Driver",
-    "batchsize":5000
-}
 
-df = spark_session.read.jdbc(url="jdbc:mysql://database-240-vm0.service.consul:3306/ncdc",table="thirties",properties=connection_properties).load()
-      
+#df = spark_session.read.jdbc(url="jdbc:mysql://database-240-vm0.service.consul:3306/ncdc",table="thirties",user).load()
+df=(spark_session.read.format("jdbc").option("url","jdbc:mysql://database-240-vm0.service.consul:3306/ncdc").option("driver","com.mysql.cj.jdbc.Driver").option("dbtable","thirties").option("user",os.getenv('MYSQL_USER')).option("truncate",True).mode("overwrite").option("password", os.getenv('MYSQL_PASS')).load())
 df.show(10)
 df.printSchema()
