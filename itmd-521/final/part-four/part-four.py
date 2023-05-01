@@ -97,3 +97,35 @@ avg_temps.show(20)
 #adding all results in a dataframe and writing it to parquet
 df_union = Number_of_records.unionByName(average_air_temp).unionByName(median_air_temp).unionByName(Std_Dev_Air_Temp).unionByName(avg_temps)
 df_union.write.mode("append").parquet("s3a://mwaghela/MW-part-four-answers-parquet")
+
+
+#creating schema and writing df in parquet file
+schema1=StructType([
+StructField('Year', DateType(), True),
+StructField('NoOfRecords', IntegerType(), True),
+])
+
+
+countOfRecords.write.format('parquet').mode('append').save("s3a://mwaghela/MW-part-four-answers-parquet",schema=schema1)
+
+
+schema2=StructType([
+StructField('Year', DateType(), True),
+StructField('AvgAirTemperature', DoubleType(), True),
+])
+
+averageAirTemp.write.format('parquet').mode('append').save("s3a://mwaghela/MW-part-four-answers-parquet",schema=schema2)
+
+schema3=StructType([
+StructField('Year', DateType(), True),
+StructField('Standard_deviation', DoubleType(), True),
+])
+
+standardAirTemp.write.format('parquet').mode('append').save("s3a://mwaghela/MW-part-four-answers-parquet",schema=schema3)
+
+schema4=StructType([
+StructField('WeatherStation', StringType(), True),
+StructField('AirTemperature', DoubleType(), True),
+])
+
+avg_temps.write.format('parquet').mode('append').save("s3a://mwaghela/MW-part-four-answers-parquet",schema=schema4)
