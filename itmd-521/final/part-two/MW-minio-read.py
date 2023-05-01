@@ -55,8 +55,8 @@ csvdf.printSchema()
 csvdf.show(10)
  
 print("-------------------- Writing CSV to JSON ----------------------------")
-cachedf.write.format("json").option("header", "true").mode("overwrite").save("s3a://mwaghela/30-part-two-json")
-jsondf = spark_session.read.schema(schema).json("s3a://mwaghela/30-part-two-json")
+cachedf.write.format("json").option("header", "true").mode("overwrite").save("s3a://mwaghela/30-part-two-json-output")
+jsondf = spark_session.read.schema(schema).json("s3a://mwaghela/30-part-two-json-output")
 #Printschema
 print("Print JSON Schema")
 jsondf.printSchema()
@@ -65,8 +65,8 @@ print("Display JSONDF")
 jsondf.show(10)
  
 print("---------------Writing CSV to PARQUET ----------------------")
-cachedf.write.format("parquet").option("header", "true").mode("overwrite").save("s3a://mwaghela/30-part-two-parquet")
-parquetdf = spark_session.read.schema(schema).parquet("s3a://mwaghela/30-part-two-parquet")
+cachedf.write.format("parquet").option("header", "true").mode("overwrite").save("s3a://mwaghela/30-part-two-parquet-output")
+parquetdf = spark_session.read.schema(schema).parquet("s3a://mwaghela/30-part-two-parquet-output")
 #Printschema
 print("Print PARQUET Schema")
 parquetdf.printSchema()
@@ -77,7 +77,6 @@ parquetdf.show(10)
 print("-----------------Writing to MySQL------------------------------")
 
 (cachedf.write.format("jdbc").option("url","jdbc:mysql://database-240-vm0.service.consul:3306/ncdc").option("driver","com.mysql.cj.jdbc.Driver").option("dbtable","MW_thirty").option("user",os.getenv('MYSQL_USER')).option("truncate",True).mode("overwrite").option("password", os.getenv('MYSQL_PASS')).save())
-
 
 df=(spark_session.read.format("jdbc").option("url","jdbc:mysql://database-240-vm0.service.consul:3306/ncdc").option("driver","com.mysql.cj.jdbc.Driver").option("dbtable","MW_thirty").option("user",os.getenv('MYSQL_USER')).option("truncate",True).option("password", os.getenv('MYSQL_PASS')).load())
 df.show(10)
