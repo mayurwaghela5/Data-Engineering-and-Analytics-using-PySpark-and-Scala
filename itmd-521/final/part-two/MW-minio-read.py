@@ -72,3 +72,12 @@ parquetdf.printSchema()
 #Displayschema
 print("Display PARQUETDF")
 parquetdf.show(10)
+
+print("-----------------Writing to MySQL------------------------------")
+
+(cachedf.write.format("jdbc").option("url","jdbc:mysql://database-240-vm0.service.consul:3306/ncdc").option("driver","com.mysql.cj.jdbc.Driver").option("dbtable","MW_thirty").option("user",os.getenv('MYSQL_USER')).option("truncate",True).mode("overwrite").option("password", os.getenv('MYSQL_PASS')).save())
+
+
+df=(spark_session.read.format("jdbc").option("url","jdbc:mysql://database-240-vm0.service.consul:3306/ncdc").option("driver","com.mysql.cj.jdbc.Driver").option("dbtable","MW_thirty").option("user",os.getenv('MYSQL_USER')).option("truncate",True).option("password", os.getenv('MYSQL_PASS')).load())
+df.show(10)
+df.printSchema()
