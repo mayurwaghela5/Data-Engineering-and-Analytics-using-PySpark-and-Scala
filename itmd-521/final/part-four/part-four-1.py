@@ -74,6 +74,10 @@ StructField('NoOfRecords', IntegerType(), True),
 
 countOfRecords.write.format('parquet').mode('overwrite').save("s3a://mwaghela/MW-part-four-answers-count-parquet",schema=schema1)
 
+#checking result parquet
+res_parquetdf1 = spark.read.parquet("s3a://mwaghela/MW-part-four-answers-count-parquet", header=True, schema=schema1)   
+res_parquetdf1.show(20)
+
 
 #Average air temperature for month of February
 averageAirTemp = spark.sql("""  SELECT year(ObservationDate) As Year, AVG(AirTemperature) AS AvgAirTemperature
@@ -94,12 +98,19 @@ StructField('AvgAirTemperature', DoubleType(), True),
 
 averageAirTemp.write.format('parquet').mode('overwrite').save("s3a://mwaghela/MW-part-four-answers-avg-parquet-",schema=schema2)
 
+#checking result parquet
+res_parquetdf2 = spark.read.parquet("s3a://mwaghela/MW-part-four-answers-avg-parquet-", header=True, schema=schema2)   
+res_parquetdf2.show(20)
+
                                    
 #Median air temperature for month of February
 medianAirTemp = parquetdf.approxQuantile('AirTemperature', [0.5], 0.25)
 print(f"Median air temmp:{medianAirTemp}")
 
 averageAirTemp.write.format('parquet').mode('overwrite').save("s3a://mwaghela/MW-part-four-answers-median-parquet-")
+
+res_parquetdf0 = spark.read.parquet("s3a://mwaghela/MW-part-four-answers-median-parquet-")   
+res_parquetdf0.show(20)
 
 #Standard Deviation of air temperature for month of February
 standardAirTemp = spark.sql(""" SELECT year(ObservationDate) As Year, std(AirTemperature) as Standard_deviation
@@ -119,14 +130,18 @@ StructField('Standard_deviation', DoubleType(), True),
 
 standardAirTemp.write.format('parquet').mode('overwrite').save("s3a://mwaghela/MW-part-four-answers-sdtdev-parquet",schema=schema3)
 
+res_parquetdf3 = spark.read.parquet("s3a://mwaghela/MW-part-four-answers-sdtdev-parquet", header=True, schema=schema3)   
+res_parquetdf3.show(20)
+
 #remove illegal values
 
-filtered_df = parquetdf.filter(parquetdf.AirTemperature < 160.0 & parquetdf.AirTemperature > -130.0 & parquetdf.WeatherStation !=999999)
+filtered_df = parquetdf.filter(parquetdf.AirTemperature < 160.0 & parquetdf.AirTemperature > -130.0)
+filtered_df1=filtered_df.filter(parquetdf.WeatherStation !=999999)
 
 #Find AVG air temperature per StationID in the month of February
 
 
-february_data = filtered_df.filter(month("ObservationDate") == 2)
+february_data = filtered_df1.filter(month("ObservationDate") == 2)
 avg_temps = february_data.groupBy("WeatherStation").agg(avg("AirTemperature"))
 
 avg_temps.show(20)
@@ -137,3 +152,7 @@ StructField('AirTemperature', DoubleType(), True),
 ])
 
 avg_temps.write.format('parquet').mode('overwrite').save("s3a://mwaghela/MW-part-four-answers-stationid-avg-parquet",schema=schema4)
+
+#results read
+res_parquetdf3 = spark.read.parquet("s3a://mwaghela/MW-part-four-answers-stationid-avg-parquet", header=True, schema=schema4)   
+res_parquetdf3.show(20)
