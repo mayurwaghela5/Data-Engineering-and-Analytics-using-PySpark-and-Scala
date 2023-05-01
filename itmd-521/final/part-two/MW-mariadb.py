@@ -23,10 +23,13 @@ conf.set("fs.s3a.connection.ssl.enabled", "false")
 
 spark_session = SparkSession.builder.appName("MW-mariadb").config('spark.driver.host','spark-edge-vm0.service.consul').config(conf=conf).getOrCreate()
 
-(splitDF.write.format("jdbc").option("url","jdbc:mysql://database-240-vm0.service.consul:3306/ncdc").option("driver","com.mysql.cj.jdbc.Driver").option("dbtable","thirty").option("user",os.getenv('MYSQLUSER')).option("truncate",True).mode("overwrite").option("password", os.getenv('MYSQLPASS')).save())
 
+df = spark_session.read.csv("s3a://mwaghela/30-csv")
 
 #df = spark_session.read.jdbc(url="jdbc:mysql://database-240-vm0.service.consul:3306/ncdc",table="thirties",user).load()
-df=(spark_session.read.format("jdbc").option("url","jdbc:mysql://database-240-vm0.service.consul:3306/ncdc").option("driver","com.mysql.cj.jdbc.Driver").option("dbtable","thirty").option("user",os.getenv('MYSQL_USER')).option("truncate",True).option("password", os.getenv('MYSQL_PASS')).load())
-df.show(10)
-df.printSchema()
+(df.write.format("jdbc").option("url","jdbc:mysql://database-240-vm0.service.consul:3306/ncdc").option("driver","com.mysql.cj.jdbc.Driver").option("dbtable","MW_thirty").option("user",os.getenv('MYSQL_USER')).option("truncate",True).mode("overwrite").option("password", os.getenv('MYSQL_PASS')).save())
+
+
+df1=(spark_session.read.format("jdbc").option("url","jdbc:mysql://database-240-vm0.service.consul:3306/ncdc").option("driver","com.mysql.cj.jdbc.Driver").option("dbtable","MW_thirty").option("user",os.getenv('MYSQL_USER')).option("truncate",True).option("password", os.getenv('MYSQL_PASS')).load())
+df1.show(10)
+df1.printSchema()
