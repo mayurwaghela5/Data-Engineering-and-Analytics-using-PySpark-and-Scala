@@ -119,8 +119,8 @@ StructField('Standard_deviation', DoubleType(), True),
 
 standardAirTemp.write.format('parquet').mode('overwrite').save("s3a://mwaghela/MW-part-four-answers-sdtdev-parquet",schema=schema3)
 
+#remove illegal values
 
-#removing legal but not real values from Air temperature
 filtered_df = parquetdf.filter(parquetdf.AirTemperature < 160.0 & parquetdf.AirTemperature > -130.0 & parquetdf.WeatherStation !=999999)
 
 #Find AVG air temperature per StationID in the month of February
