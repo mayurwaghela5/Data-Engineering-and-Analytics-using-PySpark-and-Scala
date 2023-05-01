@@ -24,7 +24,7 @@ conf.set("fs.s3a.connection.ssl.enabled", "false")
 conf.set("spark.hadoop.fs.s3a.bucket.all.committer.magic.enabled","true")
 
 
-spark = SparkSession.builder.appName("MW part three-one").config('spark.driver.host','spark-edge-vm0.service.consul').config(conf=conf).getOrCreate()
+spark = SparkSession.builder.appName("MW1").config('spark.driver.host','spark-edge-vm0.service.consul').config(conf=conf).getOrCreate()
 
 # Read the parquet datatype into a DataFrame
 
