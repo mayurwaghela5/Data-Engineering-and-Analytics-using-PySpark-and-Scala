@@ -51,7 +51,7 @@ StructField('DPQualityCode', IntegerType(), True),
 StructField('AtmosphericPressure', FloatType(), True),
 StructField('APQualityCode', IntegerType(), True)])
 
-parquetdf = spark.read.parquet("s3a://mwaghela/60-parquet", header=True, schema=structSchema)   
+parquetdf = spark.read.parquet("s3a://mwaghela/60-parquet")   
 parquetdf.createOrReplaceTempView("sqlView")
 
 
