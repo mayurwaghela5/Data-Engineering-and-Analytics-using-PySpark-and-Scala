@@ -55,7 +55,7 @@ parquetdf.createOrReplaceTempView("sqlView")
 
 
 #Count the number of records
-countOfRecords = spark.sql(""" SELECT year(ObservationDate) As Year, count(*)
+countOfRecords = spark.sql(""" SELECT year(ObservationDate) As Year, count(*) As NoOfRecords
                                     FROM sqlView
                                     WHERE Month(ObservationDate) = '2'
                                     group by Year
@@ -63,6 +63,16 @@ countOfRecords = spark.sql(""" SELECT year(ObservationDate) As Year, count(*)
                                  """
                                 )
 countOfRecords.show(20)
+
+#creating schema and writing df in parquet file
+schema1=StructType([
+StructField('Year', DateType(), True),
+StructField('NoOfRecords', IntegerType(), True),
+])
+
+
+countOfRecords.write.format('parquet').mode('overwrite').save("s3a://mwaghela/MW-part-four-answers-count-parquet",schema=schema1)
+
 
 #Average air temperature for month of February
 averageAirTemp = spark.sql("""  SELECT year(ObservationDate) As Year, AVG(AirTemperature) AS AvgAirTemperature
@@ -75,10 +85,20 @@ averageAirTemp = spark.sql("""  SELECT year(ObservationDate) As Year, AVG(AirTem
                                 )
 averageAirTemp.show(20)
 
+#creating schema and writing df in parquet file
+schema2=StructType([
+StructField('Year', DateType(), True),
+StructField('AvgAirTemperature', DoubleType(), True),
+])
+
+averageAirTemp.write.format('parquet').mode('overwrite').save("s3a://mwaghela/MW-part-four-answers-avg-parquet-",schema=schema2)
+
                                    
 #Median air temperature for month of February
 medianAirTemp = parquetdf.approxQuantile('AirTemperature', [0.5], 0.25)
 print(f"Median air temmp:{medianAirTemp}")
+
+averageAirTemp.write.format('parquet').mode('overwrite').save("s3a://mwaghela/MW-part-four-answers-median-parquet-")
 
 #Standard Deviation of air temperature for month of February
 standardAirTemp = spark.sql(""" SELECT year(ObservationDate) As Year, std(AirTemperature) as Standard_deviation
@@ -91,43 +111,28 @@ standardAirTemp = spark.sql(""" SELECT year(ObservationDate) As Year, std(AirTem
                                 )
 standardAirTemp.show(20)
 
-#Find AVG air temperature per StationID in the month of February
-#removing legal but not real values from Air temperature
-
-february_data = parquetdf.filter(month("ObservationDate") == 2)
-filtered_df = february_data.filter(february_data.AirTemperature < 150.0)
-avg_temps = filtered_df.groupBy("WeatherStation").agg(avg("AirTemperature"))
-
-avg_temps.show(20)
-
-
-#creating schema and writing df in parquet file
-schema1=StructType([
-StructField('Year', DateType(), True),
-StructField('Count(1)', IntegerType(), True),
-])
-
-
-countOfRecords.write.format('parquet').mode('append').save("s3a://mwaghela/MW-part-four-answers-parquet",schema=schema1)
-
-
-schema2=StructType([
-StructField('Year', DateType(), True),
-StructField('AvgAirTemperature', DoubleType(), True),
-])
-
-averageAirTemp.write.format('parquet').mode('append').save("s3a://mwaghela/MW-part-four-answers-parquet",schema=schema2)
-
 schema3=StructType([
 StructField('Year', DateType(), True),
 StructField('Standard_deviation', DoubleType(), True),
 ])
 
-standardAirTemp.write.format('parquet').mode('append').save("s3a://mwaghela/MW-part-four-answers-parquet",schema=schema3)
+standardAirTemp.write.format('parquet').mode('overwrite').save("s3a://mwaghela/MW-part-four-answers-sdtdev-parquet",schema=schema3)
+
+
+#removing legal but not real values from Air temperature
+filtered_df = parquetdf.filter(parquetdf.AirTemperature < 160.0 & parquetdf.AirTemperature > -130.0 & parquetdf.WeatherStation !=999999)
+
+#Find AVG air temperature per StationID in the month of February
+
+
+february_data = filtered_df.filter(month("ObservationDate") == 2)
+avg_temps = february_data.groupBy("WeatherStation").agg(avg("AirTemperature"))
+
+avg_temps.show(20)
 
 schema4=StructType([
 StructField('WeatherStation', StringType(), True),
 StructField('AirTemperature', DoubleType(), True),
 ])
 
-avg_temps.write.format('parquet').mode('append').save("s3a://mwaghela/MW-part-four-answers-parquet",schema=schema4)
+avg_temps.write.format('parquet').mode('overwrite').save("s3a://mwaghela/MW-part-four-answers-stationid-avg-parquet",schema=schema4)
