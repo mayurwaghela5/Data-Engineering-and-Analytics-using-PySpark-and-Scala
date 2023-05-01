@@ -12,6 +12,7 @@ import sys
 # Required configuration to load S3/Minio access credentials securely - no hardcoding keys into code
 conf = SparkConf()
 conf.set('spark.jars.packages', 'org.apache.hadoop:hadoop-aws:3.2.0')
+conf.set('spark.jars.packages','com.mysql:mysql-connector-j:8.0.32')
 conf.set('spark.hadoop.fs.s3a.aws.credentials.provider', 'org.apache.hadoop.fs.s3a.AnonymousAWSCredentialsProvider')
 conf.set('spark.hadoop.fs.s3a.access.key', os.getenv('SECRETKEY'))
 conf.set('spark.hadoop.fs.s3a.secret.key', os.getenv('ACCESSKEY'))
@@ -21,63 +22,61 @@ conf.set("fs.s3a.impl", "org.apache.hadoop.fs.s3a.S3AFileSystem")
 conf.set("fs.s3a.connection.ssl.enabled", "false")
 conf.set("spark.hadoop.fs.s3a.bucket.all.committer.magic.enabled","true")
  
+spark = SparkSession.builder.appName("MW-minio-read").config('spark.driver.host','spark-edge-vm0.service.consul').config(conf=conf).getOrCreate()
+ 
 #Create a schema
-schema = StructType([StructField('WeatherStation', StringType(), True),
-StructField('WBAN', StringType(), True),
-StructField('ObservationDate',  DateType(), True),
-StructField('ObservationHour', IntegerType(), True),
-StructField('Latitude', FloatType(), True),
-StructField('Longitude', FloatType(), True),
-StructField('Elevation', IntegerType(), True),
-StructField('WindDirection', IntegerType(), True),
-StructField('WDQualityCode', IntegerType(), True),
-StructField('SkyCeilingHeight', IntegerType(), True),
-StructField('SCQualityCode', IntegerType(), True),
-StructField('VisibilityDistance', IntegerType(), True),
-StructField('VDQualityCode', IntegerType(), True),
-StructField('AirTemperature', FloatType(), True),
-StructField('ATQualityCode', IntegerType(), True),
-StructField('DewPoint', FloatType(), True),
-StructField('DPQualityCode', IntegerType(), True),
-StructField('AtmosphericPressure', FloatType(), True),
-StructField('APQualityCode', IntegerType(), True)])
- 
-spark_session = SparkSession.builder.appName("MW-minio-read").config('spark.driver.host','spark-edge-vm0.service.consul').config(conf=conf).getOrCreate()
- 
-#Read partitioned csv
-cachedf = spark_session.read.csv("s3a://mwaghela/30-csv", header=True, schema=schema)
- 
 
-csvdf = cachedf
-#Printschema
+spark.sql("set spark.sql.legacy.timeParserPolicy=LEGACY")    
+structSchema =  StructType([StructField('WeatherStation', StringType(), True),
+                    StructField('WBAN', StringType(), True),
+                    StructField('ObservationDate', DateType(), True),
+                    StructField('ObservationHour', IntegerType(), True),
+                    StructField('Latitude', FloatType(), True),
+                    StructField('Longitude', FloatType(), True),
+                    StructField('Elevation', IntegerType(), True),
+                    StructField('WindDirection', IntegerType(), True),
+                    StructField('WDQualityCode', IntegerType(), True),
+                    StructField('SkyCeilingHeight', IntegerType(), True),
+                    StructField('SCQualityCode', IntegerType(), True),
+                    StructField('VisibilityDistance', IntegerType(), True),
+                    StructField('VDQualityCode', IntegerType(), True),
+                    StructField('AirTemperature', FloatType(), True),
+                    StructField('ATQualityCode', FloatType(), True),
+                    StructField('DewPoint', FloatType(), True),
+                    StructField('DPQualityCode', DoubleType(), True),
+                    StructField('AtmosphericPressure', FloatType(), True)])
+
+dataFrame = spark.read.csv("s3a://mwaghela/30-csv", header=True, schema=structSchema)
+ 
+csvdf = dataFrame
+
+csvdf.na.drop()  
+print("CSV Schema")
 csvdf.printSchema()
-#Displayschema
+print("Display data---CSV")
 csvdf.show(10)
  
-print("-------------------- Writing CSV to JSON ----------------------------")
-cachedf.write.format("json").option("header", "true").mode("overwrite").save("s3a://mwaghela/30-part-two-json-output")
-jsondf = spark_session.read.schema(schema).json("s3a://mwaghela/30-part-two-json-output")
-#Printschema
-print("Print JSON Schema")
+#Converting to json 
+dataFrame.write.format("json").option("header", "true").mode("overwrite").save("s3a://mwaghela/part2-30csv-json-outfile")
+jsondf = spark.read.schema(structSchema).json("s3a://mwaghela/part2-30csv-json-outfile")
+print("JSON Schema")
 jsondf.printSchema()
-#Displayschema
-print("Display JSONDF")
+print("Display result---JSON")
 jsondf.show(10)
  
-print("---------------Writing CSV to PARQUET ----------------------")
-cachedf.write.format("parquet").option("header", "true").mode("overwrite").save("s3a://mwaghela/30-part-two-parquet-output")
-parquetdf = spark_session.read.schema(schema).parquet("s3a://mwaghela/30-part-two-parquet-output")
-#Printschema
-print("Print PARQUET Schema")
+#Converting to parquet
+dataFrame.write.format("parquet").option("header", "true").mode("overwrite").save("s3a://mwaghela/part2-30csv-parquet-outfile")
+parquetdf = spark.read.schema(structSchema).parquet("s3a://mwaghela/part2-30csv-parquet-outfile")
+print("Parquet Schema")
 parquetdf.printSchema()
-#Displayschema
-print("Display PARQUETDF")
+print("Display result----parquet")
 parquetdf.show(10)
 
-print("-----------------Writing to MySQL------------------------------")
 
-(cachedf.write.format("jdbc").option("url","jdbc:mysql://database-240-vm0.service.consul:3306/ncdc").option("driver","com.mysql.cj.jdbc.Driver").option("dbtable","MW_thirty").option("user",os.getenv('MYSQL_USER')).option("truncate",True).mode("overwrite").option("password", os.getenv('MYSQL_PASS')).save())
+#loading parrquet dataframe to Maria DB
+(dataFrame.write.format("jdbc").option("url","jdbc:mysql://database-240-vm0.service.consul:3306/ncdc").option("driver","com.mysql.cj.jdbc.Driver").option("dbtable","MW_thirty").option("user",os.getenv('MYSQL_USER')).option("truncate",True).mode("overwrite").option("password", os.getenv('MYSQL_PASS')).save())
 
-df=(spark_session.read.format("jdbc").option("url","jdbc:mysql://database-240-vm0.service.consul:3306/ncdc").option("driver","com.mysql.cj.jdbc.Driver").option("dbtable","MW_thirty").option("user",os.getenv('MYSQL_USER')).option("truncate",True).option("password", os.getenv('MYSQL_PASS')).load())
-df.show(10)
-df.printSchema()
+
+df1=(spark.read.format("jdbc").option("url","jdbc:mysql://database-240-vm0.service.consul:3306/ncdc").option("driver","com.mysql.cj.jdbc.Driver").option("dbtable","MW_thirty").option("user",os.getenv('MYSQL_USER')).option("truncate",True).option("password", os.getenv('MYSQL_PASS')).load())
+df1.show(10)
+df1.printSchema()
