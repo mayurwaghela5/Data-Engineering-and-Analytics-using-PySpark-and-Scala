@@ -46,10 +46,9 @@ structSchema =  StructType([StructField('WeatherStation', StringType(), True),
                     StructField('DPQualityCode', DoubleType(), True),
                     StructField('AtmosphericPressure', FloatType(), True)])
 
-dataFrame = spark.read.csv("s3a://mwaghela/30-csv", header=True, schema=structSchema)
+dataFrame = spark.read.csv("s3a://mwaghela/30-csv", header=True, schema=structSchema).cache()
  
 csvdf = dataFrame
-
 csvdf.na.drop()  
 print("CSV Schema")
 csvdf.printSchema()
@@ -57,16 +56,16 @@ print("Display data---CSV")
 csvdf.show(10)
  
 #Converting to json 
-dataFrame.write.format("json").option("header", "true").mode("overwrite").json("s3a://mwaghela/30csvPart2_json")
-jsondf = spark.read.schema(structSchema).json("s3a://mwaghela/30csvPart2_json")
+dataFrame.write.format("json").option("header", "true").mode("overwrite").save("s3a://mwaghela/30-part-two-json")
+jsondf = spark.read.schema(structSchema).json("s3a://mwaghela/30-part-two-json")
 print("JSON Schema")
 jsondf.printSchema()
 print("Display result---JSON")
 jsondf.show(10)
  
 #Converting to parquet
-dataFrame.write.format("parquet").option("header", "true").mode("overwrite").parquet("s3a://mwaghela/30csvPart2_parquet")
-parquetdf = spark.read.schema(structSchema).parquet("s3a://mwaghela/30csvPart2_parquet")
+dataFrame.write.format("parquet").option("header", "true").mode("overwrite").save("s3a://mwaghela/30-part-two-parquet")
+parquetdf = spark.read.schema(structSchema).parquet("s3a://mwaghela/30-part-two-parquet")
 print("Parquet Schema")
 parquetdf.printSchema()
 print("Display result----parquet")
