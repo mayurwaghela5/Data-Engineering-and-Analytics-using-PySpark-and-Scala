@@ -57,16 +57,16 @@ print("Display data---CSV")
 csvdf.show(10)
  
 #Converting to json 
-dataFrame.write.format("json").option("header", "true").mode("overwrite").save("s3a://mwaghela/part2-30csv-json-outfile")
-jsondf = spark.read.schema(structSchema).json("s3a://mwaghela/part2-30csv-json-outfile")
+dataFrame.write.format("json").option("header", "true").mode("overwrite").save("s3a://mwaghela/30csvPart2.json")
+jsondf = spark.read.schema(structSchema).json("s3a://mwaghela/30csvPart2.json")
 print("JSON Schema")
 jsondf.printSchema()
 print("Display result---JSON")
 jsondf.show(10)
  
 #Converting to parquet
-dataFrame.write.format("parquet").option("header", "true").mode("overwrite").save("s3a://mwaghela/part2-30csv-parquet-outfile")
-parquetdf = spark.read.schema(structSchema).parquet("s3a://mwaghela/part2-30csv-parquet-outfile")
+dataFrame.write.format("parquet").option("header", "true").mode("overwrite").save("s3a://mwaghela/30csvPart2.parquet")
+parquetdf = spark.read.schema(structSchema).parquet("s3a://mwaghela/30csvPart2.parquet")
 print("Parquet Schema")
 parquetdf.printSchema()
 print("Display result----parquet")
@@ -80,3 +80,5 @@ parquetdf.show(10)
 df1=(spark.read.format("jdbc").option("url","jdbc:mysql://database-240-vm0.service.consul:3306/ncdc").option("driver","com.mysql.cj.jdbc.Driver").option("dbtable","MW_thirty").option("user",os.getenv('MYSQL_USER')).option("truncate",True).option("password", os.getenv('MYSQL_PASS')).load())
 df1.show(10)
 df1.printSchema()
+
+
