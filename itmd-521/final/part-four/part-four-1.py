@@ -17,16 +17,16 @@ import sys
 conf = SparkConf()
 conf.set('spark.jars.packages', 'org.apache.hadoop:hadoop-aws:3.2.3')
 conf.set('spark.hadoop.fs.s3a.aws.credentials.provider', 'org.apache.hadoop.fs.s3a.AnonymousAWSCredentialsProvider')
-conf.set('spark.hadoop.fs.s3a.committer.name','directory')
+#conf.set('spark.hadoop.fs.s3a.committer.name','directory')
 conf.set('spark.hadoop.fs.s3a.access.key', os.getenv('SECRETKEY'))
 conf.set('spark.hadoop.fs.s3a.secret.key', os.getenv('ACCESSKEY'))
 conf.set("spark.hadoop.fs.s3a.endpoint", "http://minio1.service.consul:9000")
 conf.set("fs.s3a.path.style.access", "true")
 conf.set("fs.s3a.impl", "org.apache.hadoop.fs.s3a.S3AFileSystem")
 conf.set("fs.s3a.connection.ssl.enabled", "false")
-conf.set("spark.hadoop.fs.s3a.bucket.all.committer.magic.enabled","true")
+#conf.set("spark.hadoop.fs.s3a.bucket.all.committer.magic.enabled","true")
 
-spark = SparkSession.builder.appName("MW part Four 1").config('spark.driver.host','spark-edge-vm0.service.consul').config(conf=conf).getOrCreate()
+spark = SparkSession.builder.appName("MW part-Four").config('spark.driver.host','spark-edge-vm0.service.consul').config(conf=conf).getOrCreate()
 
 structSchema = StructType([StructField('WeatherStation', StringType(), True),
 StructField('WBAN', StringType(), True),
@@ -60,7 +60,7 @@ countOfRecords = spark.sql(""" SELECT year(ObservationDate) As Year, count(*) As
                                     order by Year desc;
                                  """
                                 )
-
+countOfRecords.show(20)
 #checking result parquet
 #res_parquetdf1 = spark.read.parquet("s3a://mwaghela/MW-part-four-answers-count-parquet")   
 #print("------------Reading from Parquet result file-------------------------")
@@ -79,7 +79,7 @@ averageAirTemp = spark.sql("""  SELECT year(ObservationDate) As Year, AVG(AirTem
                                 """
                                 )
 
-
+averageAirTemp.show(20)
 #checking result parquet
 #res_parquetdf2 = spark.read.parquet("s3a://mwaghela/MW-part-four-answers-avg-parquet-")   
 #print("------------Reading from Parquet result file-------------------------")
@@ -107,7 +107,7 @@ standardAirTemp = spark.sql(""" SELECT year(ObservationDate) As Year, std(AirTem
                                     order by Year desc;
                                  """
                                 )
-
+standardAirTemp.show(20)
 #standardAirTemp.write.format('parquet').mode('overwrite').parquet("s3a://mwaghela/MW-part-four-answers-sdtdev-parquet")
 #res_parquetdf3 = spark.read.parquet("s3a://mwaghela/MW-part-four-answers-sdtdev-parquet")   
 #print("------------Reading from Parquet result file-------------------------")
@@ -123,30 +123,42 @@ filtered_df1=filtered_df.filter(parquetdf.WeatherStation !=999999)
 #Find AVG air temperature per StationID in the month of February
 february_data = filtered_df1.filter(month("ObservationDate") == 2)
 avg_temps = february_data.groupBy("WeatherStation").agg(avg("AirTemperature"))
-#avg_temps.show(20)
+avg_temps.show(20)
 
 
-#avg_temps.write.format('parquet').mode('overwrite').parquet("s3a://mwaghela/MW-part-four-answers-stationid-avg-parquet")
 
-#results read
-#res_parquetdf3 = spark.read.parquet("s3a://mwaghela/MW-part-four-answers-stationid-avg-parquet")  
-#print("------------Reading from Parquet result file-------------------------")
-#res_parquetdf3.show(20)
+countOfRecords.write.format("parquet").option("header", "true").mode("overwrite").save("s3a://mwaghela/MW-part-four-answers-count-parquet")
 
+averageAirTemp.write.format("parquet").option("header", "true").mode("overwrite").save("s3a://mwaghela/MW-part-four-answers-avg-parquet-")
 
-countOfRecords.write.format("parquet").option("header", "true").mode("overwrite").save("s3a://mwaghela/MW_part_four_answers_count_parquet")
+standardAirTemp.write.format("parquet").option("header", "true").mode("overwrite").save("s3a://mwaghela/MW-part-four-answers-sdtdev-parquet")
 
-averageAirTemp.write.format("parquet").option("header", "true").mode("overwrite").save("s3a://mwaghela/MW_part_four_answers_avg_parquet")
+avg_temps.write.format("parquet").option("header", "true").mode("overwrite").save("s3a://mwaghela/MW-part-four-answers-station-parquet")
 
-standardAirTemp.write.format("parquet").option("header", "true").mode("overwrite").save("s3a://mwaghela/MW_part_four_answers_sdtdev_parquet")
+medianAirTemp.write.format("parquet").option("header", "true").mode("overwrite").save("s3a://mwaghela/MW-part-four-answers-median-parquet-")
 
-avg_temps.write.format("parquet").option("header", "true").mode("overwrite").save("s3a://mwaghela/MW_part_four_answers_station_parquet")
+#----------Displaying the 5 result parquet files---------------------
 
-medianAirTemp.write.format("parquet").option("header", "true").mode("overwrite").save("s3a://mwaghela/MW_part_four_answers_median_parquet")
-
-
-res = spark.read.parquet("s3a://mwaghela/MW_part_four_answers_count_parquet")
+print("--------------------Displaying the 5 results parquet files-----------------------")
+res = spark.read.parquet("s3a://mwaghela/MW-part-four-answers-count-parquet")
 res.printSchema()
 res.show(10)
+
+res1 = spark.read.parquet("s3a://mwaghela/MW-part-four-answers-avg-parquet-")
+res1.printSchema()
+res1.show(10)
+
+res2 = spark.read.parquet("s3a://mwaghela/MW-part-four-answers-sdtdev-parquet")
+res2.printSchema()
+res2.show(10)
+
+res3 = spark.read.parquet("s3a://mwaghela/MW-part-four-answers-station-parquet")
+res3.printSchema()
+res3.show(10)
+
+
+res4 = spark.read.parquet("s3a://mwaghela/MW-part-four-answers-median-parquet-")
+res4.printSchema()
+res4.show(10)
 
 

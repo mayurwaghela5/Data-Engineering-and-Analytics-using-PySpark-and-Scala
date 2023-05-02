@@ -56,20 +56,20 @@ csvdf.show(10)
 print("-------------------- Writing CSV to JSON ----------------------------")
 cachedf.write.format("json").option("header", "true").mode("overwrite").save("s3a://mwaghela/30-part-two-json")
 jsondf = spark_session.read.schema(schema).json("s3a://mwaghela/30-part-two-json")
-#Printschema
+#Printschema of JSON
 print("Print JSON Schema")
 jsondf.printSchema()
-#Displayschema
+#Display JSON Dataframe
 print("Display JSONDF")
 jsondf.show(10)
  
 print("---------------Writing CSV to PARQUET ----------------------")
 cachedf.write.format("parquet").option("header", "true").mode("overwrite").save("s3a://mwaghela/30-part-two-parquet")
 parquetdf = spark_session.read.schema(schema).parquet("s3a://mwaghela/30-part-two-parquet")
-#Printschema
+#Printschema of Parquet
 print("Print PARQUET Schema")
 parquetdf.printSchema()
-#Displayschema
+#Display Parquet Dataframe
 print("Display PARQUETDF")
 parquetdf.show(10)
 
@@ -83,6 +83,7 @@ mariaDBdf = spark_session.read.csv("s3a://mwaghela/30-csv")
 
 
 df1=(spark_session.read.format("jdbc").option("url","jdbc:mysql://database-240-vm0.service.consul:3306/ncdc").option("driver","com.mysql.cj.jdbc.Driver").option("dbtable","MW_thirty").option("user",os.getenv('MYSQL_USER')).option("truncate",True).option("password", os.getenv('MYSQL_PASS')).load())
+print("-----------------------Reading the wriiten data on database and printing------------------------")
 df1.show(10)
 df1.printSchema()
 
