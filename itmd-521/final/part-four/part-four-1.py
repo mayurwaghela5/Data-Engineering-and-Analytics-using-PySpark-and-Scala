@@ -17,7 +17,7 @@ import sys
 conf = SparkConf()
 conf.set('spark.jars.packages', 'org.apache.hadoop:hadoop-aws:3.2.3')
 conf.set('spark.hadoop.fs.s3a.aws.credentials.provider', 'org.apache.hadoop.fs.s3a.AnonymousAWSCredentialsProvider')
-
+conf.set('spark.hadoop.fs.s3a.committer.name','directory')
 conf.set('spark.hadoop.fs.s3a.access.key', os.getenv('SECRETKEY'))
 conf.set('spark.hadoop.fs.s3a.secret.key', os.getenv('ACCESSKEY'))
 conf.set("spark.hadoop.fs.s3a.endpoint", "http://minio1.service.consul:9000")
@@ -134,15 +134,15 @@ avg_temps = february_data.groupBy("WeatherStation").agg(avg("AirTemperature"))
 #res_parquetdf3.show(20)
 
 
-countOfRecords.write.format("parquet").mode("overwrite").save("s3a://mwaghela/MW_part_four_answers_count_parquet")
+countOfRecords.write.format("parquet").option("header", "true").mode("overwrite").save("s3a://mwaghela/MW_part_four_answers_count_parquet")
 
-averageAirTemp.write.format("parquet").mode("overwrite").save("s3a://mwaghela/MW_part_four_answers_avg_parquet")
+averageAirTemp.write.format("parquet").option("header", "true").mode("overwrite").save("s3a://mwaghela/MW_part_four_answers_avg_parquet")
 
-standardAirTemp.write.format("parquet").mode("overwrite").save("s3a://mwaghela/MW_part_four_answers_sdtdev_parquet")
+standardAirTemp.write.format("parquet").option("header", "true").mode("overwrite").save("s3a://mwaghela/MW_part_four_answers_sdtdev_parquet")
 
-avg_temps.write.format("parquet").mode("overwrite").save("s3a://mwaghela/MW_part_four_answers_station_parquet")
+avg_temps.write.format("parquet").option("header", "true").mode("overwrite").save("s3a://mwaghela/MW_part_four_answers_station_parquet")
 
-medianAirTemp.write.format("parquet").mode("overwrite").save("s3a://mwaghela/MW_part_four_answers_median_parquet")
+medianAirTemp.write.format("parquet").option("header", "true").mode("overwrite").save("s3a://mwaghela/MW_part_four_answers_median_parquet")
 
 
 res = spark.read.parquet("s3a://mwaghela/MW_part_four_answers_count_parquet")
