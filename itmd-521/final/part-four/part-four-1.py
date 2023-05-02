@@ -13,9 +13,6 @@ from pyspark.sql.functions import year, month, col,avg
 import os
 import sys
 
-#defining file to save answer
-queryAnswerFile = "s3a://mgowda2/MDG-part-four-answers-parquet"
-
 # Required configuration to load S3/Minio access credentials securely - no hardcoding keys into code
 conf = SparkConf()
 conf.set('spark.jars.packages', 'org.apache.hadoop:hadoop-aws:3.2.3')

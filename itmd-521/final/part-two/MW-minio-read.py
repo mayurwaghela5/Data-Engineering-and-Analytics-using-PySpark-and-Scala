@@ -57,16 +57,16 @@ print("Display data---CSV")
 csvdf.show(10)
  
 #Converting to json 
-dataFrame.write.format("json").option("header", "true").mode("overwrite").save("s3a://mwaghela/30csvPart2.json")
-jsondf = spark.read.schema(structSchema).json("s3a://mwaghela/30csvPart2.json")
+dataFrame.write.format("json").option("header", "true").mode("overwrite").json("s3a://mwaghela/30csvPart2_json")
+jsondf = spark.read.schema(structSchema).json("s3a://mwaghela/30csvPart2_json")
 print("JSON Schema")
 jsondf.printSchema()
 print("Display result---JSON")
 jsondf.show(10)
  
 #Converting to parquet
-dataFrame.write.format("parquet").option("header", "true").mode("overwrite").save("s3a://mwaghela/30csvPart2.parquet")
-parquetdf = spark.read.schema(structSchema).parquet("s3a://mwaghela/30csvPart2.parquet")
+dataFrame.write.format("parquet").option("header", "true").mode("overwrite").parquet("s3a://mwaghela/30csvPart2_parquet")
+parquetdf = spark.read.schema(structSchema).parquet("s3a://mwaghela/30csvPart2_parquet")
 print("Parquet Schema")
 parquetdf.printSchema()
 print("Display result----parquet")
