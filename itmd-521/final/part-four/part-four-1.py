@@ -51,7 +51,7 @@ StructField('DPQualityCode', IntegerType(), True),
 StructField('AtmosphericPressure', FloatType(), True),
 StructField('APQualityCode', IntegerType(), True)])
 
-parquetdf = spark.read.parquet("s3a://mwaghela/60-parquet")   
+parquetdf = spark.read.parquet("s3a://mwaghela/60-parquet",header=True, schema=structSchema)   
 parquetdf.createOrReplaceTempView("sqlView")
 
 
@@ -64,7 +64,7 @@ countOfRecords = spark.sql(""" SELECT year(ObservationDate) As Year, count(*) As
                                  """
                                 )
 countOfRecords.show(20)
-countOfRecords.write.format('parquet').mode('overwrite').save("s3a://mwaghela/MW-part-four-answers-count-parquet")
+countOfRecords.write.format('parquet').mode('overwrite').parquet("s3a://mwaghela/MW-part-four-answers-count-parquet")
 #checking result parquet
 res_parquetdf1 = spark.read.parquet("s3a://mwaghela/MW-part-four-answers-count-parquet")   
 print("------------Reading from Parquet result file-------------------------")
@@ -83,7 +83,7 @@ averageAirTemp = spark.sql("""  SELECT year(ObservationDate) As Year, AVG(AirTem
                                 """
                                 )
 averageAirTemp.show(20)
-averageAirTemp.write.format('parquet').mode('overwrite').save("s3a://mwaghela/MW-part-four-answers-avg-parquet-")
+averageAirTemp.write.format('parquet').mode('overwrite').parquet("s3a://mwaghela/MW-part-four-answers-avg-parquet-")
 #checking result parquet
 res_parquetdf2 = spark.read.parquet("s3a://mwaghela/MW-part-four-answers-avg-parquet-")   
 print("------------Reading from Parquet result file-------------------------")
@@ -95,7 +95,7 @@ res_parquetdf2.show(20)
 #Median air temperature for month of February
 medianAirTemp = parquetdf.approxQuantile('AirTemperature', [0.5], 0.25)
 print(f"Median air temmp:{medianAirTemp}")
-averageAirTemp.write.format('parquet').mode('overwrite').save("s3a://mwaghela/MW-part-four-answers-median-parquet-")
+averageAirTemp.write.format('parquet').mode('overwrite').parquet("s3a://mwaghela/MW-part-four-answers-median-parquet-")
 res_parquetdf0 = spark.read.parquet("s3a://mwaghela/MW-part-four-answers-median-parquet-")   
 print("------------Reading from Parquet result file-------------------------")
 res_parquetdf0.show(20)
@@ -112,7 +112,7 @@ standardAirTemp = spark.sql(""" SELECT year(ObservationDate) As Year, std(AirTem
                                  """
                                 )
 standardAirTemp.show(20)
-standardAirTemp.write.format('parquet').mode('overwrite').save("s3a://mwaghela/MW-part-four-answers-sdtdev-parquet")
+standardAirTemp.write.format('parquet').mode('overwrite').parquet("s3a://mwaghela/MW-part-four-answers-sdtdev-parquet")
 res_parquetdf3 = spark.read.parquet("s3a://mwaghela/MW-part-four-answers-sdtdev-parquet")   
 print("------------Reading from Parquet result file-------------------------")
 res_parquetdf3.show(20)
@@ -133,9 +133,11 @@ avg_temps = february_data.groupBy("WeatherStation").agg(avg("AirTemperature"))
 avg_temps.show(20)
 
 
-avg_temps.write.format('parquet').mode('overwrite').save("s3a://mwaghela/MW-part-four-answers-stationid-avg-parquet")
+avg_temps.write.format('parquet').mode('overwrite').parquet("s3a://mwaghela/MW-part-four-answers-stationid-avg-parquet")
 
 #results read
 res_parquetdf3 = spark.read.parquet("s3a://mwaghela/MW-part-four-answers-stationid-avg-parquet")  
 print("------------Reading from Parquet result file-------------------------")
 res_parquetdf3.show(20)
+
+
