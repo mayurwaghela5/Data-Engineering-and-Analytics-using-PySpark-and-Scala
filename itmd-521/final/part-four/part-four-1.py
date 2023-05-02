@@ -134,15 +134,15 @@ avg_temps = february_data.groupBy("WeatherStation").agg(avg("AirTemperature"))
 #res_parquetdf3.show(20)
 
 
-countOfRecords.write.format("parquet").mode("overwrite").save("s3a://mwaghela/MW-part-four-answers-count-parquet")
+countOfRecords.write.format("parquet").mode("overwrite").parquet("s3a://mwaghela/MW-part-four-answers-count-parquet")
 
-averageAirTemp.write.format("parquet").mode("overwrite").save("s3a://mwaghela/MW-part-four-answers-avg-parquet-")
+averageAirTemp.write.format("parquet").mode("overwrite").parquet("s3a://mwaghela/MW-part-four-answers-avg-parquet-")
 
-standardAirTemp.write.format("parquet").mode("overwrite").save("s3a://mwaghela/MW-part-four-answers-sdtdev-parquet")
+standardAirTemp.write.format("parquet").mode("overwrite").parquet("s3a://mwaghela/MW-part-four-answers-sdtdev-parquet")
 
-avg_temps.write.format("parquet").mode("overwrite").save("s3a://mwaghela/MDG-part-four-answers-station-parquet")
+avg_temps.write.format("parquet").mode("overwrite").parquet("s3a://mwaghela/MDG-part-four-answers-station-parquet")
 
-medianAirTemp.write.format("parquet").mode("overwrite").save("s3a://mwaghela/MW-part-four-answers-median-parquet-")
+medianAirTemp.write.format("parquet").mode("overwrite").parquet("s3a://mwaghela/MW-part-four-answers-median-parquet-")
 
 
 res = spark.read.parquet("s3a://mwaghela/MW-part-four-answers-count-parquet")
