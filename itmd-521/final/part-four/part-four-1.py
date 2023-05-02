@@ -117,7 +117,7 @@ standardAirTemp = spark.sql(""" SELECT year(ObservationDate) As Year, std(AirTem
 
 #remove illegal values
 
-filtered_df = parquetdf.filter(parquetdf.AirTemperature < 160.0 & parquetdf.AirTemperature > -130.0)
+filtered_df = parquetdf.filter(parquetdf.AirTemperature!=999.9)
 filtered_df1=filtered_df.filter(parquetdf.WeatherStation !=999999)
 
 #Find AVG air temperature per StationID in the month of February
