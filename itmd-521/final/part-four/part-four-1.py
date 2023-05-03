@@ -122,7 +122,7 @@ filtered_df1=filtered_df.filter(parquetdf.WeatherStation !=999999)
 
 #Find AVG air temperature per StationID in the month of February
 february_data = filtered_df1.filter(month("ObservationDate") == 2)
-avg_temps = february_data.groupBy("WeatherStation").agg(avg("AirTemperature"))
+avg_temps = february_data.groupBy("WeatherStation").agg(avg("AirTemperature").alias("AvgAirTemperature"))
 avg_temps.show(20)
 
 
