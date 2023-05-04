@@ -88,7 +88,7 @@ print(f"Median air temmp:{medianAirTemp}")
 
 schemaMedian = StructType([StructField("medianAirTemp", FloatType(), True)])
 
-medianAirTempdf=spark.createDataFrame(medianAirTemp ,schemaMedian)
+medianAirTempdf=spark.createDataFrame([(float(i),) for i in medianAirTemp] ,schemaMedian)
 medianAirTempdf.show()
 
 
