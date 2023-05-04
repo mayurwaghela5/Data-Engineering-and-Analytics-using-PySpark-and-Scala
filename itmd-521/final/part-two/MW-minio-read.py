@@ -78,6 +78,7 @@ parquetdf.show(10)
 mariaDBdf = spark_session.read.csv("s3a://mwaghela/30-csv")
 
 
+spark_session.sql("DROP TABLE IF EXISTS MW_thirty")
 #loading parrquet dataframe to Maria DB
 (mariaDBdf.write.format("jdbc").option("url","jdbc:mysql://database-240-vm0.service.consul:3306/ncdc").option("driver","com.mysql.cj.jdbc.Driver").option("dbtable","MW_thirty").option("user",os.getenv('MYSQL_USER')).option("truncate",True).mode("overwrite").option("password", os.getenv('MYSQL_PASS')).save())
 
