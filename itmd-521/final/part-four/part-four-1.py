@@ -83,6 +83,7 @@ averageAirTemp.show()
 #Median air temperature for month of February
 FebData=parquetdf.filter(month("ObservationDate") == 2)
 medianAirTemp = FebData.approxQuantile('AirTemperature', [0.5], 0.25)
+print(f"Median air temmp:{medianAirTemp}")
 
 schemaMedian = StructType([StructField("MedianAirTemp", FloatType(), True)])
 
