@@ -48,10 +48,7 @@ splitDF = df.withColumn('WeatherStation', df['_c0'].substr(5, 6)) \
 .withColumn('AtmosphericPressure', df['_c0'].substr(100, 5).cast('float')/ 10) \
 .withColumn('APQualityCode', df['_c0'].substr(105, 1).cast(IntegerType())).drop('_c0')
 
-# The coalese() function
-# https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.DataFrame.coalesce.html
-# This will collapse your DataFrame into a single partition
-#writeDF = splitDF.coalesce(1)
+
 splitDF.printSchema()
 splitDF.show(5)
 
@@ -64,7 +61,3 @@ splitDF.write.mode("overwrite").format("csv").option("compression", "lz4").save(
 splitDF.write.mode("overwrite").parquet("s3a://mwaghela/30-parquet")
 splitDF.coalesce(1).write.mode("overwrite").format("csv").save("s3a://mwaghela/30-single-part-csv")
 
-
-# Writing out to MySQL your DataFrame results
-# https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.sql.DataFrameWriter.save.html
-#(splitDF.write.format("jdbc").option("url","jdbc:mysql://system31.service.consul:3306/ncdc").option("driver","com.mysql.cj.jdbc.Driver").option("dbtable","thirty").option("user",os.getenv('MYSQLUSER')).option("truncate",True).mode("overwrite").option("password", os.getenv('MYSQLPASS')).save()) 
