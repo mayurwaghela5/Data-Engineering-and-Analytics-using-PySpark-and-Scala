@@ -86,7 +86,7 @@ medianAirTemp = FebData.approxQuantile('AirTemperature', [0.5], 0.25)
 
 schemaMedian = StructType([StructField("MedianAirTemp", FloatType(), True)])
 
-medianAirTempdf=spark.createDataFrame([(medianAirTemp,)], schemaMedian)
+medianAirTempdf=spark.createDataFrame(medianAirTemp ,schemaMedian)
 medianAirTempdf.show()
 print(f"Median air temmp:{medianAirTemp}")
 
