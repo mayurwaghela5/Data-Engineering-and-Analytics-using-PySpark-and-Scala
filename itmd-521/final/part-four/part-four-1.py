@@ -102,11 +102,6 @@ standardAirTemp = spark.sql(""" SELECT year(ObservationDate) As Year, std(AirTem
                                  """
                                 )
 standardAirTemp.show()
-#standardAirTemp.write.format('parquet').mode('overwrite').parquet("s3a://mwaghela/MW-part-four-answers-sdtdev-parquet")
-#res_parquetdf3 = spark.read.parquet("s3a://mwaghela/MW-part-four-answers-sdtdev-parquet")   
-#print("------------Reading from Parquet result file-------------------------")
-#res_parquetdf3.show(20)
-
 
 
 #remove illegal values
