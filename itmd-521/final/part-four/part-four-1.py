@@ -120,13 +120,13 @@ avg_temps.show()
 
 countOfRecords.write.format("parquet").option("header", "true").mode("overwrite").save("s3a://mwaghela/MW-part-four-answers-count-parquet")
 
-averageAirTemp.write.format("parquet").option("header", "true").mode("overwrite").save("s3a://mwaghela/MW-part-four-answers-avg-parquet-")
+averageAirTemp.write.format("parquet").option("header", "true").mode("overwrite").save("s3a://mwaghela/MW-part-four-answers-avg-parquet")
 
 standardAirTemp.write.format("parquet").option("header", "true").mode("overwrite").save("s3a://mwaghela/MW-part-four-answers-sdtdev-parquet")
 
 avg_temps.write.format("parquet").option("header", "true").mode("overwrite").save("s3a://mwaghela/MW-part-four-answers-station-parquet")
 
-medianAirTempdf.write.format("parquet").option("header", "true").mode("overwrite").save("s3a://mwaghela/MW-part-four-answers-median-parquet-")
+medianAirTempdf.write.format("parquet").option("header", "true").mode("overwrite").save("s3a://mwaghela/MW-part-four-answers-median-parquet")
 
 #----------Displaying the 5 result parquet files---------------------
 
@@ -135,7 +135,7 @@ res = spark.read.parquet("s3a://mwaghela/MW-part-four-answers-count-parquet")
 res.printSchema()
 res.show(10)
 
-res1 = spark.read.parquet("s3a://mwaghela/MW-part-four-answers-avg-parquet-")
+res1 = spark.read.parquet("s3a://mwaghela/MW-part-four-answers-avg-parquet")
 res1.printSchema()
 res1.show(10)
 
@@ -148,7 +148,7 @@ res3.printSchema()
 res3.show(10)
 
 
-res4 = spark.read.parquet("s3a://mwaghela/MW-part-four-answers-median-parquet-")
+res4 = spark.read.parquet("s3a://mwaghela/MW-part-four-answers-median-parquet")
 res4.printSchema()
 res4.show(10)
 
